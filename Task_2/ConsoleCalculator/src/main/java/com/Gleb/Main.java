@@ -1,7 +1,6 @@
 package com.Gleb;
 
 import com.Gleb.operations.OperationStrategyProxy;
-import com.beust.jcommander.JCommander;
 
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -48,7 +47,7 @@ public class Main
             }
 
             if (parser.hasNext()) {
-            tmpOperation = parser.next();
+                tmpOperation = parser.next();
             }
             else {
                 System.out.println("Некорректный ввод!\n");
