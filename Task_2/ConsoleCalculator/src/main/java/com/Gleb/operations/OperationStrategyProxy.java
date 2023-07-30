@@ -1,29 +1,35 @@
 package com.Gleb.operations;
 
+import com.Gleb.OperationsEnum;
+import com.Gleb.OperationsFactory;
+
 import java.util.LinkedList;
 
 public class OperationStrategyProxy implements IOperationStrategy{
-    public OperationStrategyProxy(IOperationStrategy operationStrategy, String mathOperation) {
-        this.operationStrategy = operationStrategy;
+    public OperationStrategyProxy() {
         this.operationsList = new LinkedList<String>();
-        this.mathOperation = mathOperation;
     }
-    private IOperationStrategy operationStrategy;
     private LinkedList<String> operationsList;
-    private String mathOperation;
+    private char operation;
     @Override
     public double run(int arg1, int arg2) {
-        double result = operationStrategy.run(arg1, arg2);
+        IOperationStrategy operationStrategy;
+        if (operation == '+') { operationStrategy = new SummationStrategy(); }
+        else if (operation == '-') { operationStrategy = new SubtractionStrategy(); }
+        else if (operation == '*') { operationStrategy = new MultiplicationStrategy(); }
+        else { operationStrategy = new DivisionStrategy(); }
 
-        String operation = null;
-        if (this.mathOperation.equals("sum")) { operation = "+"; }
-        else if (this.mathOperation.equals("sub")) { operation = "-"; }
-        else if (this.mathOperation.equals("mul")) { operation = "*"; }
-        else { operation = "/"; }
+        double result = operationStrategy.run(arg1, arg2);
 
         operationsList.add(Integer.toString(arg1) + " " + operation + " " + Integer.toString(arg2) + " = "
                 + Double.toString(result));
 
         return result;
+    }
+
+    public LinkedList<String> getOperationsList() { return operationsList; }
+
+    public void setOperation(char operation) {
+        this.operation = operation;
     }
 }
