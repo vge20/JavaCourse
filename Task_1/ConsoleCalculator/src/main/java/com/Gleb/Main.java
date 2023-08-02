@@ -1,5 +1,7 @@
 package com.Gleb;
 
+import com.Gleb.Factories.OperationsFactory;
+import com.Gleb.Handlers.ValidationHandler;
 import com.beust.jcommander.JCommander;
 
 public class Main
@@ -8,24 +10,16 @@ public class Main
         CalculateArgs calcArgs = new CalculateArgs();
         JCommander.newBuilder().addObject(calcArgs).build().parse(args);
 
-        OperationsEnum operation;
-        if (calcArgs.getOperation().equals("div")) {
-            operation = OperationsEnum.DIV;
-        }
-        else if (calcArgs.getOperation().equals("mul")) {
-            operation = OperationsEnum.MUL;
-        }
-        else if (calcArgs.getOperation().equals("sum")) {
-            operation = OperationsEnum.SUM;
-        }
-        else if (calcArgs.getOperation().equals("sub")) {
-            operation = OperationsEnum.SUB;
-        }
-        else {
-            System.out.println("Некорректный тип операции!");
+        OperationsEnum operation = OperationsEnum.determineOperation(calcArgs.getOperation());
+        if (operation == OperationsEnum.INVALID_OPERATION) {
+            System.out.println("Такой операции не предусмотрено!");
             return;
         }
 
+        ValidationHandler validationHandler = new ValidationHandler();
+        if (!validationHandler.validateOperation(operation, calcArgs.getArg1(), calcArgs.getArg2())) {
+            return;
+        }
         OperationsFactory operationsFactory = new OperationsFactory();
         System.out.println(operationsFactory.getOperation(operation).run(calcArgs.getArg1(), calcArgs.getArg2()));
     }

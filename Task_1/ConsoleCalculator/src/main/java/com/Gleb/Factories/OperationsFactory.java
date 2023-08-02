@@ -1,6 +1,7 @@
-package com.Gleb;
+package com.Gleb.Factories;
 
-import com.Gleb.operations.*;
+import com.Gleb.Operations.*;
+import com.Gleb.OperationsEnum;
 
 public class OperationsFactory {
 

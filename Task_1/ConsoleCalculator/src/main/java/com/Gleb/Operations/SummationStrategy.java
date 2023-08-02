@@ -1,8 +1,6 @@
-package com.Gleb.operations;
+package com.Gleb.Operations;
 
-import com.Gleb.operations.IOperation;
-
-public class Summation implements IOperation {
+public class SummationStrategy implements IOperationStrategy {
     @Override
     public double run(int arg1, int arg2) {
         return arg1 + arg2;

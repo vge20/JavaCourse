@@ -1,5 +1,5 @@
-package com.Gleb.operations;
+package com.Gleb.Operations;
 
-public interface IOperation {
+public interface IOperationStrategy {
     public double run(int arg1, int arg2);
 }
