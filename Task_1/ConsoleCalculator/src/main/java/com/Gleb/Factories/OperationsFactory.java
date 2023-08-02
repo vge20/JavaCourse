@@ -4,18 +4,18 @@ import com.Gleb.operations.*;
 
 public class OperationsFactory {
 
-    public IOperation getOperation(OperationsEnum operation) {
+    public IOperationStrategy getOperation(OperationsEnum operation) {
         if (operation == OperationsEnum.DIV) {
-            return new Division();
+            return new DivisionStrategy();
         }
         else if (operation == OperationsEnum.MUL) {
-            return new Multiplication();
+            return new MultiplicationStrategy();
         }
         else if (operation == OperationsEnum.SUB) {
-            return new Subtraction();
+            return new SubtractionStrategy();
         }
         else {
-            return new Summation();
+            return new SummationStrategy();
         }
     }
 }
