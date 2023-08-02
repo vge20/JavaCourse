@@ -7,14 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/doSomething")
-public class Servlet extends HttpServlet {
+@WebServlet("/run")
+public class Controller extends HttpServlet {
+    public Controller() {
+        this.view = new View();
+    }
+    private View view;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(req.getRequestURI());
-        System.out.println(req.getMethod());
-        //System.out.println(req.getParameter("param"));
-        //System.out.println(req.getHeader("MyHeader"));
-        System.out.println(req.getReader().read());
+        view.outputRequestMethod(req);
+        view.outputRequestURI(req);
+        view.outputRequestHeaders(req);
+        view.outputRequestParameters(req);
+        view.outputRequestBody(req);
     }
 }
