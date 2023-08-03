@@ -12,13 +12,26 @@ public class Controller extends HttpServlet {
     public Controller() {
         this.view = new View();
     }
+
     private View view;
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        view.outputRequestMethod(req);
-        view.outputRequestURI(req);
-        view.outputRequestHeaders(req);
-        view.outputRequestParameters(req);
-        view.outputRequestBody(req);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        view.outputAllInformation(req);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        view.outputAllInformation(req);
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
+        view.outputAllInformation(req);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+        view.outputAllInformation(req);
     }
 }

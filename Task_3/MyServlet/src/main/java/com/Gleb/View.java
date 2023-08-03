@@ -1,9 +1,8 @@
 package com.Gleb;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.stream.Collectors;
 
 public class View {
 
@@ -17,12 +16,13 @@ public class View {
 
     public void outputRequestHeaders(HttpServletRequest req) {
         System.out.println("Заголовки запроса: ");
-        Enumeration<String> headerNamesForPrint = req.getHeaderNames();
-        Enumeration<String> headerNamesForGetHeaders = req.getHeaderNames();
-        if (headerNamesForPrint != null) {
-            while (headerNamesForPrint.hasMoreElements()) {
-                System.out.println(headerNamesForPrint.nextElement() + " = " +
-                            req.getHeader(headerNamesForGetHeaders.nextElement()));
+        Enumeration<String> headerNames = req.getHeaderNames();
+        String headerName;
+        if (headerNames != null) {
+            while (headerNames.hasMoreElements()) {
+                headerName = headerNames.nextElement();
+                System.out.println(headerName + " = " +
+                            req.getHeader(headerName));
 
             }
         }
@@ -30,17 +30,30 @@ public class View {
 
     public void outputRequestParameters(HttpServletRequest req) {
         System.out.println("Параметры запроса: ");
-        Enumeration<String> parameterNamesForPrint = req.getParameterNames();
-        Enumeration<String> parameterNamesForGetParameters = req.getParameterNames();
-        if (parameterNamesForPrint != null) {
-            while ((parameterNamesForPrint.hasMoreElements())) {
-                System.out.println(parameterNamesForPrint.nextElement() + " = " +
-                        req.getParameter(parameterNamesForGetParameters.nextElement()));
+        Enumeration<String> parameterNames = req.getParameterNames();
+        String parameterName;
+        if (parameterNames != null) {
+            while ((parameterNames.hasMoreElements())) {
+                parameterName = parameterNames.nextElement();
+                System.out.println(parameterName + " = " +
+                        req.getParameter(parameterName));
             }
         }
     }
 
-    public void outputRequestBody(HttpServletRequest req) throws IOException {
-        System.out.println("Тело запроса: " + req.getReader().readLine());
+    public void outputRequestBody(HttpServletRequest req) {
+        try {
+            System.out.println("Тело запроса: " + req.getReader().lines().collect(Collectors.joining("\n")));
+        } catch (Exception e) {
+            System.out.println("Ошибка чтения тела запроса!");
+        }
+    }
+
+    public void outputAllInformation(HttpServletRequest req) {
+        this.outputRequestMethod(req);
+        this.outputRequestURI(req);
+        this.outputRequestHeaders(req);
+        this.outputRequestBody(req);
+        this.outputRequestParameters(req);
     }
 }
