@@ -5,6 +5,7 @@ import com.Gleb.Handlers.ValidationHandler;
 import com.Gleb.Operations.IOperationStrategy;
 import com.Gleb.Operations.OperationStrategyProxy;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -33,7 +34,14 @@ public class Main
             }
 
             operationStrategy.setOperation(operation);
-            System.out.println(operationStrategy.run(calcArgs.getArg1(), calcArgs.getArg2()));
+            BigDecimal res = operationStrategy.run(calcArgs.getArg1(), calcArgs.getArg2());
+
+            if (res == null) {
+                System.out.println("Такой операции не предусмотрено!");
+                return;
+            }
+
+            System.out.println(res);
             }
     }
 }

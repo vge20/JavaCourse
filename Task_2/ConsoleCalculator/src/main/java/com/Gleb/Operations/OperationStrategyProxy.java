@@ -20,8 +20,10 @@ public class OperationStrategyProxy implements IOperationStrategy{
 
         BigDecimal result = operationStrategy.run(arg1, arg2);
 
-        operationsList.add(Integer.toString(arg1) + " " + OperationsEnum.getCharOperation(operation) + " " + Integer.toString(arg2) + " = "
-                + result.toString());
+        if (OperationsEnum.getCharOperation(operation) == null) { return null; }
+
+        operationsList.add(Integer.toString(arg1) + " " + OperationsEnum.getCharOperation(operation) + " "
+                + Integer.toString(arg2) + " = " + result.toString());
 
         return result;
     }
