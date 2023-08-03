@@ -1,35 +1,34 @@
-package com.Gleb.operations;
+package com.Gleb.Operations;
 
+import com.Gleb.Factories.OperationsFactory;
 import com.Gleb.OperationsEnum;
-import com.Gleb.OperationsFactory;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 
 public class OperationStrategyProxy implements IOperationStrategy{
     public OperationStrategyProxy() {
+        this.operationsFactory = new OperationsFactory();
         this.operationsList = new LinkedList<String>();
     }
     private LinkedList<String> operationsList;
-    private char operation;
+    private OperationsEnum operation;
+    private OperationsFactory operationsFactory;
     @Override
-    public double run(int arg1, int arg2) {
-        IOperationStrategy operationStrategy;
-        if (operation == '+') { operationStrategy = new SummationStrategy(); }
-        else if (operation == '-') { operationStrategy = new SubtractionStrategy(); }
-        else if (operation == '*') { operationStrategy = new MultiplicationStrategy(); }
-        else { operationStrategy = new DivisionStrategy(); }
+    public BigDecimal run(int arg1, int arg2) {
+        IOperationStrategy operationStrategy = operationsFactory.getOperation(operation);
 
-        double result = operationStrategy.run(arg1, arg2);
+        BigDecimal result = operationStrategy.run(arg1, arg2);
 
-        operationsList.add(Integer.toString(arg1) + " " + operation + " " + Integer.toString(arg2) + " = "
-                + Double.toString(result));
+        operationsList.add(Integer.toString(arg1) + " " + OperationsEnum.getCharOperation(operation) + " " + Integer.toString(arg2) + " = "
+                + result.toString());
 
         return result;
     }
 
     public LinkedList<String> getOperationsList() { return operationsList; }
 
-    public void setOperation(char operation) {
+    public void setOperation(OperationsEnum operation) {
         this.operation = operation;
     }
 }

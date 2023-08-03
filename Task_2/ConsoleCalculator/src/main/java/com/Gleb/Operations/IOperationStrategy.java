@@ -1,5 +1,7 @@
-package com.Gleb.operations;
+package com.Gleb.Operations;
+
+import java.math.BigDecimal;
 
 public interface IOperationStrategy {
-    public double run(int arg1, int arg2);
+    public BigDecimal run(int arg1, int arg2);
 }

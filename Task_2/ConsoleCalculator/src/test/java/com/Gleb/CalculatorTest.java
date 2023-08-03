@@ -1,7 +1,9 @@
 package com.Gleb;
 
-import com.Gleb.operations.*;
+import com.Gleb.Operations.*;
 import org.junit.Test;
+
+import java.math.BigDecimal;
 
 import static org.junit.Assert.*;
 
@@ -14,24 +16,24 @@ public class CalculatorTest
     @Test
     public void sumTest() {
         operation = new SummationStrategy();
-        assertEquals((double) testArg1 + testArg2, operation.run(testArg1, testArg2), 1e-6);
+        assertEquals(BigDecimal.valueOf(testArg1 + testArg2), operation.run(testArg1, testArg2));
     }
 
     @Test
     public void subTest() {
         operation = new SubtractionStrategy();
-        assertEquals((double) testArg1 - testArg2, operation.run(testArg1, testArg2), 1e-6);
+        assertEquals(BigDecimal.valueOf(testArg1 - testArg2), operation.run(testArg1, testArg2));
     }
 
     @Test
     public void divTest() {
         operation = new DivisionStrategy();
-        assertEquals((double) testArg1 / testArg2, operation.run(testArg1, testArg2), 1e-6);
+        assertEquals(BigDecimal.valueOf(testArg1 / testArg2), operation.run(testArg1, testArg2));
     }
 
     @Test
     public void mulTest() {
         operation = new MultiplicationStrategy();
-        assertEquals((double) testArg1 * testArg2, operation.run(testArg1, testArg2), 1e-6);
+        assertEquals(BigDecimal.valueOf(testArg1 * testArg2), operation.run(testArg1, testArg2));
     }
 }

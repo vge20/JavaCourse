@@ -1,86 +1,39 @@
 package com.Gleb;
 
-import com.Gleb.operations.OperationStrategyProxy;
+import com.Gleb.Handlers.InputHandler;
+import com.Gleb.Handlers.ValidationHandler;
+import com.Gleb.Operations.IOperationStrategy;
+import com.Gleb.Operations.OperationStrategyProxy;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main
 {
     public static void main( String[] args ) {
-        int arg1, arg2;
-        char operation;
-        String tmpOperation;
-        Scanner consoleScanner = new Scanner(System.in);
-        Scanner parser;
-        LinkedList<String> operationsList;
         OperationStrategyProxy operationStrategy = new OperationStrategyProxy();
+        InputHandler inputHandler = new InputHandler(operationStrategy);
+        CalcArgs calcArgs;
 
         while (true) {
-            if (consoleScanner.hasNextLine()) {
-                parser = new Scanner(consoleScanner.nextLine());
-            }
-            else {
-                System.out.println("Некорректный ввод!\n");
+            calcArgs = inputHandler.scan();
+            if (calcArgs == null) { return; }
+
+            OperationsEnum operation = OperationsEnum.determineOperation(calcArgs.getOperation());
+            if (operation == OperationsEnum.INVALID_OPERATION) {
+                System.out.println("Такой операции не предусмотрено!");
                 return;
             }
 
-            if (!parser.hasNextInt()) {
-                if (parser.next().equals("/end")) {
-                    operationsList = operationStrategy.getOperationsList();
-                    for (String str : operationsList) {
-                        System.out.println(str);
-                    }
-                }
-                else {
-                    System.out.println("Некорректный ввод!\n");
-                }
-                return;
-            }
-
-            if (parser.hasNextInt()) {
-                arg1 = parser.nextInt();
-            }
-            else {
-                System.out.println("Некорректный ввод!\n");
-                return;
-            }
-
-            if (parser.hasNext()) {
-                tmpOperation = parser.next();
-            }
-            else {
-                System.out.println("Некорректный ввод!\n");
-                return;
-            }
-
-            if (tmpOperation.length() != 1) {
-                System.out.println("Некорректный ввод!\n");
-                return;
-            }
-
-            operation = tmpOperation.charAt(0);
-
-            if (operation != '+' && operation != '-' && operation != '*' && operation != '/') {
-                System.out.println("Некорректный ввод!\n");
-                return;
-            }
-
-            if (parser.hasNextInt()) {
-                arg2 = parser.nextInt();
-            }
-            else {
-                System.out.println("Некорректный ввод!\n");
-                return;
-            }
-
-            if (parser.hasNext()) {
-                System.out.println("Некорректный ввод!\n");
+            ValidationHandler validationHandler = new ValidationHandler();
+            if (!validationHandler.validateOperation(operation, calcArgs.getArg1(), calcArgs.getArg2())) {
                 return;
             }
 
             operationStrategy.setOperation(operation);
-            System.out.println(operationStrategy.run(arg1, arg2));
+            System.out.println(operationStrategy.run(calcArgs.getArg1(), calcArgs.getArg2()));
             }
     }
 }

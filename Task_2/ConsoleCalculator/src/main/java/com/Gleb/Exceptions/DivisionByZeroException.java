@@ -1,2 +1,3 @@
-package com.Gleb.Exceptions;public class DivisionByZeroException {
-}
+package com.Gleb.Exceptions;
+
+public class DivisionByZeroException extends Exception {}
