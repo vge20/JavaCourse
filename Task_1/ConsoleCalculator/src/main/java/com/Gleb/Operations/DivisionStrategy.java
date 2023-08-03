@@ -1,8 +1,10 @@
 package com.Gleb.Operations;
 
+import java.math.BigDecimal;
+
 public class DivisionStrategy implements IOperationStrategy {
     @Override
-    public double run(int arg1, int arg2) {
-        return (double) arg1 / arg2;
+    public BigDecimal run(int arg1, int arg2) {
+        return BigDecimal.valueOf(arg1 / arg2);
     }
 }
