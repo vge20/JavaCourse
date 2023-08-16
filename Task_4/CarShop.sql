@@ -2,31 +2,23 @@ drop table if exists clients;
 
 create table if not exists clients (
 	id int,
-	full_name varchar(70),
-	date_birth date,
-	gender boolean
+	full_name varchar(70) not null,
+	date_birth date not null,
+	gender boolean not null
 );
 alter table clients add primary key(id);
-alter table clients add constraint full_name check(not null);
-alter table clients add constraint date_birth check(not null);
-alter table clients add constraint gender check(not null);
 
 drop table if exists cars;
 
 create table if not exists cars (
 	id int,
-	brand varchar(30),
-	color varchar(30),
-	engine_capacity float,
-	manufacture_date date,
+	brand varchar(30) not null,
+	color varchar(30) not null,
+	engine_capacity float not null,
+	manufacture_date date not null,
 	price bigint
 );
 alter table cars add primary key(id);
-alter table cars add constraint brand check(not null);
-alter table cars add constraint color check(not null);
-alter table cars add constraint engine_capacity check(not null);
-alter table cars add constraint manufacture_date check(not null);
-alter table cars add constraint price check(not null);
 
 drop table if exists customer_orders;
 
@@ -69,4 +61,3 @@ from customer_orders as t
 group by month
 order by count(extract(month from t.order_date)) desc
 limit 1;
-
