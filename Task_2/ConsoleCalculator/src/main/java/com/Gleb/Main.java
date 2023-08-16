@@ -36,7 +36,6 @@ public class Main
             }
 
             BigDecimal res = operationHandler.runOperation(calcArgs, operation);
-
             if (res == null) {
                 return;
             }
