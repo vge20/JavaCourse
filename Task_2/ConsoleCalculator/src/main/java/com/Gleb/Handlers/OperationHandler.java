@@ -1,2 +1,24 @@
-package com.Gleb.Handlers;public class OperationHandler {
+package com.Gleb.Handlers;
+
+import com.Gleb.CalcArgs;
+import com.Gleb.Operations.OperationStrategyProxy;
+import com.Gleb.OperationsEnum;
+
+import java.math.BigDecimal;
+
+public class OperationHandler {
+    OperationStrategyProxy operationStrategy;
+
+    public OperationHandler(OperationStrategyProxy operationStrategy) {
+        this.operationStrategy = operationStrategy;
+    }
+
+    public BigDecimal runOperation(CalcArgs calcArgs, OperationsEnum operation) {
+        operationStrategy.setOperation(operation);
+        BigDecimal res = operationStrategy.run(calcArgs.getArg1(), calcArgs.getArg2());
+
+        if (res == null) { System.out.println("Такой операции не предусмотрено!"); }
+
+        return res;
+    }
 }

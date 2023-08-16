@@ -1,6 +1,7 @@
 package com.Gleb;
 
 import com.Gleb.Handlers.InputHandler;
+import com.Gleb.Handlers.OperationHandler;
 import com.Gleb.Handlers.ValidationHandler;
 import com.Gleb.Operations.IOperationStrategy;
 import com.Gleb.Operations.OperationStrategyProxy;
@@ -16,6 +17,7 @@ public class Main
     public static void main( String[] args ) {
         OperationStrategyProxy operationStrategy = new OperationStrategyProxy();
         InputHandler inputHandler = new InputHandler(operationStrategy);
+        OperationHandler operationHandler = new OperationHandler(operationStrategy);
         CalcArgs calcArgs;
 
         while (true) {
@@ -33,15 +35,13 @@ public class Main
                 return;
             }
 
-            operationStrategy.setOperation(operation);
-            BigDecimal res = operationStrategy.run(calcArgs.getArg1(), calcArgs.getArg2());
+            BigDecimal res = operationHandler.runOperation(calcArgs, operation);
 
             if (res == null) {
-                System.out.println("Такой операции не предусмотрено!");
                 return;
             }
 
             System.out.println(res);
-            }
+        }
     }
 }
