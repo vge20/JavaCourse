@@ -16,7 +16,7 @@ create table if not exists cars (
 	color varchar(30) not null,
 	engine_capacity float not null,
 	manufacture_date date not null,
-	price bigint
+	price bigint not null
 );
 alter table cars add primary key(id);
 
@@ -25,7 +25,7 @@ drop table if exists customer_orders;
 create table if not exists customer_orders (
 	client_id int,
 	car_id int,
-	order_date date
+	order_date date not null
 );
 alter table customer_orders add foreign key(client_id) references clients(id);
 alter table customer_orders add foreign key(car_id) references cars(id);
