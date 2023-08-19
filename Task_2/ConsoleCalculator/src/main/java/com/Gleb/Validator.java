@@ -6,7 +6,7 @@ import com.Gleb.validations.IValidationStrategy;
 
 import java.math.BigDecimal;
 
-public class ValidationHandler {
+public class Validator {
 
     private IValidationStrategy validator;
 
