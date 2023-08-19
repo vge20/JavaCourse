@@ -1,14 +1,13 @@
-package com.Gleb.handlers;
+package com.Gleb;
 
 import com.Gleb.exceptions.DivisionByZeroException;
-import com.Gleb.OperationsEnum;
-import com.Gleb.validations.IValidationStrategy;
+import com.Gleb.validations.ValidationStrategy;
 
 import java.math.BigDecimal;
 
 public class Validator {
 
-    private IValidationStrategy validator;
+    private ValidationStrategy validator;
 
     public boolean validateOperation(OperationsEnum operationsEnum, BigDecimal arg1, BigDecimal arg2) {
         validator = operationsEnum.getValidationStrategy();

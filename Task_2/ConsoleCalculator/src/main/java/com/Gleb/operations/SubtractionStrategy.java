@@ -2,9 +2,9 @@ package com.Gleb.operations;
 
 import java.math.BigDecimal;
 
-public class SubtractionStrategy implements IOperationStrategy {
+public class SubtractionStrategy implements OperationStrategy {
     @Override
-    public BigDecimal run(BigDecimal arg1, BigDecimal arg2) {
+    public BigDecimal execute(BigDecimal arg1, BigDecimal arg2) {
         return arg1.subtract(arg2);
     }
 }

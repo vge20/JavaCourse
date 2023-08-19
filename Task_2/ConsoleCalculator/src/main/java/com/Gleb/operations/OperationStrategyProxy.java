@@ -5,17 +5,17 @@ import com.Gleb.OperationsEnum;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 
-public class OperationStrategyProxy implements IOperationStrategy{
+public class OperationStrategyProxy implements OperationStrategy {
     public OperationStrategyProxy() {
         this.operationsList = new LinkedList<String>();
     }
     private LinkedList<String> operationsList;
     private OperationsEnum operation;
     @Override
-    public BigDecimal run(BigDecimal arg1, BigDecimal arg2) {
-        IOperationStrategy operationStrategy = operation.getOperationStrategy();
+    public BigDecimal execute(BigDecimal arg1, BigDecimal arg2) {
+        OperationStrategy operationStrategy = operation.getOperationStrategy();
 
-        BigDecimal result = operationStrategy.run(arg1, arg2);
+        BigDecimal result = operationStrategy.execute(arg1, arg2);
 
         if (operation.getOperation() == null) { return null; }
 

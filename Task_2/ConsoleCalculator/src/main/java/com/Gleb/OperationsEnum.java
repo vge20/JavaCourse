@@ -14,19 +14,19 @@ public enum OperationsEnum {
     DIV('/', new DivisionStrategy(), new DivisionValidationStrategy());
 
     private final Character operation;
-    private final IOperationStrategy operationStrategy;
-    private final IValidationStrategy validationStrategy;
+    private final OperationStrategy operationStrategy;
+    private final ValidationStrategy validationStrategy;
 
-    OperationsEnum(Character operation, IOperationStrategy operationStrategy,
-                   IValidationStrategy validationStrategy) {
+    OperationsEnum(Character operation, OperationStrategy operationStrategy,
+                   ValidationStrategy validationStrategy) {
         this.operation = operation;
         this.operationStrategy = operationStrategy;
         this.validationStrategy = validationStrategy;
     }
 
     public Character getOperation() { return operation; }
-    public IOperationStrategy getOperationStrategy() { return operationStrategy; }
-    public IValidationStrategy getValidationStrategy() { return validationStrategy; }
+    public OperationStrategy getOperationStrategy() { return operationStrategy; }
+    public ValidationStrategy getValidationStrategy() { return validationStrategy; }
 
     public static Map<Character, OperationsEnum> operationsEnumMap = new HashMap<>();
 

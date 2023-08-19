@@ -1,9 +1,6 @@
 package com.Gleb;
 
 import com.Gleb.exceptions.InvalidOperationException;
-import com.Gleb.handlers.InputHandler;
-import com.Gleb.handlers.OperationHandler;
-import com.Gleb.handlers.ValidationHandler;
 import com.Gleb.operations.OperationStrategyProxy;
 
 import java.math.BigDecimal;
@@ -12,8 +9,8 @@ public class Main
 {
     public static void main( String[] args ) {
         OperationStrategyProxy operationStrategy = new OperationStrategyProxy();
-        InputHandler inputHandler = new InputHandler(operationStrategy);
-        OperationHandler operationHandler = new OperationHandler(operationStrategy);
+        InputScanner inputHandler = new InputScanner(operationStrategy);
+        OperationExecutor operationHandler = new OperationExecutor(operationStrategy);
         CalcArgs calcArgs;
         OperationsEnum operation;
 
@@ -29,7 +26,7 @@ public class Main
                 return;
             }
 
-            ValidationHandler validationHandler = new ValidationHandler();
+            Validator validationHandler = new Validator();
             if (!validationHandler.validateOperation(operation, calcArgs.getArg1(), calcArgs.getArg2())) {
                 return;
             }

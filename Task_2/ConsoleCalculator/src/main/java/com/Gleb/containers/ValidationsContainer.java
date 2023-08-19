@@ -14,20 +14,20 @@ public class ValidationsContainer {
         this.summationValidatorStrategy = new SummationValidatorStrategy();
     }
 
-    IValidationStrategy divisionValidationStrategy;
-    IValidationStrategy multiplicationValidationStrategy;
-    IValidationStrategy summationValidatorStrategy;
-    IValidationStrategy subtractionValidationStrategy;
+    ValidationStrategy divisionValidationStrategy;
+    ValidationStrategy multiplicationValidationStrategy;
+    ValidationStrategy summationValidatorStrategy;
+    ValidationStrategy subtractionValidationStrategy;
 
     @Bean
-    public IValidationStrategy getDivisionValidationStrategy() { return divisionValidationStrategy; }
+    public ValidationStrategy getDivisionValidationStrategy() { return divisionValidationStrategy; }
 
     @Bean
-    public IValidationStrategy getMultiplicationValidationStrategy() { return multiplicationValidationStrategy; }
+    public ValidationStrategy getMultiplicationValidationStrategy() { return multiplicationValidationStrategy; }
 
     @Bean
-    public IValidationStrategy getSummationValidatorStrategy() { return summationValidatorStrategy; }
+    public ValidationStrategy getSummationValidatorStrategy() { return summationValidatorStrategy; }
 
     @Bean
-    public IValidationStrategy getSubtractionValidationStrategy() { return subtractionValidationStrategy; }
+    public ValidationStrategy getSubtractionValidationStrategy() { return subtractionValidationStrategy; }
 }

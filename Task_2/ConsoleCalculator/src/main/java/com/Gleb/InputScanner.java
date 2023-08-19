@@ -1,15 +1,14 @@
-package com.Gleb.handlers;
+package com.Gleb;
 
-import com.Gleb.CalcArgs;
 import com.Gleb.operations.OperationStrategyProxy;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class InputHandler {
+public class InputScanner {
 
-    public InputHandler(OperationStrategyProxy operationStrategy) {
+    public InputScanner(OperationStrategyProxy operationStrategy) {
         this.consoleScanner = new Scanner(System.in);
         this.operationStrategy = operationStrategy;
         this.END_STRING = "/end";

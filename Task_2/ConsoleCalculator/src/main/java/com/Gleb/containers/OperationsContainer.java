@@ -1,8 +1,6 @@
 package com.Gleb.containers;
 
 import com.Gleb.operations.*;
-import com.Gleb.validations.IValidationStrategy;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,21 +14,21 @@ public class OperationsContainer {
         this.summationStrategy = new SummationStrategy();
     }
 
-    IOperationStrategy divisionStrategy;
-    IOperationStrategy multiplicationStrategy;
-    IOperationStrategy summationStrategy;
-    IOperationStrategy subtractionStrategy;
+    OperationStrategy divisionStrategy;
+    OperationStrategy multiplicationStrategy;
+    OperationStrategy summationStrategy;
+    OperationStrategy subtractionStrategy;
 
     @Bean
-    public IOperationStrategy getDivisionStrategy() { return divisionStrategy; }
+    public OperationStrategy getDivisionStrategy() { return divisionStrategy; }
 
     @Bean
-    public IOperationStrategy getMultiplicationStrategy() { return multiplicationStrategy; }
+    public OperationStrategy getMultiplicationStrategy() { return multiplicationStrategy; }
 
     @Bean
-    public IOperationStrategy getSummationStrategy() { return summationStrategy; }
+    public OperationStrategy getSummationStrategy() { return summationStrategy; }
 
     @Bean
-    public IOperationStrategy getSubtractionStrategy() { return subtractionStrategy; }
+    public OperationStrategy getSubtractionStrategy() { return subtractionStrategy; }
 
 }
