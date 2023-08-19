@@ -1,4 +1,4 @@
-package com.Gleb;
+package com.Gleb.containers;
 
 import com.Gleb.operations.*;
 import com.Gleb.validations.IValidationStrategy;
@@ -32,11 +32,5 @@ public class OperationsContainer {
 
     @Bean
     public IOperationStrategy getSubtractionStrategy() { return subtractionStrategy; }
-
-    IValidationStrategy divisionValidationStrategy;
-    IValidationStrategy multiplicationValidationStrategy;
-    IValidationStrategy summationValidatorStrategy;
-    IValidationStrategy subtractionValidationStrategy;
-
 
 }

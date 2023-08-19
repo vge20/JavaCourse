@@ -1,5 +1,7 @@
 package com.Gleb.validations;
 
-public interface IValidatorStrategy {
-    public void validate(int arg1, int arg2) throws Exception;
+import java.math.BigDecimal;
+
+public interface IValidationStrategy {
+    public void validate(BigDecimal arg1, BigDecimal arg2) throws Exception;
 }

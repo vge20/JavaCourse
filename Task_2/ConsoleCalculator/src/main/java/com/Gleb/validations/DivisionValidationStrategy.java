@@ -1,10 +1,12 @@
-package com.Gleb.Validations;
+package com.Gleb.validations;
 
-import com.Gleb.Exceptions.DivisionByZeroException;
+import com.Gleb.exceptions.DivisionByZeroException;
 
-public class DivisionValidationStrategy implements IValidatorStrategy {
+import java.math.BigDecimal;
+
+public class DivisionValidationStrategy implements IValidationStrategy {
     @Override
-    public void validate(int arg1, int arg2) throws DivisionByZeroException {
-        if (arg2 == 0) { throw new DivisionByZeroException(); }
+    public void validate(BigDecimal arg1, BigDecimal arg2) throws DivisionByZeroException {
+        if (arg2.equals(0)) { throw new DivisionByZeroException(); }
     }
 }

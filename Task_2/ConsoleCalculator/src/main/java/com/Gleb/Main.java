@@ -1,16 +1,12 @@
 package com.Gleb;
 
-import com.Gleb.Handlers.InputHandler;
-import com.Gleb.Handlers.OperationHandler;
-import com.Gleb.Handlers.ValidationHandler;
-import com.Gleb.Operations.IOperationStrategy;
-import com.Gleb.Operations.OperationStrategyProxy;
+import com.Gleb.exceptions.InvalidOperationException;
+import com.Gleb.handlers.InputHandler;
+import com.Gleb.handlers.OperationHandler;
+import com.Gleb.handlers.ValidationHandler;
+import com.Gleb.operations.OperationStrategyProxy;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Scanner;
 
 public class Main
 {
@@ -19,14 +15,17 @@ public class Main
         InputHandler inputHandler = new InputHandler(operationStrategy);
         OperationHandler operationHandler = new OperationHandler(operationStrategy);
         CalcArgs calcArgs;
+        OperationsEnum operation;
 
         while (true) {
             calcArgs = inputHandler.scan();
             if (calcArgs == null) { return; }
 
-            OperationsEnum operation = OperationsEnum.determineOperation(calcArgs.getOperation());
-            if (operation == OperationsEnum.INVALID_OPERATION) {
-                System.out.println("Такой операции не предусмотрено!");
+            try {
+                operation = OperationsEnum.determineOperation(calcArgs.getOperation());
+            }
+            catch (InvalidOperationException e) {
+            System.out.println("Такой операции не предусмотрено!");
                 return;
             }
 

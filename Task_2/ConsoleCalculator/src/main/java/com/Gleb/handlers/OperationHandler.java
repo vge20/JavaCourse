@@ -1,7 +1,7 @@
-package com.Gleb.Handlers;
+package com.Gleb.handlers;
 
 import com.Gleb.CalcArgs;
-import com.Gleb.Operations.OperationStrategyProxy;
+import com.Gleb.operations.OperationStrategyProxy;
 import com.Gleb.OperationsEnum;
 
 import java.math.BigDecimal;

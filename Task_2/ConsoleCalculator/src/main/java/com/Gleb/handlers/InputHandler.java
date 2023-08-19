@@ -1,10 +1,9 @@
-package com.Gleb.Handlers;
+package com.Gleb.handlers;
 
 import com.Gleb.CalcArgs;
-import com.Gleb.Operations.IOperationStrategy;
-import com.Gleb.Operations.OperationStrategyProxy;
+import com.Gleb.operations.OperationStrategyProxy;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -16,7 +15,7 @@ public class InputHandler {
         this.END_STRING = "/end";
     }
 
-    private int arg1, arg2;
+    private BigDecimal arg1, arg2;
     private char operation;
     private String tmpOperation;
     private Scanner consoleScanner;
@@ -34,7 +33,7 @@ public class InputHandler {
             return null;
         }
 
-        if (!parser.hasNextInt()) {
+        if (!parser.hasNextBigDecimal()) {
             if (parser.next().equals(END_STRING)) {
                 operationsList = operationStrategy.getOperationsList();
                 for (String str : operationsList) {
@@ -47,8 +46,8 @@ public class InputHandler {
             return null;
         }
 
-        if (parser.hasNextInt()) {
-            arg1 = parser.nextInt();
+        if (parser.hasNextBigDecimal()) {
+            arg1 = parser.nextBigDecimal();
         }
         else {
             System.out.println("Некорректный ввод!\n");
@@ -70,8 +69,8 @@ public class InputHandler {
 
         operation = tmpOperation.charAt(0);
 
-        if (parser.hasNextInt()) {
-            arg2 = parser.nextInt();
+        if (parser.hasNextBigDecimal()) {
+            arg2 = parser.nextBigDecimal();
         }
         else {
             System.out.println("Некорректный ввод!\n");

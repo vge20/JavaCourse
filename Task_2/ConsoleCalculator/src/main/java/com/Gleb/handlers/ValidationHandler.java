@@ -1,21 +1,17 @@
-package com.Gleb.Handlers;
+package com.Gleb.handlers;
 
-import com.Gleb.Exceptions.DivisionByZeroException;
-import com.Gleb.Factories.ValidationsFactory;
+import com.Gleb.exceptions.DivisionByZeroException;
 import com.Gleb.OperationsEnum;
-import com.Gleb.Validations.IValidatorStrategy;
+import com.Gleb.validations.IValidationStrategy;
+
+import java.math.BigDecimal;
 
 public class ValidationHandler {
-    public ValidationHandler() {
-        this.validationsFactory = new ValidationsFactory();
-    }
 
-    private IValidatorStrategy validator;
+    private IValidationStrategy validator;
 
-    private ValidationsFactory validationsFactory;
-
-    public boolean validateOperation(OperationsEnum operationsEnum, int arg1, int arg2) {
-        validator = validationsFactory.getValidator(operationsEnum);
+    public boolean validateOperation(OperationsEnum operationsEnum, BigDecimal arg1, BigDecimal arg2) {
+        validator = operationsEnum.getValidationStrategy();
         try {
             validator.validate(arg1, arg2);
         } catch (DivisionByZeroException e) {

@@ -1,6 +1,8 @@
-package com.Gleb.Validations;
+package com.Gleb.validations;
 
-public class SummationValidatorStrategy implements IValidatorStrategy{
+import java.math.BigDecimal;
+
+public class SummationValidatorStrategy implements IValidationStrategy {
     @Override
-    public void validate(int arg1, int arg2) {}
+    public void validate(BigDecimal arg1, BigDecimal arg2) {}
 }

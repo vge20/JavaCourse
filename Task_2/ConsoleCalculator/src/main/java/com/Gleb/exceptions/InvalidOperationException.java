@@ -1,2 +1,3 @@
-package com.Gleb.exceptions;public class InvalidOperationException {
-}
+package com.Gleb.exceptions;
+
+public class InvalidOperationException extends Exception {}
