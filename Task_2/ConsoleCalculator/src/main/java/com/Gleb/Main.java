@@ -1,21 +1,22 @@
 package com.Gleb;
 
 import com.Gleb.exceptions.InvalidOperationException;
-import com.Gleb.operations.OperationStrategyProxy;
 
 import java.math.BigDecimal;
 
 public class Main
 {
     public static void main( String[] args ) {
-        OperationStrategyProxy operationStrategy = new OperationStrategyProxy();
-        InputScanner inputHandler = new InputScanner(operationStrategy);
-        OperationExecutor operationHandler = new OperationExecutor(operationStrategy);
+        AppConfig appConfig = new AppConfig();
+        InputScanner inputScanner = appConfig.getInputScanner();
+        OperationExecutor operationExecutor = appConfig.getOperationExecutor();
+        Validator validator = appConfig.getValidator();
         CalcArgs calcArgs;
         OperationsEnum operation;
+        BigDecimal res;
 
         while (true) {
-            calcArgs = inputHandler.scan();
+            calcArgs = inputScanner.scan();
             if (calcArgs == null) { return; }
 
             try {
@@ -26,12 +27,11 @@ public class Main
                 return;
             }
 
-            Validator validationHandler = new Validator();
-            if (!validationHandler.validateOperation(operation, calcArgs.getArg1(), calcArgs.getArg2())) {
+            if (!validator.validateOperation(operation, calcArgs.getArg1(), calcArgs.getArg2())) {
                 return;
             }
 
-            BigDecimal res = operationHandler.runOperation(calcArgs, operation);
+            res = operationExecutor.runOperation(calcArgs, operation);
             if (res == null) {
                 return;
             }

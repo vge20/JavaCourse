@@ -8,12 +8,14 @@ import java.util.Scanner;
 
 public class InputScanner {
 
-    public InputScanner(OperationStrategyProxy operationStrategy) {
-        this.consoleScanner = new Scanner(System.in);
+    public InputScanner(OperationStrategyProxy operationStrategy, Scanner scanner, CalcArgs calcArgs) {
+        this.consoleScanner = scanner;
         this.operationStrategy = operationStrategy;
         this.END_STRING = "/end";
+        this.calcArgs = calcArgs;
     }
 
+    private CalcArgs calcArgs;
     private BigDecimal arg1, arg2;
     private char operation;
     private String tmpOperation;
@@ -25,8 +27,8 @@ public class InputScanner {
 
     public CalcArgs scan() {
         if (consoleScanner.hasNextLine()) {
-            parser = new Scanner(consoleScanner.nextLine());
-        }
+            parser = new Scanner(consoleScanner.nextLine()); // тут new нужно, чтобы вторыми сканнером
+        }                                                    // распарсить отсканированную строку
         else {
             System.out.println("Некорректный ввод!\n");
             return null;
@@ -81,7 +83,9 @@ public class InputScanner {
             return null;
         }
 
-        CalcArgs calcArgs = new CalcArgs(arg1, arg2, operation);
+        calcArgs.setArg1(arg1);
+        calcArgs.setArg2(arg2);
+        calcArgs.setOperation(operation);
         return calcArgs;
     }
 }
