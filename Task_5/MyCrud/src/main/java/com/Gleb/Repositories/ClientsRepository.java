@@ -1,2 +1,4 @@
-package com.Gleb.Repositories;public class ClientsRepository {
+package com.Gleb.Repositories;
+
+public class ClientsRepository {
 }

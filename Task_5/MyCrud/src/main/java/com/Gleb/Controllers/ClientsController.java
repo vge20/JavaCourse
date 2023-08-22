@@ -1,4 +1,9 @@
-package com.Gleb;
+package com.Gleb.Controllers;
+
+import com.Gleb.BLObjects.Client;
+import com.Gleb.DBConnection;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +23,6 @@ public class ClientsController extends HttpServlet {
         String id;
         try {
             id = req.getParameter("id");
-            System.out.println(id);
         }
         catch (Exception e) {
             resp.setStatus(400);
@@ -29,31 +33,45 @@ public class ClientsController extends HttpServlet {
             return;
         }
 
+        Client client = new Client();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet queryRes = null;
+
         try {
-            Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost:5432/postgres";
+            connection = DBConnection.getConnection();
 
-            Properties authorization = new Properties();
-            authorization.put("user", "postgres");
-            authorization.put("password", "postgres");
-
-            Connection connection = DriverManager.getConnection(url, authorization);
-
-            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            ResultSet table = statement.executeQuery("select * from clients c where c.id = " + id);
+            queryRes = statement.executeQuery("select * from clients c where c.id = " + id);
 
-            if (table != null) { table.close(); }
-            if (statement != null) { statement.close(); }
-            if (connection != null) { connection.close(); }
+            if (queryRes.next()) {
+                client.setId(queryRes.getInt("id"));
+                client.setFullName(queryRes.getString("full_name"));
+                client.setDateBirth(queryRes.getDate("date_birth"));
+                client.setGender(queryRes.getBoolean("gender"));
+            }
+            else {
+                throw new Exception();
+            }
         }
         catch (Exception e) {
             resp.setStatus(500);
-            return;
         }
 
+        try {
+            if (queryRes != null) { queryRes.close(); }
+            if (statement != null) { statement.close(); }
+            if (connection != null) { connection.close(); }
+        } catch (SQLException e) {
+            resp.setStatus(500);
+        }
+
+        if (resp.getStatus() == 500) { return; }
+
         resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
         PrintWriter out;
         try {
             out = resp.getWriter();
@@ -61,8 +79,17 @@ public class ClientsController extends HttpServlet {
             resp.setStatus(500);
             return;
         }
-        resp.setCharacterEncoding("UTF-8");
-        out.print("{key: value}");
+
+        String jsonClient;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            jsonClient = objectMapper.writeValueAsString(client);
+        } catch (JsonProcessingException e) {
+            resp.setStatus(500);
+            return;
+        }
+
+        out.print(jsonClient);
         out.flush();
         resp.setStatus(200);
     }
