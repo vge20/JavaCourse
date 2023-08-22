@@ -75,14 +75,21 @@ public class ClientsController extends HttpServlet {
         Client client;
         try {
             client = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
-                    Client.class); // а может проблема с joining или с тем как посылаю json
+                    Client.class);
         } catch (IOException e) {
             resp.setStatus(400);
             return;
         }
 
-        System.out.println("AAA");
-    } // там со считыванием дота рождения есть неполадки, мб при считывании сразу конвертить в String
+        try {
+            clientsRepository.addClient(client);
+        } catch (Exception e) {
+            resp.setStatus(500);
+            return;
+        }
+
+        resp.setStatus(200);
+    }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {

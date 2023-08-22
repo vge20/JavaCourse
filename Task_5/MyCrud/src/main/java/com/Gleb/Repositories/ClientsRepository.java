@@ -12,7 +12,6 @@ public class ClientsRepository {
 
     public Client getClientById(String id) throws Exception {
         Client client = new Client();
-        Connection connection = null;
         Statement statement = null;
         ResultSet queryRes = null;
 
@@ -25,7 +24,7 @@ public class ClientsRepository {
             if (queryRes.next()) {
                 client.setId(queryRes.getInt("id"));
                 client.setFullName(queryRes.getString("full_name"));
-                client.setDateBirth(queryRes.getDate("date_birth"));
+                client.setDateBirth(queryRes.getString("date_birth"));
                 client.setGender(queryRes.getBoolean("gender"));
             }
             else {
@@ -39,11 +38,31 @@ public class ClientsRepository {
         try {
             if (queryRes != null) { queryRes.close(); }
             if (statement != null) { statement.close(); }
-            if (connection != null) { connection.close(); }
         } catch (SQLException e) {
             throw new SQLException();
         }
 
         return client;
+    }
+
+    public void addClient(Client client) throws Exception {
+        Statement statement = null;
+        try {
+            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            statement.execute("insert into clients (full_name, date_birth, gender) " +
+                    "values ('" + client.getFullName() + "', '" + client.getDateBirth()
+                    + "', " + client.getGender() + ")");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            if (statement != null) { statement.close(); }
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
     }
 }
