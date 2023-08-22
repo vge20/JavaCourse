@@ -2,6 +2,7 @@ package com.Gleb.Controllers;
 
 import com.Gleb.BLObjects.Client;
 import com.Gleb.DBConnection;
+import com.Gleb.Repositories.ClientsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,12 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.ConnectException;
 import java.sql.*;
-import java.util.Properties;
+import java.util.stream.Collectors;
 
 @WebServlet("/clients")
 public class ClientsController extends HttpServlet {
+
+    private ClientsRepository clientsRepository;
+
+    public ClientsController() {
+        clientsRepository = new ClientsRepository();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -33,58 +39,26 @@ public class ClientsController extends HttpServlet {
             return;
         }
 
-        Client client = new Client();
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet queryRes = null;
-
+        Client client;
         try {
-            connection = DBConnection.getConnection();
-
-            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
-            queryRes = statement.executeQuery("select * from clients c where c.id = " + id);
-
-            if (queryRes.next()) {
-                client.setId(queryRes.getInt("id"));
-                client.setFullName(queryRes.getString("full_name"));
-                client.setDateBirth(queryRes.getDate("date_birth"));
-                client.setGender(queryRes.getBoolean("gender"));
-            }
-            else {
-                throw new Exception();
-            }
-        }
-        catch (Exception e) {
-            resp.setStatus(500);
-        }
-
-        try {
-            if (queryRes != null) { queryRes.close(); }
-            if (statement != null) { statement.close(); }
-            if (connection != null) { connection.close(); }
-        } catch (SQLException e) {
-            resp.setStatus(500);
-        }
-
-        if (resp.getStatus() == 500) { return; }
-
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter out;
-        try {
-            out = resp.getWriter();
+            client = clientsRepository.getClientById(id);
         } catch (Exception e) {
             resp.setStatus(500);
             return;
         }
 
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        PrintWriter out;
         String jsonClient;
         try {
+            out = resp.getWriter();
             ObjectMapper objectMapper = new ObjectMapper();
             jsonClient = objectMapper.writeValueAsString(client);
-        } catch (JsonProcessingException e) {
+        }  catch (JsonProcessingException e) {
+            resp.setStatus(500);
+            return;
+        } catch (Exception e) {
             resp.setStatus(500);
             return;
         }
@@ -97,7 +71,18 @@ public class ClientsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 
-    }
+        ObjectMapper objectMapper = new ObjectMapper();
+        Client client;
+        try {
+            client = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
+                    Client.class); // а может проблема с joining или с тем как посылаю json
+        } catch (IOException e) {
+            resp.setStatus(400);
+            return;
+        }
+
+        System.out.println("AAA");
+    } // там со считыванием дота рождения есть неполадки, мб при считывании сразу конвертить в String
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
