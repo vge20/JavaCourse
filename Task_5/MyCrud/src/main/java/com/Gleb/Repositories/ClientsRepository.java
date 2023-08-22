@@ -65,4 +65,24 @@ public class ClientsRepository {
             throw new SQLException();
         }
     }
-}
+
+    public void updateClient(Client client) throws Exception {
+        Statement statement = null;
+        try {
+            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            statement.execute("update clients set full_name = '" + client.getFullName() + "', date_birth = '" +
+                    client.getDateBirth() + "', gender = " + client.getGender() + " where id = " + client.getId());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            if (statement != null) { statement.close(); }
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+    }
+ }

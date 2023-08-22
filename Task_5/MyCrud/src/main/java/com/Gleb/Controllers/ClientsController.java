@@ -26,9 +26,10 @@ public class ClientsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+
         String id;
         try {
-            id = req.getParameter("id");
+            id = req.getParameter("id"); // надо проверить, что id int
         }
         catch (Exception e) {
             resp.setStatus(400);
@@ -79,7 +80,7 @@ public class ClientsController extends HttpServlet {
         } catch (IOException e) {
             resp.setStatus(400);
             return;
-        }
+        } // тут если не передать id, то это выяснится только при запросе
 
         try {
             clientsRepository.addClient(client);
@@ -94,10 +95,28 @@ public class ClientsController extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
 
-    }
+        ObjectMapper objectMapper = new ObjectMapper();
+        Client client;
+        try {
+            client = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
+                    Client.class);
+        } catch (IOException e) {
+            resp.setStatus(400);
+            return;
+        } // тут если не передать id, то это выяснится только при запросе
+
+        try {
+            clientsRepository.updateClient(client);
+        } catch (Exception e) {
+            resp.setStatus(500);
+            return;
+        }
+
+        resp.setStatus(200);
+    } // тут и в POST
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-
+        
     }
 }
