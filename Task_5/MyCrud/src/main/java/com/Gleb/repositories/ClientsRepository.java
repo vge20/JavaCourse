@@ -1,6 +1,6 @@
-package com.Gleb.Repositories;
+package com.Gleb.repositories;
 
-import com.Gleb.BLObjects.Client;
+import com.Gleb.entities.Client;
 import com.Gleb.DBConnection;
 
 import java.sql.ResultSet;

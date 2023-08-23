@@ -1,7 +1,7 @@
-package com.Gleb.Controllers;
+package com.Gleb.controllers;
 
-import com.Gleb.BLObjects.Client;
-import com.Gleb.Repositories.ClientsRepository;
+import com.Gleb.entities.Client;
+import com.Gleb.repositories.ClientsRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;

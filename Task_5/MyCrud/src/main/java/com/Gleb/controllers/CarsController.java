@@ -1,8 +1,7 @@
-package com.Gleb.Controllers;
+package com.Gleb.controllers;
 
-import com.Gleb.BLObjects.Car;
-import com.Gleb.BLObjects.Client;
-import com.Gleb.Repositories.CarsRepository;
+import com.Gleb.entities.Car;
+import com.Gleb.repositories.CarsRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;
@@ -68,7 +67,7 @@ public class CarsController extends HttpServlet {
             car = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
                     Car.class);
             car.getBrand();
-            car.getColor();
+            car.getColor(); // проверка ввода из json
             if (car.getEngineCapacity() < 0) { throw new Exception(); }
             Date.valueOf(car.getManufactureDate());
             if (car.getPrice() < 0) { throw new Exception(); }
@@ -97,7 +96,7 @@ public class CarsController extends HttpServlet {
                     Car.class);
             if (car.getId() < 0) { throw new Exception(); }
             car.getBrand();
-            car.getColor();
+            car.getColor(); // проверка ввода из json
             if (car.getEngineCapacity() < 0) { throw new Exception(); }
             Date.valueOf(car.getManufactureDate());
             if (car.getPrice() < 0) { throw new Exception(); }

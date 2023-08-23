@@ -1,6 +1,4 @@
-package com.Gleb.BLObjects;
-
-import java.sql.Date;
+package com.Gleb.entities;
 
 public class Client {
 

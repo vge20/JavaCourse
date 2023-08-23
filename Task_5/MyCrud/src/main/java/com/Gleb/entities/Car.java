@@ -1,4 +1,4 @@
-package com.Gleb.BLObjects;
+package com.Gleb.entities;
 
 public class Car {
 
