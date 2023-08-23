@@ -3,7 +3,6 @@ package com.Gleb.Repositories;
 import com.Gleb.BLObjects.Client;
 import com.Gleb.DBConnection;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

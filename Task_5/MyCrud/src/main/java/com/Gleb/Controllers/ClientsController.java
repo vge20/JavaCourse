@@ -2,14 +2,12 @@ package com.Gleb.Controllers;
 
 import com.Gleb.BLObjects.Client;
 import com.Gleb.Repositories.ClientsRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.stream.Collectors;
@@ -20,7 +18,7 @@ public class ClientsController extends HttpServlet {
     private ClientsRepository clientsRepository;
 
     public ClientsController() {
-        clientsRepository = new ClientsRepository();
+        this.clientsRepository = new ClientsRepository();
     }
 
     @Override
@@ -117,6 +115,7 @@ public class ClientsController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+
         int id;
         try {
             id = Integer.parseInt(req.getParameter("id"));
