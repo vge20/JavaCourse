@@ -1,7 +1,6 @@
 package com.Gleb.Controllers;
 
 import com.Gleb.BLObjects.Client;
-import com.Gleb.DBConnection;
 import com.Gleb.Repositories.ClientsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
 import java.util.stream.Collectors;
 
 @WebServlet("/clients")
@@ -27,15 +25,12 @@ public class ClientsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
-        String id;
+        int id;
         try {
-            id = req.getParameter("id"); // надо проверить, что id int
+            id = Integer.parseInt(req.getParameter("id"));
+            if (id < 0) { throw new Exception(); }
         }
         catch (Exception e) {
-            resp.setStatus(400);
-            return;
-        }
-        if (id == null) {
             resp.setStatus(400);
             return;
         }
@@ -56,9 +51,6 @@ public class ClientsController extends HttpServlet {
             out = resp.getWriter();
             ObjectMapper objectMapper = new ObjectMapper();
             jsonClient = objectMapper.writeValueAsString(client);
-        }  catch (JsonProcessingException e) {
-            resp.setStatus(500);
-            return;
         } catch (Exception e) {
             resp.setStatus(500);
             return;
@@ -80,7 +72,7 @@ public class ClientsController extends HttpServlet {
         } catch (IOException e) {
             resp.setStatus(400);
             return;
-        } // тут если не передать id, то это выяснится только при запросе
+        }
 
         try {
             clientsRepository.addClient(client);
@@ -117,15 +109,12 @@ public class ClientsController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        String id;
+        int id;
         try {
-            id = req.getParameter("id"); // надо проверить, что id int
+            id = Integer.parseInt(req.getParameter("id"));
+            if (id < 0) { throw new Exception(); }
         }
         catch (Exception e) {
-            resp.setStatus(400);
-            return;
-        }
-        if (id == null) {
             resp.setStatus(400);
             return;
         }
@@ -133,7 +122,6 @@ public class ClientsController extends HttpServlet {
         try {
             clientsRepository.deleteClient(id);
         } catch (Exception e) {
-            System.out.println("AAA");
             resp.setStatus(500);
             return;
         }

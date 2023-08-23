@@ -10,7 +10,7 @@ import java.sql.Statement;
 
 public class ClientsRepository {
 
-    public Client getClientById(String id) throws Exception {
+    public Client getClientById(int id) throws Exception {
         Client client = new Client();
         Statement statement = null;
         ResultSet queryRes = null;
@@ -86,7 +86,7 @@ public class ClientsRepository {
         }
     }
 
-    public void deleteClient(String id) throws Exception {
+    public void deleteClient(int id) throws Exception {
         Statement statement = null;
         try {
             statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
