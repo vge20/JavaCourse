@@ -117,6 +117,27 @@ public class ClientsController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        
+        String id;
+        try {
+            id = req.getParameter("id"); // надо проверить, что id int
+        }
+        catch (Exception e) {
+            resp.setStatus(400);
+            return;
+        }
+        if (id == null) {
+            resp.setStatus(400);
+            return;
+        }
+
+        try {
+            clientsRepository.deleteClient(id);
+        } catch (Exception e) {
+            System.out.println("AAA");
+            resp.setStatus(500);
+            return;
+        }
+
+        resp.setStatus(200);
     }
 }

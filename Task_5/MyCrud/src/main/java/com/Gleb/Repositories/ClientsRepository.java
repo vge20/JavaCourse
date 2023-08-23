@@ -85,4 +85,23 @@ public class ClientsRepository {
             throw new SQLException();
         }
     }
+
+    public void deleteClient(String id) throws Exception {
+        Statement statement = null;
+        try {
+            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            statement.execute("delete from clients where id = " + id);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            if (statement != null) { statement.close(); }
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+    }
  }
