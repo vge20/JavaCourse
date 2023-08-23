@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.stream.Collectors;
 
 @WebServlet("/clients")
@@ -69,7 +70,10 @@ public class ClientsController extends HttpServlet {
         try {
             client = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
                     Client.class);
-        } catch (IOException e) {
+            client.getFullName();  // проверка, что нужные параметры переданы в json
+            client.getGender();    // если их не передано, то будет Exception
+            Date.valueOf(client.getDateBirth()); // проверка валидности даты в json
+        } catch (Exception e) {
             resp.setStatus(400);
             return;
         }
@@ -92,10 +96,14 @@ public class ClientsController extends HttpServlet {
         try {
             client = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
                     Client.class);
-        } catch (IOException e) {
+            if (client.getId() < 0) { throw new Exception(); }
+            client.getFullName(); // проверка, что все нужные параметры были переданы,
+            client.getGender();   // а также их валидности
+            Date.valueOf(client.getDateBirth());
+        } catch (Exception e) {
             resp.setStatus(400);
             return;
-        } // тут если не передать id, то это выяснится только при запросе
+        }
 
         try {
             clientsRepository.updateClient(client);
@@ -105,7 +113,7 @@ public class ClientsController extends HttpServlet {
         }
 
         resp.setStatus(200);
-    } // тут и в POST
+    }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {

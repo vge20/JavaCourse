@@ -4,10 +4,10 @@ import java.sql.Date;
 
 public class Client {
 
-    private int id;
+    private Integer id;
     private String fullName;
     private String dateBirth;
-    private boolean gender;
+    private Boolean gender;
 
     public Client() {}
 
