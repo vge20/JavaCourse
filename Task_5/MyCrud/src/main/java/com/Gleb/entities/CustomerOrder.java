@@ -2,13 +2,15 @@ package com.Gleb.entities;
 
 public class CustomerOrder {
 
+    private int id;
     private int clientId;
     private int carId;
     private String orderDate;
 
     public CustomerOrder() {}
 
-    public CustomerOrder(int clientId, int carId, String orderDate) {
+    public CustomerOrder(int id, int clientId, int carId, String orderDate) {
+        this.id = id;
         this.clientId = clientId;
         this.carId = carId;
         this.orderDate = orderDate;
@@ -36,5 +38,13 @@ public class CustomerOrder {
 
     public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
