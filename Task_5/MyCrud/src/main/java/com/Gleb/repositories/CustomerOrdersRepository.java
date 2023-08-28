@@ -14,94 +14,58 @@ public class CustomerOrdersRepository {
         Statement statement = null;
         ResultSet queryRes = null;
 
-        try {
-            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            queryRes = statement.executeQuery("select * from customer_orders c where c.id = " + id);
+        queryRes = statement.executeQuery("select * from customer_orders c where c.id = " + id);
 
-            if (queryRes.next()) {
-                customerOrder.setId(queryRes.getInt("id"));
-                customerOrder.setClientId(queryRes.getInt("client_id"));
-                customerOrder.setCarId(queryRes.getInt("car_id"));
-                customerOrder.setOrderDate(queryRes.getString("order_date"));
-            }
-            else {
-                throw new Exception();
-            }
+        if (queryRes.next()) {
+            customerOrder.setId(queryRes.getInt("id"));
+            customerOrder.setClientId(queryRes.getInt("client_id"));
+            customerOrder.setCarId(queryRes.getInt("car_id"));
+            customerOrder.setOrderDate(queryRes.getString("order_date"));
         }
-        catch (Exception e) {
+        else {
             throw new Exception();
         }
 
-        try {
-            if (queryRes != null) { queryRes.close(); }
-            if (statement != null) { statement.close(); }
-        } catch (SQLException e) {
-            throw new SQLException();
-        }
+        if (queryRes != null) { queryRes.close(); }
+        if (statement != null) { statement.close(); }
 
         return customerOrder;
     }
 
-    public void addCustomerOrder(CustomerOrder customerOrder) throws Exception {
+    public void addCustomerOrder(CustomerOrder customerOrder) throws SQLException {
         Statement statement = null;
-        try {
-            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            statement.execute("insert into customer_orders (client_id, car_id, order_date) " +
+        statement.execute("insert into customer_orders (client_id, car_id, order_date) " +
                     "values (" + customerOrder.getClientId() + ", " + customerOrder.getCarId()
                     + ", '" + customerOrder.getOrderDate() + "')");
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            if (statement != null) { statement.close(); }
-        } catch (SQLException e) {
-            throw new SQLException();
-        }
+        if (statement != null) { statement.close(); }
     }
 
-    public void updateCustomerOrder(CustomerOrder customerOrder) throws Exception {
+    public void updateCustomerOrder(CustomerOrder customerOrder) throws SQLException {
         Statement statement = null;
-        try {
-            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            statement.execute("update customer_orders set client_id = " + customerOrder.getClientId() +
+        statement.execute("update customer_orders set client_id = " + customerOrder.getClientId() +
                     ", car_id = " + customerOrder.getCarId() + ", order_date = '" + customerOrder.getOrderDate()
                     + "' where id = " + customerOrder.getId());
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            if (statement != null) { statement.close(); }
-        } catch (SQLException e) {
-            throw new SQLException();
-        }
+        if (statement != null) { statement.close(); }
     }
 
-    public void deleteCustomerOrder(int id) throws Exception {
+    public void deleteCustomerOrder(int id) throws SQLException {
         Statement statement = null;
-        try {
-            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            statement.execute("delete from customer_orders where id = " + id);
+        statement.execute("delete from customer_orders where id = " + id);
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            if (statement != null) { statement.close(); }
-        } catch (SQLException e) {
-            throw new SQLException();
-        }
+        if (statement != null) { statement.close(); }
     }
 }

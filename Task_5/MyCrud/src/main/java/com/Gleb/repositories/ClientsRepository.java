@@ -14,93 +14,57 @@ public class ClientsRepository {
         Statement statement = null;
         ResultSet queryRes = null;
 
-        try {
-            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            queryRes = statement.executeQuery("select * from clients c where c.id = " + id);
+        queryRes = statement.executeQuery("select * from clients c where c.id = " + id);
 
-            if (queryRes.next()) {
-                client.setId(queryRes.getInt("id"));
-                client.setFullName(queryRes.getString("full_name"));
-                client.setDateBirth(queryRes.getString("date_birth"));
-                client.setGender(queryRes.getBoolean("gender"));
-            }
-            else {
-                throw new Exception();
-            }
+        if (queryRes.next()) {
+            client.setId(queryRes.getInt("id"));
+            client.setFullName(queryRes.getString("full_name"));
+            client.setDateBirth(queryRes.getString("date_birth"));
+            client.setGender(queryRes.getBoolean("gender"));
         }
-        catch (Exception e) {
+        else {
             throw new Exception();
         }
 
-        try {
-            if (queryRes != null) { queryRes.close(); }
-            if (statement != null) { statement.close(); }
-        } catch (SQLException e) {
-            throw new SQLException();
-        }
+        if (queryRes != null) { queryRes.close(); }
+        if (statement != null) { statement.close(); }
 
         return client;
     }
 
-    public void addClient(Client client) throws Exception {
+    public void addClient(Client client) throws SQLException {
         Statement statement = null;
-        try {
-            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            statement.execute("insert into clients (full_name, date_birth, gender) " +
+        statement.execute("insert into clients (full_name, date_birth, gender) " +
                     "values ('" + client.getFullName() + "', '" + client.getDateBirth()
                     + "', " + client.getGender() + ")");
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            if (statement != null) { statement.close(); }
-        } catch (SQLException e) {
-            throw new SQLException();
-        }
+        if (statement != null) { statement.close(); }
     }
 
-    public void updateClient(Client client) throws Exception {
+    public void updateClient(Client client) throws SQLException {
         Statement statement = null;
-        try {
-            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            statement.execute("update clients set full_name = '" + client.getFullName() + "', date_birth = '" +
+        statement.execute("update clients set full_name = '" + client.getFullName() + "', date_birth = '" +
                     client.getDateBirth() + "', gender = " + client.getGender() + " where id = " + client.getId());
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            if (statement != null) { statement.close(); }
-        } catch (SQLException e) {
-            throw new SQLException();
-        }
+        if (statement != null) { statement.close(); }
     }
 
-    public void deleteClient(int id) throws Exception {
+    public void deleteClient(int id) throws SQLException {
         Statement statement = null;
-        try {
-            statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
 
-            statement.execute("delete from clients where id = " + id);
+        statement.execute("delete from clients where id = " + id);
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            if (statement != null) { statement.close(); }
-        } catch (SQLException e) {
-            throw new SQLException();
-        }
+        if (statement != null) { statement.close(); }
     }
  }

@@ -52,8 +52,8 @@ public class CarsController extends HttpServlet {
             return;
         }
 
-        String jsonClient = carsConverter.convertToJson(car);
-        if (jsonClient == null) {
+        String jsonCar = carsConverter.convertToJson(car);
+        if (jsonCar == null) {
             resp.setStatus(500);
             return;
         }
@@ -67,7 +67,7 @@ public class CarsController extends HttpServlet {
             resp.setStatus(500);
             return;
         }
-        out.print(jsonClient);
+        out.print(jsonCar);
         out.flush();
         resp.setStatus(200);
     }

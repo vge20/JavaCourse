@@ -1,5 +1,7 @@
 package com.Gleb;
 
+import com.Gleb.exceptions.ConnectionException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,9 +20,9 @@ public class DBConnection {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
-            throw new RuntimeException(e); // этот меод запускается при загрузке класса,
-        } catch (ClassNotFoundException e) { // поэтому не понятно, как обработать эти ошибки
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); // этот метод запускается при загрузке класса,
+        } catch (ClassNotFoundException e) { // поэтому если подключиться не получится,
+            throw new RuntimeException(e); // то бросаем RuntimeException
         }
     }
 

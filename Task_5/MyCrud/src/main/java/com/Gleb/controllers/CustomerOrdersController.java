@@ -52,8 +52,8 @@ public class CustomerOrdersController extends HttpServlet {
             return;
         }
 
-        String jsonClient = customerOrdersConverter.convertToJson(customerOrder);
-        if (jsonClient == null) {
+        String jsonCustomerOrder = customerOrdersConverter.convertToJson(customerOrder);
+        if (jsonCustomerOrder == null) {
             resp.setStatus(500);
             return;
         }
@@ -67,7 +67,7 @@ public class CustomerOrdersController extends HttpServlet {
             resp.setStatus(500);
             return;
         }
-        out.print(jsonClient);
+        out.print(jsonCustomerOrder);
         out.flush();
         resp.setStatus(200);
     }
