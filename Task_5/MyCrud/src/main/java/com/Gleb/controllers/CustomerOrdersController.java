@@ -1,41 +1,59 @@
 package com.Gleb.controllers;
 
+import com.Gleb.RequestParser;
+import com.Gleb.converters.CustomerOrdersConverter;
 import com.Gleb.entities.CustomerOrder;
-import com.Gleb.repositories.CustomerOrdersRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.Gleb.services.CustomerOrdersService;
+import com.Gleb.validators.CustomerOrdersValidator;
+import com.Gleb.validators.Validator;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.util.stream.Collectors;
 
 @WebServlet("/customer_orders")
 public class CustomerOrdersController extends HttpServlet {
 
-    private CustomerOrdersRepository customerOrdersRepository;
+    private CustomerOrdersService customerOrdersService;
 
-    public CustomerOrdersController() { this.customerOrdersRepository = new CustomerOrdersRepository(); }
+    private RequestParser requestParser;
+
+    private CustomerOrdersConverter customerOrdersConverter;
+
+    private CustomerOrdersValidator customerOrdersValidator;
+
+    public CustomerOrdersController() {
+        this.customerOrdersService = new CustomerOrdersService();
+        this.requestParser = new RequestParser();
+        this.customerOrdersConverter = new CustomerOrdersConverter();
+        this.customerOrdersValidator = new CustomerOrdersValidator();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
-        int id;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
-            if (id < 0) { throw new Exception(); }
-        }
-        catch (Exception e) {
+        Integer id = requestParser.getId(req);
+        if (id == null) {
             resp.setStatus(400);
             return;
         }
 
-        CustomerOrder customerOrder;
-        try {
-            customerOrder = customerOrdersRepository.getCustomerOrderById(id);
-        } catch (Exception e) {
+        if (!Validator.validateId(id)) {
+            resp.setStatus(400);
+            return;
+        }
+
+        CustomerOrder customerOrder = customerOrdersService.getCustomerOrder(id);
+        if (customerOrder == null) {
+            resp.setStatus(500);
+            return;
+        }
+
+        String jsonClient = customerOrdersConverter.convertToJson(customerOrder);
+        if (jsonClient == null) {
             resp.setStatus(500);
             return;
         }
@@ -43,16 +61,12 @@ public class CustomerOrdersController extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter out;
-        String jsonClient;
         try {
             out = resp.getWriter();
-            ObjectMapper objectMapper = new ObjectMapper();
-            jsonClient = objectMapper.writeValueAsString(customerOrder);
-        } catch (Exception e) {
+        } catch (IOException e) {
             resp.setStatus(500);
             return;
         }
-
         out.print(jsonClient);
         out.flush();
         resp.setStatus(200);
@@ -61,76 +75,78 @@ public class CustomerOrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        CustomerOrder customerOrder;
-        try {
-            customerOrder = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
-                    CustomerOrder.class);
-            if (customerOrder.getClientId() < 0) { throw new Exception(); }
-            if (customerOrder.getCarId() < 0) { throw new Exception(); }
-            Date.valueOf(customerOrder.getOrderDate()); // проверка ввода из json
-        } catch (Exception e) {
+        String reqBody = requestParser.getRequestBody(req);
+        if (reqBody == null) {
             resp.setStatus(400);
             return;
         }
 
-        try {
-            customerOrdersRepository.addCustomerOrder(customerOrder);
-        } catch (Exception e) {
+        CustomerOrder customerOrder = customerOrdersConverter.convertFromJson(reqBody);
+        if (customerOrder == null) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!customerOrdersValidator.validateForAdd(customerOrder)) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!customerOrdersService.addCustomerOrder(customerOrder)) {
             resp.setStatus(500);
             return;
         }
 
-        resp.setStatus(200);
+        resp.setStatus(201);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        CustomerOrder customerOrder;
-        try {
-            customerOrder = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
-                    CustomerOrder.class);
-            if (customerOrder.getId() < 0) { throw new Exception(); }
-            if (customerOrder.getClientId() < 0) { throw new Exception(); }
-            if (customerOrder.getCarId() < 0) { throw new Exception(); }
-            Date.valueOf(customerOrder.getOrderDate()); // проверка ввода из json
-        } catch (Exception e) {
+        String reqBody = requestParser.getRequestBody(req);
+        if (reqBody == null) {
             resp.setStatus(400);
             return;
         }
 
-        try {
-            customerOrdersRepository.updateCustomerOrder(customerOrder);
-        } catch (Exception e) {
+        CustomerOrder customerOrder = customerOrdersConverter.convertFromJson(reqBody);
+        if (customerOrder == null) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!customerOrdersValidator.validateForUpdate(customerOrder)) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!customerOrdersService.updateCustomerOrder(customerOrder)) {
             resp.setStatus(500);
             return;
         }
 
-        resp.setStatus(200);
+        resp.setStatus(204);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
 
-        int id;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
-            if (id < 0) { throw new Exception(); }
-        }
-        catch (Exception e) {
+        Integer id = requestParser.getId(req);
+        if (id == null) {
             resp.setStatus(400);
             return;
         }
 
-        try {
-            customerOrdersRepository.deleteClient(id);
-        } catch (Exception e) {
+        if (!Validator.validateId(id)) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!customerOrdersService.deleteCustomerOrder(id)) {
             resp.setStatus(500);
             return;
         }
 
-        resp.setStatus(200);
+        resp.setStatus(204);
     }
 }

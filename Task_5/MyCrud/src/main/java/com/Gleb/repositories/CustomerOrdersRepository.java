@@ -86,7 +86,7 @@ public class CustomerOrdersRepository {
         }
     }
 
-    public void deleteClient(int id) throws Exception {
+    public void deleteCustomerOrder(int id) throws Exception {
         Statement statement = null;
         try {
             statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
