@@ -1,43 +1,59 @@
 package com.Gleb.controllers;
 
+import com.Gleb.RequestParser;
+import com.Gleb.converters.ClientsConverter;
 import com.Gleb.entities.Client;
-import com.Gleb.repositories.ClientsRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.Gleb.services.ClientsService;
+import com.Gleb.validators.ClientsValidator;
+import com.Gleb.validators.Validator;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.util.stream.Collectors;
 
 @WebServlet("/clients")
 public class ClientsController extends HttpServlet {
 
-    private ClientsRepository clientsRepository;
+    private ClientsConverter clientsConverter;
+
+    private RequestParser requestParser;
+
+    private ClientsValidator clientsValidator;
+
+    private ClientsService clientsService;
 
     public ClientsController() {
-        this.clientsRepository = new ClientsRepository();
+        this.clientsConverter = new ClientsConverter();
+        this.requestParser = new RequestParser();
+        this.clientsValidator = new ClientsValidator();
+        this.clientsService = new ClientsService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
-        int id;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
-            if (id < 0) { throw new Exception(); }
-        }
-        catch (Exception e) {
+        Integer id = requestParser.getId(req);
+        if (id == null) {
             resp.setStatus(400);
             return;
         }
 
-        Client client;
-        try {
-            client = clientsRepository.getClientById(id);
-        } catch (Exception e) {
+        if (!Validator.validateId(id)) {
+            resp.setStatus(400);
+            return;
+        }
+
+        Client client = clientsService.getClient(id);
+        if (client == null) {
+            resp.setStatus(500);
+            return;
+        }
+
+        String jsonClient = clientsConverter.convertToJson(client);
+        if (jsonClient == null) {
             resp.setStatus(500);
             return;
         }
@@ -45,16 +61,12 @@ public class ClientsController extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter out;
-        String jsonClient;
         try {
             out = resp.getWriter();
-            ObjectMapper objectMapper = new ObjectMapper();
-            jsonClient = objectMapper.writeValueAsString(client);
-        } catch (Exception e) {
+        } catch (IOException e) {
             resp.setStatus(500);
             return;
         }
-
         out.print(jsonClient);
         out.flush();
         resp.setStatus(200);
@@ -63,76 +75,78 @@ public class ClientsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        Client client;
-        try {
-            client = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
-                    Client.class);
-            client.getFullName();  // проверка, что нужные параметры переданы в json
-            client.getGender();    // если их не передано, то будет Exception
-            Date.valueOf(client.getDateBirth()); // проверка валидности даты в json
-        } catch (Exception e) {
+        String reqBody = requestParser.getRequestBody(req);
+        if (reqBody == null) {
             resp.setStatus(400);
             return;
         }
 
-        try {
-            clientsRepository.addClient(client);
-        } catch (Exception e) {
+        Client client = clientsConverter.convertFromJson(reqBody);
+        if (client == null) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!clientsValidator.validateForAdd(client)) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!clientsService.addClient(client)) {
             resp.setStatus(500);
             return;
         }
 
-        resp.setStatus(200);
+        resp.setStatus(201);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        Client client;
-        try {
-            client = objectMapper.readValue(req.getReader().lines().collect(Collectors.joining("\n")),
-                    Client.class);
-            if (client.getId() < 0) { throw new Exception(); }
-            client.getFullName(); // проверка, что все нужные параметры были переданы,
-            client.getGender();   // а также их валидности
-            Date.valueOf(client.getDateBirth());
-        } catch (Exception e) {
+        String reqBody = requestParser.getRequestBody(req);
+        if (reqBody == null) {
             resp.setStatus(400);
             return;
         }
 
-        try {
-            clientsRepository.updateClient(client);
-        } catch (Exception e) {
+        Client client = clientsConverter.convertFromJson(reqBody);
+        if (client == null) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!clientsValidator.validateForUpdate(client)) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!clientsService.updateClient(client)) {
             resp.setStatus(500);
             return;
         }
 
-        resp.setStatus(200);
+        resp.setStatus(204);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
 
-        int id;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
-            if (id < 0) { throw new Exception(); }
-        }
-        catch (Exception e) {
+        Integer id = requestParser.getId(req);
+        if (id == null) {
             resp.setStatus(400);
             return;
         }
 
-        try {
-            clientsRepository.deleteClient(id);
-        } catch (Exception e) {
+        if (!Validator.validateId(id)) {
+            resp.setStatus(400);
+            return;
+        }
+
+        if (!clientsService.deleteClient(id)) {
             resp.setStatus(500);
             return;
         }
 
-        resp.setStatus(200);
+        resp.setStatus(204);
     }
 }
