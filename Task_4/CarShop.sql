@@ -55,9 +55,27 @@ group by t.id, t.full_name
 order by count(t.car_id) desc
 limit 1;
 
+select t.full_name		
+from (clients as cli join customer_orders as c_o on cli.id = c_o.client_id) as t
+group by t.id, t.full_name
+having count(t.car_id) - (select count(t.car_id) as cnt 
+						from (clients as cli join customer_orders as c_o on cli.id = c_o.client_id) as t
+						group by t.id, t.full_name
+						order by count(t.car_id) desc
+						limit 1) = 0;
+
 -- в каком месяце больше всего заказывают машин
 select extract(month from t.order_date) as month
 from customer_orders as t
 group by month
 order by count(extract(month from t.order_date)) desc
 limit 1;
+
+select extract(month from t.order_date) as month
+from customer_orders as t
+group by month
+having count(extract(month from t.order_date)) - (select count(extract(month from t.order_date)) as cnt
+												from customer_orders as t
+												group by extract(month from t.order_date)
+												order by count(extract(month from t.order_date)) desc
+												limit 1) = 0;
