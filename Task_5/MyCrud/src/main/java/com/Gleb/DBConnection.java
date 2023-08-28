@@ -1,7 +1,5 @@
 package com.Gleb;
 
-import com.Gleb.exceptions.ConnectionException;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
