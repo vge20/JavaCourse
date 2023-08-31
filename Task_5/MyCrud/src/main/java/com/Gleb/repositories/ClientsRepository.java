@@ -1,23 +1,34 @@
 package com.Gleb.repositories;
 
+import com.Gleb.entities.Car;
 import com.Gleb.entities.Client;
 import com.Gleb.DBConnection;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
-public class ClientsRepository {
+public class ClientsRepository implements Repository {
+
+    private PreparedStatement createStatement(Client client, boolean isUpdate) throws SQLException {
+        PreparedStatement statement;
+        if (isUpdate) {
+            statement = DBConnection.getConnection().prepareStatement(
+                    "update clients set full_name = ?, date_birth = ?, gender = ? where id = ?");
+            statement.setInt(4, client.getId());
+        }
+        else {
+            statement = DBConnection.getConnection().prepareStatement(
+                    "insert into clients (full_name, date_birth, gender) values (?, ?, ?)");
+        }
+        statement.setString(1, client.getFullName());
+        statement.setDate(2, Date.valueOf(client.getDateBirth()));
+        statement.setBoolean(3, client.getGender());
+
+        return statement;
+    }
 
     public Client getClientById(int id) throws Exception {
         Client client = new Client();
-        Statement statement = null;
-        ResultSet queryRes = null;
-
-        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
-        queryRes = statement.executeQuery("select * from clients c where c.id = " + id);
+        ResultSet queryRes = this.getEntityById("clients", id);
 
         if (queryRes.next()) {
             client.setId(queryRes.getInt("id"));
@@ -30,41 +41,19 @@ public class ClientsRepository {
         }
 
         if (queryRes != null) { queryRes.close(); }
-        if (statement != null) { statement.close(); }
 
         return client;
     }
 
     public void addClient(Client client) throws SQLException {
-        Statement statement = null;
-        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
-        statement.execute("insert into clients (full_name, date_birth, gender) " +
-                    "values ('" + client.getFullName() + "', '" + client.getDateBirth()
-                    + "', " + client.getGender() + ")");
-
-        if (statement != null) { statement.close(); }
+        this.executeUpdateTable(this.createStatement(client, false));
     }
 
     public void updateClient(Client client) throws SQLException {
-        Statement statement = null;
-        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
-        statement.execute("update clients set full_name = '" + client.getFullName() + "', date_birth = '" +
-                    client.getDateBirth() + "', gender = " + client.getGender() + " where id = " + client.getId());
-
-        if (statement != null) { statement.close(); }
+        this.executeUpdateTable(this.createStatement(client, true));
     }
 
     public void deleteClient(int id) throws SQLException {
-        Statement statement = null;
-        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
-        statement.execute("delete from clients where id = " + id);
-
-        if (statement != null) { statement.close(); }
+        this.deleteEntityById("clients", id);
     }
  }
