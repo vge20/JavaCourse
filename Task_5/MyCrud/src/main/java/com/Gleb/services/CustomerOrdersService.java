@@ -3,6 +3,8 @@ package com.Gleb.services;
 import com.Gleb.entities.CustomerOrder;
 import com.Gleb.repositories.CustomerOrdersRepository;
 
+import java.sql.SQLException;
+
 public class CustomerOrdersService {
 
     private CustomerOrdersRepository customerOrdersRepository;
@@ -11,44 +13,19 @@ public class CustomerOrdersService {
         customerOrdersRepository = new CustomerOrdersRepository();
     }
 
-    public CustomerOrder getCustomerOrder(int id) {
-        CustomerOrder customerOrder;
-        try {
-            customerOrder = customerOrdersRepository.getCustomerOrderById(id);
-        } catch (Exception e) {
-            return null;
-        }
-
-        return customerOrder;
+    public CustomerOrder getCustomerOrder(int id) throws Exception {
+        return customerOrdersRepository.getCustomerOrderById(id);
     }
 
-    public boolean addCustomerOrder(CustomerOrder customerOrder) {
-        try {
-            customerOrdersRepository.addCustomerOrder(customerOrder);
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    public void addCustomerOrder(CustomerOrder customerOrder) throws SQLException {
+        customerOrdersRepository.addCustomerOrder(customerOrder);
     }
 
-    public boolean updateCustomerOrder(CustomerOrder customerOrder) {
-        try {
-            customerOrdersRepository.updateCustomerOrder(customerOrder);
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    public void updateCustomerOrder(CustomerOrder customerOrder) throws SQLException {
+        customerOrdersRepository.updateCustomerOrder(customerOrder);
     }
 
-    public boolean deleteCustomerOrder(int id) {
-        try {
-            customerOrdersRepository.deleteCustomerOrder(id);
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    public void deleteCustomerOrder(int id) throws SQLException {
+        customerOrdersRepository.deleteCustomerOrder(id);
     }
 }

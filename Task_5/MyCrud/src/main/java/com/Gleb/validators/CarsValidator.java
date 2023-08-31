@@ -6,28 +6,20 @@ import java.sql.Date;
 
 public class CarsValidator implements Validator {
 
-    public boolean validateForAdd(Car car) {
-        try {
-            car.getBrand();
-            car.getColor(); // проверка ввода из json
-            if (car.getEngineCapacity() < 0) { throw new Exception(); };
-        } catch ( Exception e) {
-            return false;
-        }
-
-        return true;
+    @Override
+    public void validateAddParam(Object entity) throws Exception {
+        Car car = (Car) entity;
+        car.getBrand();
+        car.getColor(); // проверка ввода из json
+        if (car.getEngineCapacity() < 0) { throw new Exception(); };
     }
 
-    public boolean validateForUpdate(Car car) {
-        try {
-            if (car.getId() < 0) { throw new Exception(); }
-            car.getBrand();
-            car.getColor(); // проверка ввода из json
-            if (car.getEngineCapacity() < 0) { throw new Exception(); };
-        } catch ( Exception e) {
-            return false;
-        }
-
-        return true;
+    @Override
+    public void validateUpdateParam(Object entity) throws Exception {
+        Car car = (Car) entity;
+        if (car.getId() < 0) { throw new Exception(); }
+        car.getBrand();
+        car.getColor(); // проверка ввода из json
+        if (car.getEngineCapacity() < 0) { throw new Exception(); };
     }
 }

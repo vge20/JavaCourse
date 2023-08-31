@@ -3,6 +3,8 @@ package com.Gleb.services;
 import com.Gleb.entities.Client;
 import com.Gleb.repositories.ClientsRepository;
 
+import java.sql.SQLException;
+
 public class ClientsService {
 
     private ClientsRepository clientsRepository;
@@ -11,44 +13,19 @@ public class ClientsService {
         this.clientsRepository = new ClientsRepository();
     }
 
-    public Client getClient(int id) {
-        Client client;
-        try {
-            client = clientsRepository.getClientById(id);
-        } catch (Exception e) {
-            return null;
-        }
-
-        return client;
+    public Client getClient(int id) throws Exception {
+        return clientsRepository.getClientById(id);
     }
 
-    public boolean addClient(Client client) {
-        try {
-            clientsRepository.addClient(client);
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    public void addClient(Client client) throws SQLException {
+        clientsRepository.addClient(client);
     }
 
-    public boolean updateClient(Client client) {
-        try {
-            clientsRepository.updateClient(client);
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    public void updateClient(Client client) throws SQLException {
+        clientsRepository.updateClient(client);
     }
 
-    public boolean deleteClient(int id) {
-        try {
-            clientsRepository.deleteClient(id);
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    public void deleteClient(int id) throws SQLException {
+        clientsRepository.deleteClient(id);
     }
 }

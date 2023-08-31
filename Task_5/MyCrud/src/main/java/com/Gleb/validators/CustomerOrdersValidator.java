@@ -7,28 +7,20 @@ import java.sql.Date;
 
 public class CustomerOrdersValidator implements Validator {
 
-    public boolean validateForAdd(CustomerOrder customerOrder) {
-        try {
-            if (customerOrder.getClientId() < 0) { throw new Exception(); }
-            if (customerOrder.getCarId() < 0) { throw new Exception(); }
-            Date.valueOf(customerOrder.getOrderDate()); // проверка ввода из json
-        } catch ( Exception e) {
-            return false;
-        }
-
-        return true;
+    @Override
+    public void validateAddParam(Object entity) throws Exception {
+        CustomerOrder customerOrder = (CustomerOrder) entity;
+        if (customerOrder.getClientId() < 0) { throw new Exception(); }
+        if (customerOrder.getCarId() < 0) { throw new Exception(); }
+        Date.valueOf(customerOrder.getOrderDate()); // проверка ввода из json
     }
 
-    public boolean validateForUpdate(CustomerOrder customerOrder) {
-        try {
-            if (customerOrder.getId() < 0) { throw new Exception(); }
-            if (customerOrder.getClientId() < 0) { throw new Exception(); }
-            if (customerOrder.getCarId() < 0) { throw new Exception(); }
-            Date.valueOf(customerOrder.getOrderDate()); // проверка ввода из json
-        } catch ( Exception e) {
-            return false;
-        }
-
-        return true;
+    @Override
+    public void validateUpdateParam(Object entity) throws Exception {
+        CustomerOrder customerOrder = (CustomerOrder) entity;
+        if (customerOrder.getId() < 0) { throw new Exception(); }
+        if (customerOrder.getClientId() < 0) { throw new Exception(); }
+        if (customerOrder.getCarId() < 0) { throw new Exception(); }
+        Date.valueOf(customerOrder.getOrderDate()); // проверка ввода из json
     }
 }

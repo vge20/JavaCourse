@@ -3,6 +3,8 @@ package com.Gleb.services;
 import com.Gleb.entities.Car;
 import com.Gleb.repositories.CarsRepository;
 
+import java.sql.SQLException;
+
 public class CarsService {
 
     private CarsRepository carsRepository;
@@ -11,44 +13,19 @@ public class CarsService {
         this.carsRepository = new CarsRepository();
     }
 
-    public Car getCar(int id) {
-        Car car;
-        try {
-            car = carsRepository.getCarById(id);
-        } catch (Exception e) {
-            return null;
-        }
-
-        return car;
+    public Car getCar(int id) throws Exception {
+        return carsRepository.getCarById(id);
     }
 
-    public boolean addCar(Car car) {
-        try {
-            carsRepository.addCar(car);
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    public void addCar(Car car) throws SQLException {
+        carsRepository.addCar(car);
     }
 
-    public boolean updateCar(Car car) {
-        try {
-            carsRepository.updateCar(car);
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    public void updateCar(Car car) throws SQLException {
+        carsRepository.updateCar(car);
     }
 
-    public boolean deleteCar(int id) {
-        try {
-            carsRepository.deleteCar(id);
-        } catch (Exception e) {
-            return false;
-        }
-
-        return true;
+    public void deleteCar(int id) throws Exception {
+        carsRepository.deleteCar(id);
     }
 }
