@@ -41,7 +41,7 @@ public class ClientsController extends HttpServlet {
             return;
         }
 
-        if (!Validator.validateId(id)) {
+        if (!clientsValidator.validateId(id)) {
             resp.setStatus(400);
             return;
         }
@@ -137,7 +137,7 @@ public class ClientsController extends HttpServlet {
             return;
         }
 
-        if (!Validator.validateId(id)) {
+        if (!clientsValidator.validateId(id)) {
             resp.setStatus(400);
             return;
         }

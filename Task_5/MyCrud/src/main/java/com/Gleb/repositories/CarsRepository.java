@@ -3,21 +3,35 @@ package com.Gleb.repositories;
 import com.Gleb.entities.Car;
 import com.Gleb.DBConnection;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
-public class CarsRepository {
+public class CarsRepository implements Repository {
+
+    private PreparedStatement createStatement(Car car, boolean isUpdate) throws SQLException {
+        PreparedStatement statement;
+        if (isUpdate) {
+            statement = DBConnection.getConnection().prepareStatement(
+                    "update cars set brand = ?, color = ?, engine_capacity = ?, " +
+                            "manufacture_date = ?, price = ? where id = ?");
+            statement.setInt(6, car.getId());
+        }
+        else {
+            statement = DBConnection.getConnection().prepareStatement(
+                    "insert into cars (brand, color, engine_capacity, manufacture_date, price) "
+                    + "values (?, ?, ?, ?, ?)");
+        }
+        statement.setString(1, car.getBrand());
+        statement.setString(2, car.getColor());
+        statement.setDouble(3, car.getEngineCapacity());
+        statement.setDate(4, Date.valueOf(car.getManufactureDate()));
+        statement.setInt(5, car.getPrice());
+
+        return statement;
+    }
 
     public Car getCarById(int id) throws Exception {
         Car car = new Car();
-        Statement statement = null;
-        ResultSet queryRes = null;
-
-        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
-        queryRes = statement.executeQuery("select * from cars c where c.id = " + id);
+        ResultSet queryRes = this.getEntityById("cars", id);
 
         if (queryRes.next()) {
             car.setId(queryRes.getInt("id"));
@@ -32,43 +46,19 @@ public class CarsRepository {
         }
 
         if (queryRes != null) { queryRes.close(); }
-            if (statement != null) { statement.close(); }
 
         return car;
     }
 
     public void addCar(Car car) throws SQLException {
-        Statement statement = null;
-        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
-        statement.execute("insert into cars (brand, color, engine_capacity, manufacture_date, price) "
-                    + "values ('" + car.getBrand() + "', '" + car.getColor()
-                    + "', " + car.getEngineCapacity() + ", '" + car.getManufactureDate()
-                    + "', " + car.getPrice() + ")");
-
-        if (statement != null) { statement.close(); }
+        this.executeUpdateTable(this.createStatement(car, false));
     }
 
     public void updateCar(Car car) throws SQLException {
-        Statement statement = null;
-        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
-        statement.execute("update cars set brand = '" + car.getBrand() + "', color = '" +
-                    car.getColor() + "', engine_capacity = " + car.getEngineCapacity() + ", manufacture_date = '" +
-                    car.getManufactureDate() + "', price = " + car.getPrice() + " where id = " + car.getId());
-
-        if (statement != null) { statement.close(); }
+        this.executeUpdateTable(this.createStatement(car, true));
     }
 
     public void deleteCar(int id) throws SQLException {
-        Statement statement = null;
-        statement = DBConnection.getConnection().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-
-        statement.execute("delete from cars where id = " + id);
-
-        if (statement != null) { statement.close(); }
+        this.deleteEntityById("cars", id);
     }
 }

@@ -41,7 +41,7 @@ public class CarsController extends HttpServlet {
             return;
         }
 
-        if (!Validator.validateId(id)) {
+        if (!carsValidator.validateId(id)) {
             resp.setStatus(400);
             return;
         }
@@ -137,7 +137,7 @@ public class CarsController extends HttpServlet {
             return;
         }
 
-        if (!Validator.validateId(id)) {
+        if (!carsValidator.validateId(id)) {
             resp.setStatus(400);
             return;
         }
