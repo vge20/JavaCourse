@@ -1,6 +1,7 @@
 package com.Gleb.controllers;
 
 import com.Gleb.RequestParser;
+import com.Gleb.converters.Converter;
 import com.Gleb.converters.CustomerOrdersConverter;
 import com.Gleb.entities.CustomerOrder;
 import com.Gleb.services.CustomerOrdersService;
@@ -21,7 +22,7 @@ public class CustomerOrdersController extends HttpServlet {
 
     private RequestParser requestParser;
 
-    private CustomerOrdersConverter customerOrdersConverter;
+    private Converter<CustomerOrder> customerOrdersConverter;
 
     private CustomerOrdersValidator customerOrdersValidator;
 

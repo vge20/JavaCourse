@@ -1,10 +1,11 @@
 package com.Gleb.converters;
 
+import com.Gleb.entities.Car;
 import com.Gleb.entities.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ClientsConverter {
+public class ClientsConverter implements Converter{
 
     ObjectMapper objectMapper;
 
@@ -12,25 +13,14 @@ public class ClientsConverter {
         objectMapper = new ObjectMapper();
     }
 
-    public Client convertFromJson(String string) {
-        Client client;
-        try {
-            client = objectMapper.readValue(string, Client.class);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
 
-        return client;
+    @Override
+    public Object getValueFromJson(String string) throws JsonProcessingException {
+        return objectMapper.readValue(string, Client.class);
     }
 
-    public String convertToJson(Client client) {
-        String jsonClient;
-        try {
-            jsonClient = objectMapper.writeValueAsString(client);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-
-        return jsonClient;
+    @Override
+    public String getJsonFromObject(Object object) throws JsonProcessingException {
+        return objectMapper.writeValueAsString((Client) object);
     }
 }

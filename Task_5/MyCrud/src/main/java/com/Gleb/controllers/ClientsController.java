@@ -2,6 +2,7 @@ package com.Gleb.controllers;
 
 import com.Gleb.RequestParser;
 import com.Gleb.converters.ClientsConverter;
+import com.Gleb.converters.Converter;
 import com.Gleb.entities.Client;
 import com.Gleb.services.ClientsService;
 import com.Gleb.validators.ClientsValidator;
@@ -17,7 +18,7 @@ import java.io.PrintWriter;
 @WebServlet("/clients")
 public class ClientsController extends HttpServlet {
 
-    private ClientsConverter clientsConverter;
+    private Converter<Client> clientsConverter;
 
     private RequestParser requestParser;
 

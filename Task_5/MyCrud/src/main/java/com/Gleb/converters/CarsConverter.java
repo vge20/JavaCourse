@@ -4,7 +4,7 @@ import com.Gleb.entities.Car;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CarsConverter {
+public class CarsConverter implements Converter{
 
     ObjectMapper objectMapper;
 
@@ -12,25 +12,13 @@ public class CarsConverter {
         objectMapper = new ObjectMapper();
     }
 
-    public Car convertFromJson(String string) {
-        Car car;
-        try {
-            car = objectMapper.readValue(string, Car.class);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-
-        return car;
+    @Override
+    public Object getValueFromJson(String string) throws JsonProcessingException {
+        return objectMapper.readValue(string, Car.class);
     }
 
-    public String convertToJson(Car car) {
-        String jsonClient;
-        try {
-            jsonClient = objectMapper.writeValueAsString(car);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-
-        return jsonClient;
+    @Override
+    public String getJsonFromObject(Object object) throws JsonProcessingException {
+        return objectMapper.writeValueAsString((Car) object);
     }
 }

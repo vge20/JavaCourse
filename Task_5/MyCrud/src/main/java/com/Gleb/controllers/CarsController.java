@@ -2,6 +2,7 @@ package com.Gleb.controllers;
 
 import com.Gleb.RequestParser;
 import com.Gleb.converters.CarsConverter;
+import com.Gleb.converters.Converter;
 import com.Gleb.entities.Car;
 import com.Gleb.services.CarsService;
 import com.Gleb.validators.CarsValidator;
@@ -21,7 +22,7 @@ public class CarsController extends HttpServlet {
 
     private RequestParser requestParser;
 
-    private CarsConverter carsConverter;
+    private Converter<Car> carsConverter;
 
     private CarsValidator carsValidator;
 
