@@ -1,12 +1,10 @@
 package com.Gleb.controllers;
 
 import com.Gleb.RequestParser;
-import com.Gleb.converters.CarsConverter;
+import com.Gleb.containers.CarsDIContainer;
 import com.Gleb.converters.Converter;
 import com.Gleb.entities.Car;
-import com.Gleb.services.CarsService;
 import com.Gleb.services.Service;
-import com.Gleb.validators.CarsValidator;
 import com.Gleb.validators.Validator;
 
 import javax.servlet.annotation.WebServlet;
@@ -26,10 +24,11 @@ public class CarsController extends HttpServlet implements Controller {
     private Validator carsValidator;
 
     public CarsController() {
-        this.requestParser = new RequestParser();
-        this.carsService = new CarsService();
-        this.carsConverter = new CarsConverter();
-        this.carsValidator = new CarsValidator();
+        CarsDIContainer carsDIContainer = new CarsDIContainer();
+        this.carsService = carsDIContainer.getCarsService();
+        this.requestParser = carsDIContainer.getRequestParser();
+        this.carsValidator = carsDIContainer.getCarsValidator();
+        this.carsConverter = carsDIContainer.getCarsConverter();
     }
 
     @Override

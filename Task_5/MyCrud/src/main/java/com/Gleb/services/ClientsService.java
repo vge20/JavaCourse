@@ -2,16 +2,13 @@ package com.Gleb.services;
 
 import com.Gleb.entities.Client;
 import com.Gleb.exceptions.WorkingWithDBException;
-import com.Gleb.repositories.ClientsRepository;
 import com.Gleb.repositories.Repository;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class ClientsService implements Service {
 
     private Repository<Client> clientsRepository;
-
-    public ClientsService() {
-        this.clientsRepository = new ClientsRepository();
-    }
 
     @Override
     public Object get(int id) throws WorkingWithDBException {

@@ -1,12 +1,10 @@
 package com.Gleb.controllers;
 
 import com.Gleb.RequestParser;
+import com.Gleb.containers.CustomerOrdersDIContainer;
 import com.Gleb.converters.Converter;
-import com.Gleb.converters.CustomerOrdersConverter;
 import com.Gleb.entities.CustomerOrder;
-import com.Gleb.services.CustomerOrdersService;
 import com.Gleb.services.Service;
-import com.Gleb.validators.CustomerOrdersValidator;
 import com.Gleb.validators.Validator;
 
 import javax.servlet.annotation.WebServlet;
@@ -26,10 +24,11 @@ public class CustomerOrdersController extends HttpServlet implements Controller 
     private Validator customerOrdersValidator;
 
     public CustomerOrdersController() {
-        this.customerOrdersService = new CustomerOrdersService();
-        this.requestParser = new RequestParser();
-        this.customerOrdersConverter = new CustomerOrdersConverter();
-        this.customerOrdersValidator = new CustomerOrdersValidator();
+        CustomerOrdersDIContainer customerOrdersDIContainer = new CustomerOrdersDIContainer();
+        this.customerOrdersService = customerOrdersDIContainer.getCustomerOrdersService();
+        this.requestParser = customerOrdersDIContainer.getRequestParser();
+        this.customerOrdersConverter = customerOrdersDIContainer.getCustomerOrdersConverter();
+        this.customerOrdersValidator = customerOrdersDIContainer.getCustomerOrdersValidator();
     }
 
     @Override

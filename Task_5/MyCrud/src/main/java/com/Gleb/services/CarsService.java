@@ -2,16 +2,13 @@ package com.Gleb.services;
 
 import com.Gleb.entities.Car;
 import com.Gleb.exceptions.WorkingWithDBException;
-import com.Gleb.repositories.CarsRepository;
 import com.Gleb.repositories.Repository;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class CarsService implements Service {
 
     private Repository<Car> carsRepository;
-
-    public CarsService() {
-        this.carsRepository = new CarsRepository();
-    }
 
     @Override
     public Object get(int id) throws WorkingWithDBException {

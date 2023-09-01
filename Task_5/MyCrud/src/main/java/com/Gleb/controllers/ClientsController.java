@@ -1,12 +1,10 @@
 package com.Gleb.controllers;
 
 import com.Gleb.RequestParser;
-import com.Gleb.converters.ClientsConverter;
+import com.Gleb.containers.ClientsDIContainer;
 import com.Gleb.converters.Converter;
 import com.Gleb.entities.Client;
-import com.Gleb.services.ClientsService;
 import com.Gleb.services.Service;
-import com.Gleb.validators.ClientsValidator;
 import com.Gleb.validators.Validator;
 
 import javax.servlet.annotation.WebServlet;
@@ -26,10 +24,11 @@ public class ClientsController extends HttpServlet implements Controller {
     private Service<Client> clientsService;
 
     public ClientsController() {
-        this.clientsConverter = new ClientsConverter();
-        this.requestParser = new RequestParser();
-        this.clientsValidator = new ClientsValidator();
-        this.clientsService = new ClientsService();
+        ClientsDIContainer clientsDIContainer = new ClientsDIContainer();
+        this.clientsConverter = clientsDIContainer.getClientsConverter();
+        this.requestParser = clientsDIContainer.getRequestParser();
+        this.clientsValidator = clientsDIContainer.getClientsValidator();
+        this.clientsService = clientsDIContainer.getClientsService();
     }
 
     @Override
