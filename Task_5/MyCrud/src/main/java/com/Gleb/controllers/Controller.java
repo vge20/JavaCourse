@@ -16,6 +16,20 @@ import java.io.PrintWriter;
 
 public interface Controller {
 
+    default void writeResponseMessage(String message, HttpServletResponse resp) {
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
+        PrintWriter out = null;
+        try {
+            out = resp.getWriter();
+        } catch (IOException e) {
+            resp.setStatus(500);
+        }
+        out.print(String.format("\"Message\":\"%s\"", message));
+        out.flush();
+    }
+
     default void handleGet(HttpServletRequest req, HttpServletResponse resp, Service service,
                            Converter converter, Validator validator, RequestParser requestParser) {
         try {
@@ -27,29 +41,33 @@ public interface Controller {
 
             String jsonEntity = converter.convertToJson(entity);
 
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
+            this.writeResponseMessage(jsonEntity, resp);
 
-            PrintWriter out;
-            out = resp.getWriter();
-            out.print(jsonEntity);
-            out.flush();
-
-            resp.setStatus(200);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(200);
+            }
         }
         catch (WorkingWithDBException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            resp.setStatus(500);
         }
         catch (ValidationException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
         catch (ParsingException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
         catch (ConversionException e) {
-            // обработка
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
     }
 
@@ -67,16 +85,26 @@ public interface Controller {
             resp.setStatus(201);
         }
         catch (WorkingWithDBException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            resp.setStatus(500);
         }
         catch (ValidationException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
         catch (ParsingException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
         catch (ConversionException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
     }
 
@@ -94,16 +122,26 @@ public interface Controller {
             resp.setStatus(204);
         }
         catch (WorkingWithDBException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            resp.setStatus(500);
         }
         catch (ValidationException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
         catch (ParsingException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
         catch (ConversionException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
     }
 
@@ -119,13 +157,20 @@ public interface Controller {
             resp.setStatus(204);
         }
         catch (WorkingWithDBException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            resp.setStatus(500);
         }
         catch (ValidationException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
         catch (ParsingException e) {
-            // обработка
+            this.writeResponseMessage(e.getMessage(), resp);
+            if (resp.getStatus() != 500) {
+                resp.setStatus(400);
+            }
         }
     }
 }
