@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/customer_orders")
-public class CustomerOrdersController extends HttpServlet {
+public class CustomerOrdersController extends HttpServlet implements Controller {
 
     private CustomerOrdersService customerOrdersService;
 
@@ -34,119 +34,24 @@ public class CustomerOrdersController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-
-        Integer id = requestParser.getId(req);
-        if (id == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!customerOrdersValidator.validateId(id)) {
-            resp.setStatus(400);
-            return;
-        }
-
-        CustomerOrder customerOrder = customerOrdersService.getCustomerOrder(id);
-        if (customerOrder == null) {
-            resp.setStatus(500);
-            return;
-        }
-
-        String jsonCustomerOrder = customerOrdersConverter.convertToJson(customerOrder);
-        if (jsonCustomerOrder == null) {
-            resp.setStatus(500);
-            return;
-        }
-
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter out;
-        try {
-            out = resp.getWriter();
-        } catch (IOException e) {
-            resp.setStatus(500);
-            return;
-        }
-        out.print(jsonCustomerOrder);
-        out.flush();
-        resp.setStatus(200);
+        this.handleGet(req, resp, customerOrdersService, customerOrdersConverter,
+                customerOrdersValidator, requestParser);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-
-        String reqBody = requestParser.getRequestBody(req);
-        if (reqBody == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        CustomerOrder customerOrder = customerOrdersConverter.convertFromJson(reqBody);
-        if (customerOrder == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!customerOrdersValidator.validateForAdd(customerOrder)) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!customerOrdersService.addCustomerOrder(customerOrder)) {
-            resp.setStatus(500);
-            return;
-        }
-
-        resp.setStatus(201);
+        this.handlePost(req, resp, customerOrdersService, customerOrdersConverter,
+                customerOrdersValidator, requestParser);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
-
-        String reqBody = requestParser.getRequestBody(req);
-        if (reqBody == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        CustomerOrder customerOrder = customerOrdersConverter.convertFromJson(reqBody);
-        if (customerOrder == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!customerOrdersValidator.validateForUpdate(customerOrder)) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!customerOrdersService.updateCustomerOrder(customerOrder)) {
-            resp.setStatus(500);
-            return;
-        }
-
-        resp.setStatus(204);
+        this.handlePut(req, resp, customerOrdersService, customerOrdersConverter,
+                customerOrdersValidator, requestParser);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-
-        Integer id = requestParser.getId(req);
-        if (id == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!customerOrdersValidator.validateId(id)) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!customerOrdersService.deleteCustomerOrder(id)) {
-            resp.setStatus(500);
-            return;
-        }
-
-        resp.setStatus(204);
+        this.handleDelete(req, resp, customerOrdersService, customerOrdersValidator, requestParser);
     }
 }

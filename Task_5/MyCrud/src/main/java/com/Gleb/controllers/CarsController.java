@@ -5,6 +5,7 @@ import com.Gleb.converters.CarsConverter;
 import com.Gleb.converters.Converter;
 import com.Gleb.entities.Car;
 import com.Gleb.services.CarsService;
+import com.Gleb.services.Service;
 import com.Gleb.validators.CarsValidator;
 import com.Gleb.validators.Validator;
 
@@ -16,9 +17,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/cars")
-public class CarsController extends HttpServlet {
+public class CarsController extends HttpServlet implements Controller {
 
-    private CarsService carsService;
+    private Service<Car> carsService;
 
     private RequestParser requestParser;
 
@@ -35,119 +36,21 @@ public class CarsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-
-        Integer id = requestParser.getId(req);
-        if (id == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!carsValidator.validateId(id)) {
-            resp.setStatus(400);
-            return;
-        }
-
-        Car car = carsService.getCar(id);
-        if (car == null) {
-            resp.setStatus(500);
-            return;
-        }
-
-        String jsonCar = carsConverter.convertToJson(car);
-        if (jsonCar == null) {
-            resp.setStatus(500);
-            return;
-        }
-
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter out;
-        try {
-            out = resp.getWriter();
-        } catch (IOException e) {
-            resp.setStatus(500);
-            return;
-        }
-        out.print(jsonCar);
-        out.flush();
-        resp.setStatus(200);
+        this.handleGet(req, resp, carsService, carsConverter, carsValidator, requestParser);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-
-        String reqBody = requestParser.getRequestBody(req);
-        if (reqBody == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        Car car = carsConverter.convertFromJson(reqBody);
-        if (car == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!carsValidator.validateForAdd(car)) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!carsService.addCar(car)) {
-            resp.setStatus(500);
-            return;
-        }
-
-        resp.setStatus(201);
+        this.handlePost(req, resp, carsService, carsConverter, carsValidator, requestParser);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
-
-        String reqBody = requestParser.getRequestBody(req);
-        if (reqBody == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        Car car = carsConverter.convertFromJson(reqBody);
-        if (car == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!carsValidator.validateForUpdate(car)) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!carsService.updateCar(car)) {
-            resp.setStatus(500);
-            return;
-        }
-
-        resp.setStatus(204);
+        this.handlePut(req, resp, carsService, carsConverter, carsValidator, requestParser);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-
-        Integer id = requestParser.getId(req);
-        if (id == null) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!carsValidator.validateId(id)) {
-            resp.setStatus(400);
-            return;
-        }
-
-        if (!carsService.deleteCar(id)) {
-            resp.setStatus(500);
-            return;
-        }
-
-        resp.setStatus(204);
+        this.handleDelete(req, resp, carsService, carsValidator, requestParser);
     }
 }
