@@ -5,25 +5,25 @@ import com.Gleb.converters.Converter;
 import com.Gleb.converters.CustomerOrdersConverter;
 import com.Gleb.entities.CustomerOrder;
 import com.Gleb.services.CustomerOrdersService;
+import com.Gleb.services.Service;
 import com.Gleb.validators.CustomerOrdersValidator;
+import com.Gleb.validators.Validator;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet("/customer_orders")
 public class CustomerOrdersController extends HttpServlet implements Controller {
 
-    private CustomerOrdersService customerOrdersService;
+    private Service<CustomerOrder> customerOrdersService;
 
     private RequestParser requestParser;
 
     private Converter<CustomerOrder> customerOrdersConverter;
 
-    private CustomerOrdersValidator customerOrdersValidator;
+    private Validator customerOrdersValidator;
 
     public CustomerOrdersController() {
         this.customerOrdersService = new CustomerOrdersService();

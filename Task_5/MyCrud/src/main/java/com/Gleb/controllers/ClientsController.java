@@ -5,14 +5,14 @@ import com.Gleb.converters.ClientsConverter;
 import com.Gleb.converters.Converter;
 import com.Gleb.entities.Client;
 import com.Gleb.services.ClientsService;
+import com.Gleb.services.Service;
 import com.Gleb.validators.ClientsValidator;
+import com.Gleb.validators.Validator;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet("/clients")
 public class ClientsController extends HttpServlet implements Controller {
@@ -21,9 +21,9 @@ public class ClientsController extends HttpServlet implements Controller {
 
     private RequestParser requestParser;
 
-    private ClientsValidator clientsValidator;
+    private Validator clientsValidator;
 
-    private ClientsService clientsService;
+    private Service<Client> clientsService;
 
     public ClientsController() {
         this.clientsConverter = new ClientsConverter();
