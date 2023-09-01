@@ -24,7 +24,7 @@ public class CarsController extends HttpServlet {
 
     private Converter<Car> carsConverter;
 
-    private CarsValidator carsValidator;
+    private Validator carsValidator;
 
     public CarsController() {
         this.requestParser = new RequestParser();

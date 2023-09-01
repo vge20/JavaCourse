@@ -2,8 +2,6 @@ package com.Gleb.validators;
 
 import com.Gleb.entities.Car;
 
-import java.sql.Date;
-
 public class CarsValidator implements Validator {
 
     @Override

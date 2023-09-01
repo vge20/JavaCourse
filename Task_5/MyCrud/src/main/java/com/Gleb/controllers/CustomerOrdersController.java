@@ -6,7 +6,6 @@ import com.Gleb.converters.CustomerOrdersConverter;
 import com.Gleb.entities.CustomerOrder;
 import com.Gleb.services.CustomerOrdersService;
 import com.Gleb.validators.CustomerOrdersValidator;
-import com.Gleb.validators.Validator;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

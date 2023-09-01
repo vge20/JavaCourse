@@ -1,6 +1,5 @@
 package com.Gleb.repositories;
 
-import com.Gleb.entities.Car;
 import com.Gleb.entities.Client;
 import com.Gleb.DBConnection;
 

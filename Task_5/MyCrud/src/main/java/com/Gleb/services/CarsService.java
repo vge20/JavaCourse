@@ -6,7 +6,7 @@ import com.Gleb.repositories.Repository;
 
 import java.sql.SQLException;
 
-public class CarsService {
+public class CarsService implements Service {
 
     private Repository<Car> carsRepository;
 
@@ -14,19 +14,23 @@ public class CarsService {
         this.carsRepository = new CarsRepository();
     }
 
-    public Car getCar(int id) throws Exception {
+    @Override
+    public Object get(int id) throws Exception {
         return carsRepository.getById(id);
     }
 
-    public void addCar(Car car) throws SQLException {
-        carsRepository.add(car);
+    @Override
+    public void add(Object entity) throws SQLException {
+        carsRepository.add((Car) entity);
     }
 
-    public void updateCar(Car car) throws SQLException {
-        carsRepository.update(car);
+    @Override
+    public void update(Object entity) throws SQLException {
+        carsRepository.update((Car) entity);
     }
 
-    public void deleteCar(int id) throws Exception {
+    @Override
+    public void delete(int id) throws SQLException {
         carsRepository.delete(id);
     }
 }

@@ -6,7 +6,6 @@ import com.Gleb.converters.Converter;
 import com.Gleb.entities.Client;
 import com.Gleb.services.ClientsService;
 import com.Gleb.validators.ClientsValidator;
-import com.Gleb.validators.Validator;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
