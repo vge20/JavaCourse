@@ -2,6 +2,9 @@ package com.Gleb.controllers;
 
 import com.Gleb.RequestParser;
 import com.Gleb.converters.Converter;
+import com.Gleb.exceptions.ConversionException;
+import com.Gleb.exceptions.ParsingException;
+import com.Gleb.exceptions.ValidationException;
 import com.Gleb.services.Service;
 import com.Gleb.validators.Validator;
 
@@ -15,15 +18,8 @@ public interface Controller {
                            Converter converter, Validator validator, RequestParser requestParser) {
         try {
             Integer id = requestParser.getId(req);
-            if (id == null) {
-                resp.setStatus(400);
-                return;
-            }
 
-            if (!validator.validateId(id)) {
-                resp.setStatus(400);
-                return;
-            }
+            validator.validateId(id);
 
             Object entity = service.get(id);
             if (entity == null) {
@@ -32,10 +28,6 @@ public interface Controller {
             }
 
             String jsonEntity = converter.convertToJson(entity);
-            if (jsonEntity == null) {
-                resp.setStatus(500);
-                return;
-            }
 
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
@@ -47,6 +39,15 @@ public interface Controller {
 
             resp.setStatus(200);
         }
+        catch (ValidationException e) {
+            // обработка
+        }
+        catch (ParsingException e) {
+            // обработка
+        }
+        catch (ConversionException e) {
+            // обработка
+        }
         catch (Exception e) {
             // обработка всех видов ошибок из домена
         }
@@ -56,21 +57,10 @@ public interface Controller {
                             Converter converter, Validator validator, RequestParser requestParser) {
         try {
             String reqBody = requestParser.getRequestBody(req);
-            if (reqBody == null) {
-                resp.setStatus(400);
-                return;
-            }
 
             Object entity = converter.convertFromJson(reqBody);
-            if (entity == null) {
-                resp.setStatus(400);
-                return;
-            }
 
-            if (!validator.validateForAdd(entity)) {
-                resp.setStatus(400);
-                return;
-            }
+            validator.validateForAdd(entity);
 
             if (!service.add(entity)) {
                 resp.setStatus(500);
@@ -78,6 +68,15 @@ public interface Controller {
             }
 
             resp.setStatus(201);
+        }
+        catch (ValidationException e) {
+            // обработка
+        }
+        catch (ParsingException e) {
+            // обработка
+        }
+        catch (ConversionException e) {
+            // обработка
         }
         catch (Exception e) {
             // обработка всех видов ошибок из домена
@@ -88,21 +87,10 @@ public interface Controller {
                            Converter converter, Validator validator, RequestParser requestParser) {
         try {
             String reqBody = requestParser.getRequestBody(req);
-            if (reqBody == null) {
-                resp.setStatus(400);
-                return;
-            }
 
             Object entity = converter.convertFromJson(reqBody);
-            if (entity == null) {
-                resp.setStatus(400);
-                return;
-            }
 
-            if (!validator.validateForUpdate(entity)) {
-                resp.setStatus(400);
-                return;
-            }
+            validator.validateForUpdate(entity);
 
             if (!service.update(entity)) {
                 resp.setStatus(500);
@@ -110,6 +98,15 @@ public interface Controller {
             }
 
             resp.setStatus(204);
+        }
+        catch (ValidationException e) {
+            // обработка
+        }
+        catch (ParsingException e) {
+            // обработка
+        }
+        catch (ConversionException e) {
+            // обработка
         }
         catch (Exception e) {
             // обработка всех видов ошибок из домена
@@ -120,15 +117,8 @@ public interface Controller {
                               Validator validator, RequestParser requestParser) {
         try {
             Integer id = requestParser.getId(req);
-            if (id == null) {
-                resp.setStatus(400);
-                return;
-            }
 
-            if (!validator.validateId(id)) {
-                resp.setStatus(400);
-                return;
-            }
+            validator.validateId(id);
 
             if (!service.delete(id)) {
                 resp.setStatus(500);
@@ -136,6 +126,12 @@ public interface Controller {
             }
 
             resp.setStatus(204);
+        }
+        catch (ValidationException e) {
+            // обработка
+        }
+        catch (ParsingException e) {
+            // обработка
         }
         catch (Exception e) {
             // обработка всех видов ошибок из домена

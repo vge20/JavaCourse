@@ -2,35 +2,32 @@ package com.Gleb.validators;
 
 import com.Gleb.entities.Client;
 import com.Gleb.entities.CustomerOrder;
+import com.Gleb.exceptions.ValidationException;
 
 import java.sql.Date;
 
 public interface Validator {
 
-    default boolean validateId(int id) {
-        if (id < 0) { return false; }
-
-        return true;
+    default void validateId(int id) throws ValidationException {
+        if (id < 0) {
+            throw new ValidationException();
+        }
     }
 
-    default boolean validateForAdd(Object entity) {
+    default void validateForAdd(Object entity) throws ValidationException {
         try {
             this.validateAddParam(entity);
         } catch ( Exception e) {
-            return false; // тут добавить выброс своего исключения и сделать войд
+            throw new ValidationException();
         }
-
-        return true;
     }
 
-    default boolean validateForUpdate(Object entity) {
+    default void validateForUpdate(Object entity) throws ValidationException {
         try {
             this.validateUpdateParam(entity);
         } catch ( Exception e) {
-            return false;
+            throw new ValidationException();
         }
-
-        return true;
     }
     void validateAddParam(Object entity) throws Exception;
 

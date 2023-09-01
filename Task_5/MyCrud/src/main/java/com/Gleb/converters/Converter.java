@@ -1,26 +1,27 @@
 package com.Gleb.converters;
 
+import com.Gleb.exceptions.ConversionException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface Converter<T> {
 
-    default T convertFromJson(String string) {
+    default T convertFromJson(String string) throws ConversionException {
         Object object;
         try {
             object = this.getValueFromJson(string);
         } catch (JsonProcessingException e) {
-            return null;
+            throw new ConversionException();
         }
 
         return (T) object;
     }
 
-    default String convertToJson(Object object) {
+    default String convertToJson(Object object) throws ConversionException {
         String jsonClient;
         try {
             jsonClient = this.getJsonFromObject(object);
         } catch (JsonProcessingException e) {
-            return null;
+            throw new ConversionException();
         }
 
         return jsonClient;

@@ -1,10 +1,9 @@
 package com.Gleb.services;
 
 import com.Gleb.entities.CustomerOrder;
+import com.Gleb.exceptions.WorkingWithDBException;
 import com.Gleb.repositories.CustomerOrdersRepository;
 import com.Gleb.repositories.Repository;
-
-import java.sql.SQLException;
 
 public class CustomerOrdersService implements Service {
 
@@ -15,22 +14,42 @@ public class CustomerOrdersService implements Service {
     }
 
     @Override
-    public Object get(int id) throws Exception {
-        return customerOrdersRepository.getById(id);
+    public Object get(int id) throws WorkingWithDBException {
+        try {
+            return customerOrdersRepository.getById(id);
+        }
+        catch (Exception e) {
+            throw new WorkingWithDBException();
+        }
     }
 
     @Override
-    public void add(Object entity) throws SQLException {
-        customerOrdersRepository.add((CustomerOrder) entity);
+    public void add(Object entity) throws WorkingWithDBException {
+        try {
+            customerOrdersRepository.add((CustomerOrder) entity);
+        }
+        catch (Exception e) {
+            throw new WorkingWithDBException();
+        }
     }
 
     @Override
-    public void update(Object entity) throws SQLException {
-        customerOrdersRepository.update((CustomerOrder) entity);
+    public void update(Object entity) throws WorkingWithDBException {
+        try {
+            customerOrdersRepository.update((CustomerOrder) entity);
+        }
+        catch (Exception e) {
+            throw new WorkingWithDBException();
+        }
     }
 
     @Override
-    public void delete(int id) throws SQLException {
-        customerOrdersRepository.delete(id);
+    public void delete(int id) throws WorkingWithDBException {
+        try {
+            customerOrdersRepository.delete(id);
+        }
+        catch (Exception e) {
+            throw new WorkingWithDBException();
+        }
     }
 }

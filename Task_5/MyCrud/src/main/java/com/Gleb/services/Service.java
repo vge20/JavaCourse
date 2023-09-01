@@ -1,14 +1,14 @@
 package com.Gleb.services;
 
-import java.sql.SQLException;
+import com.Gleb.exceptions.WorkingWithDBException;
 
 public interface Service<T> {
 
-    T get(int id) throws Exception;
+    T get(int id) throws WorkingWithDBException;
 
-    void add(T entity) throws SQLException;
+    void add(T entity) throws WorkingWithDBException;
 
-    void update(T entity) throws SQLException;
+    void update(T entity) throws WorkingWithDBException;
 
-    void delete(int id) throws SQLException;
+    void delete(int id) throws WorkingWithDBException;
 }
