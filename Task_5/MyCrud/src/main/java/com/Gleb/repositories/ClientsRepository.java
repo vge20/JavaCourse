@@ -21,12 +21,13 @@ public class ClientsRepository implements Repository {
         }
         statement.setString(1, client.getFullName());
         statement.setDate(2, Date.valueOf(client.getDateBirth()));
-        statement.setBoolean(3, client.getGender());
+        statement.setBoolean(3, client.isGender());
 
         return statement;
     }
 
-    public Client getClientById(int id) throws Exception {
+    @Override
+    public Object getById(int id) throws Exception {
         Client client = new Client();
         ResultSet queryRes = this.getEntityById("clients", id);
 
@@ -45,15 +46,18 @@ public class ClientsRepository implements Repository {
         return client;
     }
 
-    public void addClient(Client client) throws SQLException {
-        this.executeUpdateTable(this.createStatement(client, false));
+    @Override
+    public void add(Object entity) throws SQLException {
+        this.executeUpdateTable(this.createStatement((Client) entity, false));
     }
 
-    public void updateClient(Client client) throws SQLException {
-        this.executeUpdateTable(this.createStatement(client, true));
+    @Override
+    public void update(Object entity) throws SQLException {
+        this.executeUpdateTable(this.createStatement((Client) entity, true));
     }
 
-    public void deleteClient(int id) throws SQLException {
+    @Override
+    public void delete(int id) throws SQLException {
         this.deleteEntityById("clients", id);
     }
- }
+}

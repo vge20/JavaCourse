@@ -2,30 +2,31 @@ package com.Gleb.services;
 
 import com.Gleb.entities.Car;
 import com.Gleb.repositories.CarsRepository;
+import com.Gleb.repositories.Repository;
 
 import java.sql.SQLException;
 
 public class CarsService {
 
-    private CarsRepository carsRepository;
+    private Repository<Car> carsRepository;
 
     public CarsService() {
         this.carsRepository = new CarsRepository();
     }
 
     public Car getCar(int id) throws Exception {
-        return carsRepository.getCarById(id);
+        return carsRepository.getById(id);
     }
 
     public void addCar(Car car) throws SQLException {
-        carsRepository.addCar(car);
+        carsRepository.add(car);
     }
 
     public void updateCar(Car car) throws SQLException {
-        carsRepository.updateCar(car);
+        carsRepository.update(car);
     }
 
     public void deleteCar(int id) throws Exception {
-        carsRepository.deleteCar(id);
+        carsRepository.delete(id);
     }
 }

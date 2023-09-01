@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface Repository {
+public interface Repository<T> {
 
     default ResultSet getEntityById(String entity, int id) throws SQLException {
         PreparedStatement statement;
@@ -34,4 +34,12 @@ public interface Repository {
         statement.execute();
         if (statement != null) { statement.close(); }
     }
+
+    T getById(int id) throws Exception;
+
+    void add(T entity) throws SQLException;
+
+    void update(T entity) throws SQLException;
+
+    void delete(int id) throws SQLException;
 }

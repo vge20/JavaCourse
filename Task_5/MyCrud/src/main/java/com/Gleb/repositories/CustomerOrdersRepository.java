@@ -25,7 +25,8 @@ public class CustomerOrdersRepository implements Repository {
         return statement;
     }
 
-    public CustomerOrder getCustomerOrderById(int id) throws Exception {
+    @Override
+    public Object getById(int id) throws Exception {
         CustomerOrder customerOrder = new CustomerOrder();
         ResultSet queryRes = this.getEntityById("customer_orders", id);
 
@@ -44,15 +45,18 @@ public class CustomerOrdersRepository implements Repository {
         return customerOrder;
     }
 
-    public void addCustomerOrder(CustomerOrder customerOrder) throws SQLException {
-        this.executeUpdateTable(this.createStatement(customerOrder, false));
+    @Override
+    public void add(Object entity) throws SQLException {
+        this.executeUpdateTable(this.createStatement((CustomerOrder) entity, false));
     }
 
-    public void updateCustomerOrder(CustomerOrder customerOrder) throws SQLException {
-        this.executeUpdateTable(this.createStatement(customerOrder, true));
+    @Override
+    public void update(Object entity) throws SQLException {
+        this.executeUpdateTable(this.createStatement((CustomerOrder) entity, true));
     }
 
-    public void deleteCustomerOrder(int id) throws SQLException {
+    @Override
+    public void delete(int id) throws SQLException {
         this.deleteEntityById("customer_orders", id);
     }
 }

@@ -29,7 +29,8 @@ public class CarsRepository implements Repository {
         return statement;
     }
 
-    public Car getCarById(int id) throws Exception {
+    @Override
+    public Object getById(int id) throws Exception {
         Car car = new Car();
         ResultSet queryRes = this.getEntityById("cars", id);
 
@@ -50,15 +51,18 @@ public class CarsRepository implements Repository {
         return car;
     }
 
-    public void addCar(Car car) throws SQLException {
-        this.executeUpdateTable(this.createStatement(car, false));
+    @Override
+    public void add(Object entity) throws SQLException {
+        this.executeUpdateTable(this.createStatement((Car) entity, false));
     }
 
-    public void updateCar(Car car) throws SQLException {
-        this.executeUpdateTable(this.createStatement(car, true));
+    @Override
+    public void update(Object entity) throws SQLException {
+        this.executeUpdateTable(this.createStatement((Car) entity, true));
     }
 
-    public void deleteCar(int id) throws SQLException {
+    @Override
+    public void delete(int id) throws SQLException {
         this.deleteEntityById("cars", id);
     }
 }

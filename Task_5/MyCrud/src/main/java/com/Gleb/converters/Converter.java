@@ -1,6 +1,5 @@
 package com.Gleb.converters;
 
-import com.Gleb.entities.Car;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface Converter<T> {

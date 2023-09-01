@@ -1,7 +1,5 @@
 package com.Gleb.converters;
 
-import com.Gleb.entities.Car;
-import com.Gleb.entities.Client;
 import com.Gleb.entities.CustomerOrder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
