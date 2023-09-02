@@ -1,2 +1,3 @@
-package com.Gleb.exceptions;public class BaseException {
-}
+package com.Gleb.exceptions;
+
+public class BaseException extends Exception {}

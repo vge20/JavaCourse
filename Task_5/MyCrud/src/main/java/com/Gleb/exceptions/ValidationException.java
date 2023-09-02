@@ -1,6 +1,6 @@
 package com.Gleb.exceptions;
 
-public class ValidationException extends Exception {
+public class ValidationException extends BaseException {
 
     private String message;
 

@@ -1,6 +1,6 @@
 package com.Gleb.exceptions;
 
-public class WorkingWithDBException extends Exception {
+public class WorkingWithDBException extends BaseException {
 
     private String message;
 

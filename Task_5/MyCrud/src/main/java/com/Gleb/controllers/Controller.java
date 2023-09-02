@@ -2,10 +2,7 @@ package com.Gleb.controllers;
 
 import com.Gleb.RequestParser;
 import com.Gleb.converters.Converter;
-import com.Gleb.exceptions.ConversionException;
-import com.Gleb.exceptions.ParsingException;
-import com.Gleb.exceptions.ValidationException;
-import com.Gleb.exceptions.WorkingWithDBException;
+import com.Gleb.exceptions.*;
 import com.Gleb.services.Service;
 import com.Gleb.validators.Validator;
 
@@ -16,7 +13,7 @@ import java.io.PrintWriter;
 
 public interface Controller {
 
-    default void writeResponseMessage(String message, HttpServletResponse resp) {
+    default void writeExceptionMessage(String message, HttpServletResponse resp) {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
@@ -41,30 +38,28 @@ public interface Controller {
 
             String jsonEntity = converter.convertToJson(entity);
 
-            this.writeResponseMessage(jsonEntity, resp);
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+
+            PrintWriter out = null;
+            try {
+                out = resp.getWriter();
+            } catch (IOException e) {
+                resp.setStatus(500);
+            }
+            out.print(jsonEntity);
+            out.flush();
 
             if (resp.getStatus() != 500) {
                 resp.setStatus(200);
             }
         }
         catch (WorkingWithDBException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
+            this.writeExceptionMessage(e.getMessage(), resp);
             resp.setStatus(500);
         }
-        catch (ValidationException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
-            if (resp.getStatus() != 500) {
-                resp.setStatus(400);
-            }
-        }
-        catch (ParsingException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
-            if (resp.getStatus() != 500) {
-                resp.setStatus(400);
-            }
-        }
-        catch (ConversionException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
+        catch (BaseException e) {
+            this.writeExceptionMessage(e.getMessage(), resp);
             if (resp.getStatus() != 500) {
                 resp.setStatus(400);
             }
@@ -85,23 +80,11 @@ public interface Controller {
             resp.setStatus(201);
         }
         catch (WorkingWithDBException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
+            this.writeExceptionMessage(e.getMessage(), resp);
             resp.setStatus(500);
         }
-        catch (ValidationException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
-            if (resp.getStatus() != 500) {
-                resp.setStatus(400);
-            }
-        }
-        catch (ParsingException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
-            if (resp.getStatus() != 500) {
-                resp.setStatus(400);
-            }
-        }
-        catch (ConversionException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
+        catch (BaseException e) {
+            this.writeExceptionMessage(e.getMessage(), resp);
             if (resp.getStatus() != 500) {
                 resp.setStatus(400);
             }
@@ -122,23 +105,11 @@ public interface Controller {
             resp.setStatus(204);
         }
         catch (WorkingWithDBException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
+            this.writeExceptionMessage(e.getMessage(), resp);
             resp.setStatus(500);
         }
-        catch (ValidationException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
-            if (resp.getStatus() != 500) {
-                resp.setStatus(400);
-            }
-        }
-        catch (ParsingException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
-            if (resp.getStatus() != 500) {
-                resp.setStatus(400);
-            }
-        }
-        catch (ConversionException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
+        catch (BaseException e) {
+            this.writeExceptionMessage(e.getMessage(), resp);
             if (resp.getStatus() != 500) {
                 resp.setStatus(400);
             }
@@ -157,17 +128,11 @@ public interface Controller {
             resp.setStatus(204);
         }
         catch (WorkingWithDBException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
+            this.writeExceptionMessage(e.getMessage(), resp);
             resp.setStatus(500);
         }
-        catch (ValidationException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
-            if (resp.getStatus() != 500) {
-                resp.setStatus(400);
-            }
-        }
-        catch (ParsingException e) {
-            this.writeResponseMessage(e.getMessage(), resp);
+        catch (BaseException e) {
+            this.writeExceptionMessage(e.getMessage(), resp);
             if (resp.getStatus() != 500) {
                 resp.setStatus(400);
             }

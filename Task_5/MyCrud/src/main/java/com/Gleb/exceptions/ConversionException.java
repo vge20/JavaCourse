@@ -1,6 +1,6 @@
 package com.Gleb.exceptions;
 
-public class ConversionException extends Exception {
+public class ConversionException extends BaseException {
 
     private String message;
 

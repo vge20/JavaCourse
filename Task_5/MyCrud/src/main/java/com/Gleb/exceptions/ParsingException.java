@@ -1,6 +1,6 @@
 package com.Gleb.exceptions;
 
-public class ParsingException extends Exception {
+public class ParsingException extends BaseException {
 
     private String message;
 
