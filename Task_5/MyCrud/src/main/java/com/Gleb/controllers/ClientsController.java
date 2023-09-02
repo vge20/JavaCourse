@@ -1,53 +1,45 @@
 package com.Gleb.controllers;
 
-import com.Gleb.RequestParser;
 import com.Gleb.containers.ClientsDIContainer;
-import com.Gleb.converters.Converter;
-import com.Gleb.entities.Client;
-import com.Gleb.services.Service;
-import com.Gleb.validators.Validator;
+import com.Gleb.containers.ContextContainer;
+import com.Gleb.entities.Car;
 
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/clients")
-public class ClientsController extends HttpServlet implements Controller {
+public class ClientsController extends Controller {
 
-    private Converter<Client> clientsConverter;
-
-    private RequestParser requestParser;
-
-    private Validator clientsValidator;
-
-    private Service<Client> clientsService;
+    private ContextContainer<Car> contextContainer;
 
     public ClientsController() {
         ClientsDIContainer clientsDIContainer = new ClientsDIContainer();
-        this.clientsConverter = clientsDIContainer.getClientsConverter();
-        this.requestParser = clientsDIContainer.getRequestParser();
-        this.clientsValidator = clientsDIContainer.getClientsValidator();
-        this.clientsService = clientsDIContainer.getClientsService();
+        this.contextContainer = new ContextContainer(
+                clientsDIContainer.getClientsService(),
+                clientsDIContainer.getRequestParser(),
+                clientsDIContainer.getClientsConverter(),
+                clientsDIContainer.getClientsValidator()
+        );
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        this.handleGet(req, resp, clientsService, clientsConverter, clientsValidator, requestParser);
+        this.handleGet(req, resp, contextContainer);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        this.handlePost(req, resp, clientsService, clientsConverter, clientsValidator, requestParser);
+        this.handlePost(req, resp, contextContainer);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
-        this.handlePut(req, resp, clientsService, clientsConverter, clientsValidator, requestParser);
+        this.handlePut(req, resp, contextContainer);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        this.handleDelete(req, resp, clientsService, clientsValidator, requestParser);
+        this.handleDelete(req, resp, contextContainer);
     }
 }

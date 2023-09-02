@@ -1,19 +1,17 @@
 package com.Gleb.controllers;
 
-import com.Gleb.RequestParser;
-import com.Gleb.converters.Converter;
+import com.Gleb.containers.ContextContainer;
 import com.Gleb.exceptions.*;
-import com.Gleb.services.Service;
-import com.Gleb.validators.Validator;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public interface Controller {
+public class Controller extends HttpServlet {
 
-    default void writeExceptionMessage(String message, HttpServletResponse resp) {
+    private void writeExceptionMessage(String message, HttpServletResponse resp) {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
@@ -27,16 +25,15 @@ public interface Controller {
         out.flush();
     }
 
-    default void handleGet(HttpServletRequest req, HttpServletResponse resp, Service service,
-                           Converter converter, Validator validator, RequestParser requestParser) {
+    protected void handleGet(HttpServletRequest req, HttpServletResponse resp, ContextContainer contextContainer) {
         try {
-            Integer id = requestParser.getId(req);
+            Integer id = contextContainer.getRequestParser().getId(req);
 
-            validator.validateId(id);
+            contextContainer.getValidator().validateId(id);
 
-            Object entity = service.get(id);
+            Object entity = contextContainer.getService().get(id);
 
-            String jsonEntity = converter.convertToJson(entity);
+            String jsonEntity = contextContainer.getConverter().convertToJson(entity);
 
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
@@ -66,16 +63,15 @@ public interface Controller {
         }
     }
 
-    default void handlePost(HttpServletRequest req, HttpServletResponse resp, Service service,
-                            Converter converter, Validator validator, RequestParser requestParser) {
+    protected void handlePost(HttpServletRequest req, HttpServletResponse resp, ContextContainer contextContainer) {
         try {
-            String reqBody = requestParser.getRequestBody(req);
+            String reqBody = contextContainer.getRequestParser().getRequestBody(req);
 
-            Object entity = converter.convertFromJson(reqBody);
+            Object entity = contextContainer.getConverter().convertFromJson(reqBody);
 
-            validator.validateForAdd(entity);
+            contextContainer.getValidator().validateForAdd(entity);
 
-            service.add(entity);
+            contextContainer.getService().add(entity);
 
             resp.setStatus(201);
         }
@@ -91,16 +87,15 @@ public interface Controller {
         }
     }
 
-    default void handlePut(HttpServletRequest req, HttpServletResponse resp, Service service,
-                           Converter converter, Validator validator, RequestParser requestParser) {
+    protected void handlePut(HttpServletRequest req, HttpServletResponse resp, ContextContainer contextContainer) {
         try {
-            String reqBody = requestParser.getRequestBody(req);
+            String reqBody = contextContainer.getRequestParser().getRequestBody(req);
 
-            Object entity = converter.convertFromJson(reqBody);
+            Object entity = contextContainer.getConverter().convertFromJson(reqBody);
 
-            validator.validateForUpdate(entity);
+            contextContainer.getValidator().validateForUpdate(entity);
 
-            service.update(entity);
+            contextContainer.getService().update(entity);
 
             resp.setStatus(204);
         }
@@ -116,14 +111,13 @@ public interface Controller {
         }
     }
 
-    default void handleDelete(HttpServletRequest req, HttpServletResponse resp, Service service,
-                              Validator validator, RequestParser requestParser) {
+    protected void handleDelete(HttpServletRequest req, HttpServletResponse resp, ContextContainer contextContainer) {
         try {
-            Integer id = requestParser.getId(req);
+            Integer id = contextContainer.getRequestParser().getId(req);
 
-            validator.validateId(id);
+            contextContainer.getValidator().validateId(id);
 
-            service.delete(id);
+            contextContainer.getService().delete(id);
 
             resp.setStatus(204);
         }
