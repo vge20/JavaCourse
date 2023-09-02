@@ -2,7 +2,7 @@ package com.Gleb.controllers;
 
 import com.Gleb.containers.ContextContainer;
 import com.Gleb.containers.CustomerOrdersDIContainer;
-import com.Gleb.entities.Car;
+import com.Gleb.entities.CustomerOrder;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/customer_orders")
 public class CustomerOrdersController extends Controller {
 
-    private ContextContainer<Car> contextContainer;
+    private ContextContainer<CustomerOrder> contextContainer;
 
     public CustomerOrdersController() {
         CustomerOrdersDIContainer customerOrdersDIContainer = new CustomerOrdersDIContainer();
