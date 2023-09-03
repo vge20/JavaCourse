@@ -1,5 +1,6 @@
-package com.Gleb;
+package com.Gleb.context;
 
+import com.Gleb.RequestParser;
 import com.Gleb.converters.CarsConverter;
 import com.Gleb.converters.ClientsConverter;
 import com.Gleb.converters.Converter;
@@ -24,7 +25,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class Context implements ServletContextListener {
+public class CrudServletContextListener implements ServletContextListener {
 
     public void contextInitialized(ServletContextEvent contextEvent) {
         ServletContext servletContext = contextEvent.getServletContext();
