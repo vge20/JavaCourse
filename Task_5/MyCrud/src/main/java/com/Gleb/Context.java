@@ -1,15 +1,23 @@
 package com.Gleb;
 
 import com.Gleb.converters.CarsConverter;
+import com.Gleb.converters.ClientsConverter;
 import com.Gleb.converters.Converter;
+import com.Gleb.converters.CustomerOrdersConverter;
 import com.Gleb.entities.Car;
 import com.Gleb.entities.Client;
+import com.Gleb.entities.CustomerOrder;
 import com.Gleb.repositories.CarsRepository;
 import com.Gleb.repositories.ClientsRepository;
+import com.Gleb.repositories.CustomerOrdersRepository;
 import com.Gleb.repositories.Repository;
 import com.Gleb.services.CarsService;
+import com.Gleb.services.ClientsService;
+import com.Gleb.services.CustomerOrdersService;
 import com.Gleb.services.Service;
 import com.Gleb.validators.CarsValidator;
+import com.Gleb.validators.ClientsValidator;
+import com.Gleb.validators.CustomerOrdersValidator;
 import com.Gleb.validators.Validator;
 
 import javax.servlet.ServletContext;
@@ -34,7 +42,22 @@ public class Context implements ServletContextListener {
         servletContext.setAttribute("carsValidator", carsValidator);
 
         Repository<Client> clientsRepository = new ClientsRepository();
+        Service<Client> clientsService = new ClientsService(clientsRepository);
+        Converter<Client> clientsConverter = new ClientsConverter();
+        Validator clientsValidator = new ClientsValidator();
+        servletContext.setAttribute("clientsRepository", clientsRepository);
+        servletContext.setAttribute("clientsService", clientsService);
+        servletContext.setAttribute("clientsConverter", clientsConverter);
+        servletContext.setAttribute("clientsValidator", clientsValidator);
 
+        Repository<CustomerOrder> customerOrdersRepository = new CustomerOrdersRepository();
+        Service<CustomerOrder> customerOrdersService = new CustomerOrdersService(customerOrdersRepository);
+        Converter<CustomerOrder> customerOrdersConverter = new CustomerOrdersConverter();
+        Validator customerOrdersValidator = new CustomerOrdersValidator();
+        servletContext.setAttribute("customerOrdersRepository", customerOrdersRepository);
+        servletContext.setAttribute("customerOrdersService", customerOrdersService);
+        servletContext.setAttribute("customerOrdersConverter", customerOrdersConverter);
+        servletContext.setAttribute("customerOrdersValidator", customerOrdersValidator);
     }
 
     public void contextDestroyed(ServletContextEvent contextEvent) {}
