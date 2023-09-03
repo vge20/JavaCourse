@@ -1,9 +1,13 @@
 package com.Gleb.controllers;
 
-import com.Gleb.containers.CarsDIContainer;
+import com.Gleb.RequestParser;
 import com.Gleb.containers.ContextContainer;
+import com.Gleb.converters.Converter;
 import com.Gleb.entities.Car;
+import com.Gleb.services.Service;
+import com.Gleb.validators.Validator;
 
+import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +18,12 @@ public class CarsController extends Controller {
     private ContextContainer<Car> contextContainer;
 
     public CarsController() {
-        CarsDIContainer carsDIContainer = new CarsDIContainer();
+        ServletContext servletContext = getServletContext();
         this.contextContainer = new ContextContainer(
-                carsDIContainer.getCarsService(),
-                carsDIContainer.getRequestParser(),
-                carsDIContainer.getCarsConverter(),
-                carsDIContainer.getCarsValidator()
+                (Service<Car>) servletContext.getAttribute("carsService"),
+                (RequestParser) servletContext.getAttribute("requestParser"),
+                (Converter<Car>) servletContext.getAttribute("carsConverter"),
+                (Validator) servletContext.getAttribute("carsValidator")
         );
     }
 

@@ -1,9 +1,13 @@
 package com.Gleb.controllers;
 
-import com.Gleb.containers.ClientsDIContainer;
+import com.Gleb.RequestParser;
 import com.Gleb.containers.ContextContainer;
+import com.Gleb.converters.Converter;
 import com.Gleb.entities.Client;
+import com.Gleb.services.Service;
+import com.Gleb.validators.Validator;
 
+import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +18,12 @@ public class ClientsController extends Controller {
     private ContextContainer<Client> contextContainer;
 
     public ClientsController() {
-        ClientsDIContainer clientsDIContainer = new ClientsDIContainer();
+        ServletContext servletContext = getServletContext();
         this.contextContainer = new ContextContainer(
-                clientsDIContainer.getClientsService(),
-                clientsDIContainer.getRequestParser(),
-                clientsDIContainer.getClientsConverter(),
-                clientsDIContainer.getClientsValidator()
+                (Service<Client>) servletContext.getAttribute("clientsService"),
+                (RequestParser) servletContext.getAttribute("requestParser"),
+                (Converter<Client>) servletContext.getAttribute("clientsConverter"),
+                (Validator) servletContext.getAttribute("clientsValidator")
         );
     }
 

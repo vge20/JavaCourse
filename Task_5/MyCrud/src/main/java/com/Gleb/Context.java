@@ -36,7 +36,6 @@ public class Context implements ServletContextListener {
         Service<Car> carsService = new CarsService(carsRepository);
         Converter<Car> carsConverter = new CarsConverter();
         Validator carsValidator = new CarsValidator();
-        servletContext.setAttribute("carsRepository", carsRepository);
         servletContext.setAttribute("carsService", carsService);
         servletContext.setAttribute("carsConverter", carsConverter);
         servletContext.setAttribute("carsValidator", carsValidator);
@@ -45,7 +44,6 @@ public class Context implements ServletContextListener {
         Service<Client> clientsService = new ClientsService(clientsRepository);
         Converter<Client> clientsConverter = new ClientsConverter();
         Validator clientsValidator = new ClientsValidator();
-        servletContext.setAttribute("clientsRepository", clientsRepository);
         servletContext.setAttribute("clientsService", clientsService);
         servletContext.setAttribute("clientsConverter", clientsConverter);
         servletContext.setAttribute("clientsValidator", clientsValidator);
@@ -54,7 +52,6 @@ public class Context implements ServletContextListener {
         Service<CustomerOrder> customerOrdersService = new CustomerOrdersService(customerOrdersRepository);
         Converter<CustomerOrder> customerOrdersConverter = new CustomerOrdersConverter();
         Validator customerOrdersValidator = new CustomerOrdersValidator();
-        servletContext.setAttribute("customerOrdersRepository", customerOrdersRepository);
         servletContext.setAttribute("customerOrdersService", customerOrdersService);
         servletContext.setAttribute("customerOrdersConverter", customerOrdersConverter);
         servletContext.setAttribute("customerOrdersValidator", customerOrdersValidator);
