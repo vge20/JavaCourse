@@ -7,7 +7,9 @@ import com.Gleb.entities.Car;
 import com.Gleb.services.Service;
 import com.Gleb.validators.Validator;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +19,9 @@ public class CarsController extends Controller {
 
     private ContextContainer<Car> contextContainer;
 
-    public CarsController() {
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         ServletContext servletContext = getServletContext();
         this.contextContainer = new ContextContainer(
                 (Service<Car>) servletContext.getAttribute("carsService"),

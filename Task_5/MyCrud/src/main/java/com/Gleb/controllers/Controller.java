@@ -21,7 +21,7 @@ public class Controller extends HttpServlet {
         } catch (IOException e) {
             resp.setStatus(500);
         }
-        out.print(String.format("\"Message\":\"%s\"", message));
+        out.print(String.format("{\"Message\":\"%s\"}", message));
         out.flush();
     }
 
