@@ -32,7 +32,8 @@ public class CarsRepository implements Repository {
     @Override
     public Object getById(int id) throws Exception {
         Car car = new Car();
-        ResultSet queryRes = this.getEntityById("cars", id);
+        PreparedStatement statement = null;
+        ResultSet queryRes = this.getEntityById("cars", id, statement);
 
         if (queryRes.next()) {
             car.setId(queryRes.getInt("id"));
@@ -46,6 +47,7 @@ public class CarsRepository implements Repository {
             throw new Exception();
         }
 
+        if (statement != null) { statement.close(); }
         if (queryRes != null) { queryRes.close(); }
 
         return car;

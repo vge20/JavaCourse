@@ -8,17 +8,16 @@ import java.sql.SQLException;
 
 public interface Repository<T> {
 
-    default ResultSet getEntityById(String entity, int id) throws SQLException {
-        PreparedStatement statement;
+    default ResultSet getEntityById(String entity, int id, PreparedStatement statement) throws SQLException {
         ResultSet queryRes;
 
-        statement = DBConnection.getConnection().prepareStatement("select * from ? c where c.id = ?");
-        statement.setString(1, entity);
-        statement.setInt(2, id);
+        statement = DBConnection.getConnection().prepareStatement(String.format
+                ("select * from %s c where c.id = ?", entity));
+        //statement.setString(1, entity);
+        statement.setInt(1, id);
+        //statement.setInt(2, id);
 
         queryRes = statement.executeQuery();
-
-        if (statement != null) { statement.close(); }
 
         return queryRes;
     }

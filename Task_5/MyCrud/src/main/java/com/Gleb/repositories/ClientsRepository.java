@@ -28,7 +28,8 @@ public class ClientsRepository implements Repository {
     @Override
     public Object getById(int id) throws Exception {
         Client client = new Client();
-        ResultSet queryRes = this.getEntityById("clients", id);
+        PreparedStatement statement = null;
+        ResultSet queryRes = this.getEntityById("clients", id, statement);
 
         if (queryRes.next()) {
             client.setId(queryRes.getInt("id"));
@@ -40,6 +41,7 @@ public class ClientsRepository implements Repository {
             throw new Exception();
         }
 
+        if (statement != null) { statement.close(); }
         if (queryRes != null) { queryRes.close(); }
 
         return client;

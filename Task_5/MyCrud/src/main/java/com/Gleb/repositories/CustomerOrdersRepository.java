@@ -28,7 +28,8 @@ public class CustomerOrdersRepository implements Repository {
     @Override
     public Object getById(int id) throws Exception {
         CustomerOrder customerOrder = new CustomerOrder();
-        ResultSet queryRes = this.getEntityById("customer_orders", id);
+        PreparedStatement statement = null;
+        ResultSet queryRes = this.getEntityById("customer_orders", id, statement);
 
         if (queryRes.next()) {
             customerOrder.setId(queryRes.getInt("id"));
@@ -40,6 +41,7 @@ public class CustomerOrdersRepository implements Repository {
             throw new Exception();
         }
 
+        if (statement != null) { statement.close(); }
         if (queryRes != null) { queryRes.close(); }
 
         return customerOrder;
