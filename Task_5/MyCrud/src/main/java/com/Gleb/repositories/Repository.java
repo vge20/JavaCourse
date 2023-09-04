@@ -13,9 +13,7 @@ public interface Repository<T> {
 
         statement = DBConnection.getConnection().prepareStatement(String.format
                 ("select * from %s c where c.id = ?", entity));
-        //statement.setString(1, entity);
         statement.setInt(1, id);
-        //statement.setInt(2, id);
 
         queryRes = statement.executeQuery();
 
