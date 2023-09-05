@@ -13,6 +13,11 @@ public class DataSource {
     private static BasicDataSource dataSource;
 
     static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         dataSource = new BasicDataSource();
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
         dataSource.setUsername("postgres");
