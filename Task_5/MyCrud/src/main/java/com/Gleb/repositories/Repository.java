@@ -25,7 +25,7 @@ public interface Repository<T> {
                 .prepareStatement(String.format("delete from %s where id = ?", entity));
         statement.setInt(1, id);
 
-        statement.execute();
+        statement.executeUpdate();
     }
 
     default void executeUpdateTable(PreparedStatement statement) throws SQLException {
