@@ -1,6 +1,6 @@
 package com.Gleb.repositories;
 
-import com.Gleb.DBConnection;
+import com.Gleb.DataSource;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +11,7 @@ public interface Repository<T> {
     default ResultSet getEntityById(String entity, int id, PreparedStatement statement) throws SQLException {
         ResultSet queryRes;
 
-        statement = DBConnection.getConnection().prepareStatement(String.format
+        statement = DataSource.getConnection().prepareStatement(String.format
                 ("select * from %s c where c.id = ?", entity));
         statement.setInt(1, id);
 
@@ -21,7 +21,7 @@ public interface Repository<T> {
     }
 
     default void deleteEntityById(String entity, int id) throws SQLException {
-        PreparedStatement statement = DBConnection.getConnection()
+        PreparedStatement statement = DataSource.getConnection()
                 .prepareStatement(String.format("delete from %s where id = ?", entity));
         statement.setInt(1, id);
 

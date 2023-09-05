@@ -1,7 +1,7 @@
 package com.Gleb.repositories;
 
+import com.Gleb.DataSource;
 import com.Gleb.entities.CustomerOrder;
-import com.Gleb.DBConnection;
 
 import java.sql.*;
 
@@ -10,12 +10,12 @@ public class CustomerOrdersRepository implements Repository {
     private PreparedStatement createStatement(CustomerOrder customerOrder, boolean isUpdate) throws SQLException {
         PreparedStatement statement;
         if (isUpdate) {
-            statement = DBConnection.getConnection().prepareStatement(
+            statement = DataSource.getConnection().prepareStatement(
                     "update customer_orders set client_id = ?, car_id = ?, order_date = ? where id = ?");
             statement.setInt(4, customerOrder.getId());
         }
         else {
-            statement = DBConnection.getConnection().prepareStatement(
+            statement = DataSource.getConnection().prepareStatement(
                     "insert into customer_orders (client_id, car_id, order_date) values (?, ?, ?)");
         }
         statement.setInt(1, customerOrder.getClientId());
