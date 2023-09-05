@@ -22,13 +22,12 @@ public interface Repository<T> {
 
     default void deleteEntityById(String entity, int id) throws SQLException {
         PreparedStatement statement = DBConnection.getConnection()
-                .prepareStatement("delete from ? where id = ?");
-        statement.setString(1, entity);
-        statement.setInt(2, id);
+                .prepareStatement(String.format("delete from %s where id = ?", entity));
+        statement.setInt(1, id);
     }
 
     default void executeUpdateTable(PreparedStatement statement) throws SQLException {
-        statement.execute();
+        statement.executeUpdate();
         if (statement != null) { statement.close(); }
     }
 
