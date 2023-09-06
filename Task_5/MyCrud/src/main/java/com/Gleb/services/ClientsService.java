@@ -23,7 +23,13 @@ public class ClientsService implements Service {
 
     @Override
     public void executeUpdate(Object entity) throws SQLException {
-        this.clientsRepository.update((Client) entity);
+        Client client = (Client) entity;
+        if (this.clientsRepository.getById(client.getId()) == null) {
+            this.clientsRepository.add(client);
+        }
+        else {
+            this.clientsRepository.update(client);
+        }
     }
 
     @Override

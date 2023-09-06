@@ -23,7 +23,13 @@ public class CarsService implements Service {
 
     @Override
     public void executeUpdate(Object entity) throws SQLException {
-        this.carsRepository.update((Car) entity);
+        Car car = (Car) entity;
+        if (this.carsRepository.getById(car.getId()) == null) {
+            this.carsRepository.add(car);
+        }
+        else {
+            this.carsRepository.update(car);
+        }
     }
 
     @Override
