@@ -12,7 +12,7 @@ public class CarsController extends Controller {
 
     @Autowired
     private ContextContainer<Car> contextContainer;
-    
+
     @GetMapping("/cars/{id}")
     protected Object doGet(@PathVariable int id) {
         return this.handleGet(id, this.contextContainer);
