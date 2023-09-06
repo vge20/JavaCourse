@@ -40,7 +40,7 @@ public class ClientsRepository implements Repository {
             client.setGender(queryRes.getBoolean("gender"));
         }
         else {
-            throw new Exception();
+            return null;
         }
 
         if (statement != null) { statement.close(); }

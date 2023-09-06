@@ -45,7 +45,7 @@ public class CarsRepository implements Repository {
             car.setPrice(queryRes.getInt("price"));
         }
         else {
-            throw new Exception();
+            return null;
         }
 
         if (statement != null) { statement.close(); }

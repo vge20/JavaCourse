@@ -40,7 +40,7 @@ public class CustomerOrdersRepository implements Repository {
             customerOrder.setOrderDate(queryRes.getString("order_date"));
         }
         else {
-            throw new Exception();
+            return null;
         }
 
         if (statement != null) { statement.close(); }
