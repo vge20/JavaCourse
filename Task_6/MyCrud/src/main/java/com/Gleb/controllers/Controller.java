@@ -25,7 +25,7 @@ public class Controller extends HttpServlet {
         out.flush();
     }
 
-    protected void handleGet(HttpServletRequest req, HttpServletResponse resp, ContextContainer contextContainer) {
+    protected Object handleGet(int id, ContextContainer contextContainer) {
         try {
             Integer id = contextContainer.getRequestParser().getId(req);
 

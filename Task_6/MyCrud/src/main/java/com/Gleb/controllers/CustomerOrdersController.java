@@ -3,7 +3,6 @@ package com.Gleb.controllers;
 import com.Gleb.RequestParser;
 import com.Gleb.context.ContextContainer;
 import com.Gleb.converters.Converter;
-import com.Gleb.entities.Client;
 import com.Gleb.entities.CustomerOrder;
 import com.Gleb.services.Service;
 import com.Gleb.validators.Validator;

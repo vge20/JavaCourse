@@ -1,53 +1,38 @@
 package com.Gleb.controllers;
 
-import com.Gleb.RequestParser;
 import com.Gleb.context.ContextContainer;
-import com.Gleb.converters.Converter;
 import com.Gleb.entities.Car;
-import com.Gleb.services.Service;
-import com.Gleb.validators.Validator;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.web.bind.annotation.*;
 
-@WebServlet("/cars/*")
+@RestController
 public class CarsController extends Controller {
 
+    @Autowired
     private ContextContainer<Car> contextContainer;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        ServletContext servletContext = getServletContext();
-        this.contextContainer = new ContextContainer(
-                (Service<Car>) servletContext.getAttribute("carsService"),
-                (RequestParser) servletContext.getAttribute("requestParser"),
-                (Converter<Car>) servletContext.getAttribute("carsConverter"),
-                (Validator) servletContext.getAttribute("carsValidator")
-        );
+    
+    @GetMapping("/cars/{id}")
+    protected Object doGet(@PathVariable int id) {
+        return this.handleGet(id, this.contextContainer);
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        this.handleGet(req, resp, this.contextContainer);
+    @PostMapping("/cars")
+    protected void doPost(HttpEntity<String> httpEntity) {
+        this.handlePost(httpEntity, this.contextContainer);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        this.handlePost(req, resp, this.contextContainer);
+    @PutMapping("/cars")
+    protected void doPut(HttpEntity<String> httpEntity) {
+        this.handlePut(httpEntity, this.contextContainer);
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
-        this.handlePut(req, resp, this.contextContainer);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        this.handleDelete(req, resp, this.contextContainer);
+    @DeleteMapping("/cars/{id}")
+    protected void doDelete(@PathVariable int id) {
+        this.handleDelete(id, this.contextContainer);
     }
 }
