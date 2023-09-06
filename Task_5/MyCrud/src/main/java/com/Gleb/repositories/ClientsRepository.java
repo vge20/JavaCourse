@@ -1,21 +1,22 @@
 package com.Gleb.repositories;
 
-import com.Gleb.DataSource;
 import com.Gleb.entities.Client;
 
 import java.sql.*;
 
 public class ClientsRepository implements Repository {
 
-    private PreparedStatement createStatement(Client client, boolean isUpdate) throws SQLException {
+    public PreparedStatement createStatement(Object entity, boolean isUpdate,
+                                             Connection connection) throws SQLException {
+        Client client = (Client) entity;
         PreparedStatement statement;
         if (isUpdate) {
-            statement = DataSource.getConnection().prepareStatement(
+            statement = connection.prepareStatement(
                     "update clients set full_name = ?, date_birth = ?, gender = ? where id = ?");
             statement.setInt(4, client.getId());
         }
         else {
-            statement = DataSource.getConnection().prepareStatement(
+            statement = connection.prepareStatement(
                     "insert into clients (full_name, date_birth, gender) values (?, ?, ?)");
         }
         statement.setString(1, client.getFullName());
@@ -45,16 +46,6 @@ public class ClientsRepository implements Repository {
         if (queryRes != null) { queryRes.close(); }
 
         return client;
-    }
-
-    @Override
-    public void add(Object entity) throws SQLException {
-        this.executeUpdateTable(this.createStatement((Client) entity, false));
-    }
-
-    @Override
-    public void update(Object entity) throws SQLException {
-        this.executeUpdateTable(this.createStatement((Client) entity, true));
     }
 
     @Override

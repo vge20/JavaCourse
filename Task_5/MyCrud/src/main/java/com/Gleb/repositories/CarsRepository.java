@@ -1,22 +1,22 @@
 package com.Gleb.repositories;
 
-import com.Gleb.DataSource;
 import com.Gleb.entities.Car;
 
 import java.sql.*;
 
 public class CarsRepository implements Repository {
 
-    private PreparedStatement createStatement(Car car, boolean isUpdate) throws SQLException {
+    public PreparedStatement createStatement(Object entity, boolean isUpdate, Connection connection) throws SQLException {
+        Car car = (Car) entity;
         PreparedStatement statement;
         if (isUpdate) {
-            statement = DataSource.getConnection().prepareStatement(
+            statement = connection.prepareStatement(
                     "update cars set brand = ?, color = ?, engine_capacity = ?, " +
                             "manufacture_date = ?, price = ? where id = ?");
             statement.setInt(6, car.getId());
         }
         else {
-            statement = DataSource.getConnection().prepareStatement(
+            statement = connection.prepareStatement(
                     "insert into cars (brand, color, engine_capacity, manufacture_date, price) "
                     + "values (?, ?, ?, ?, ?)");
         }
@@ -51,16 +51,6 @@ public class CarsRepository implements Repository {
         if (queryRes != null) { queryRes.close(); }
 
         return car;
-    }
-
-    @Override
-    public void add(Object entity) throws SQLException {
-        this.executeUpdateTable(this.createStatement((Car) entity, false));
-    }
-
-    @Override
-    public void update(Object entity) throws SQLException {
-        this.executeUpdateTable(this.createStatement((Car) entity, true));
     }
 
     @Override

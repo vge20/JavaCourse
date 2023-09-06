@@ -2,6 +2,7 @@ package com.Gleb.repositories;
 
 import com.Gleb.DataSource;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,8 +11,9 @@ public interface Repository<T> {
 
     default ResultSet getEntityById(String entity, int id, PreparedStatement statement) throws SQLException {
         ResultSet queryRes;
+        Connection connection = DataSource.getConnection();
 
-        statement = DataSource.getConnection().prepareStatement(String.format
+        statement = connection.prepareStatement(String.format
                 ("select * from %s c where c.id = ?", entity));
         statement.setInt(1, id);
 
@@ -21,23 +23,37 @@ public interface Repository<T> {
     }
 
     default void deleteEntityById(String entity, int id) throws SQLException {
-        PreparedStatement statement = DataSource.getConnection()
+        Connection connection = DataSource.getConnection();
+        connection.setAutoCommit(false);
+
+        PreparedStatement statement = connection
                 .prepareStatement(String.format("delete from %s where id = ?", entity));
         statement.setInt(1, id);
 
         statement.executeUpdate();
+        connection.commit();
     }
 
-    default void executeUpdateTable(PreparedStatement statement) throws SQLException {
+    default void executeUpdateTransaction(Object entity, boolean isUpdate) throws SQLException {
+        Connection connection = DataSource.getConnection();
+        connection.setAutoCommit(false);
+        PreparedStatement statement = this.createStatement(entity, isUpdate, connection);
         statement.executeUpdate();
+        connection.commit();
         if (statement != null) { statement.close(); }
     }
 
+    PreparedStatement createStatement(Object entity, boolean isUpdate, Connection connection) throws SQLException;
+
     T getById(int id) throws Exception;
 
-    void add(T entity) throws SQLException;
+    default void add(T entity) throws SQLException {
+        this.executeUpdateTransaction(entity, false);
+    }
 
-    void update(T entity) throws SQLException;
+    default void update(T entity) throws SQLException {
+        this.executeUpdateTransaction(entity, true);
+    }
 
     void delete(int id) throws SQLException;
 }
