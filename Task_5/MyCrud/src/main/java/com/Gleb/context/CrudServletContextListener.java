@@ -50,7 +50,8 @@ public class CrudServletContextListener implements ServletContextListener {
         servletContext.setAttribute("clientsValidator", clientsValidator);
 
         Repository<CustomerOrder> customerOrdersRepository = new CustomerOrdersRepository();
-        Service<CustomerOrder> customerOrdersService = new CustomerOrdersService(customerOrdersRepository);
+        Service<CustomerOrder> customerOrdersService = new CustomerOrdersService(customerOrdersRepository,
+                clientsRepository, carsRepository);
         Converter<CustomerOrder> customerOrdersConverter = new CustomerOrdersConverter();
         Validator customerOrdersValidator = new CustomerOrdersValidator();
         servletContext.setAttribute("customerOrdersService", customerOrdersService);
