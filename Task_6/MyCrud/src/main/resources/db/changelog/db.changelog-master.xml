@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create-table-cars" author="Gleb">
+        <createTable tableName="cars">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="brand" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+			<column name="color" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+			<column name="engine_capacity" type="float">
+                <constraints nullable="false"/>
+            </column>
+			<column name="manufacture_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+			<column name="price" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+	
+	<changeSet id="create-table-clients" author="Gleb">
+        <createTable tableName="clients">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="full_name" type="varchar(70)">
+                <constraints nullable="false"/>
+            </column>
+			<column name="date_birth" type="date">
+                <constraints nullable="false"/>
+            </column>
+			<column name="gender" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+	
+	<changeSet id="create-table-customer_orders" author="Gleb">
+        <createTable tableName="customer_orders">
+			<column name="id" type="serial" autoIncrement="true">
+            <constraints primaryKey="true"/>
+            </column>
+            <column name="client_id" type="int">
+			<constraints foreignKeyName="client_id" references="clients(id)"/>
+            </column>
+			<column name="car_id" type="int">
+			<constraints foreignKeyName="car_id" references="cars(id)"/>
+            </column>
+			<column name="order_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+	
+	<changeSet id="fill-table-clients" author="Gleb">
+		<insert tableName="clients">
+			<column name="full_name" value="Anton Petrov"/>
+			<column name="date_birth" value="1971-01-09"/>
+			<column name="gender" value="true"/>
+		</insert>
+		<insert tableName="clients">
+			<column name="full_name" value="Ivan Egorov"/>
+			<column name="date_birth" value="1981-05-09"/>
+			<column name="gender" value="true"/>
+		</insert>
+		<insert tableName="clients">
+			<column name="full_name" value="Anna Ivanova"/>
+			<column name="date_birth" value="1986-05-29"/>
+			<column name="gender" value="false"/>
+		</insert>
+		<insert tableName="clients">
+			<column name="full_name" value="Irina Soboleva"/>
+			<column name="date_birth" value="1994-11-15"/>
+			<column name="gender" value="false"/>
+		</insert>
+    </changeSet>
+	
+	<changeSet id="fill-table-cars" author="Gleb">
+		<insert tableName="cars">
+			<column name="brand" value="Skoda"/>
+			<column name="color" value="Green"/>
+			<column name="engine_capacity" value="1.6"/>
+			<column name="manufacture_date" value="2020-05-12"/>
+			<column name="price" value="1622122"/>
+		</insert>
+		<insert tableName="cars">
+			<column name="brand" value="Hyundai"/>
+			<column name="color" value="Black"/>
+			<column name="engine_capacity" value="2.0"/>
+			<column name="manufacture_date" value="2021-12-02"/>
+			<column name="price" value="2668612"/>
+		</insert>
+		<insert tableName="cars">
+			<column name="brand" value="Toyota"/>
+			<column name="color" value="White"/>
+			<column name="engine_capacity" value="2.8"/>
+			<column name="manufacture_date" value="2019-03-17"/>
+			<column name="price" value="3744863"/>
+		</insert>
+		<insert tableName="cars">
+			<column name="brand" value="Mercedes-Benz"/>
+			<column name="color" value="Gray"/>
+			<column name="engine_capacity" value="3.5"/>
+			<column name="manufacture_date" value="2022-07-09"/>
+			<column name="price" value="5914725"/>
+		</insert>
+    </changeSet>
+	
+	<changeSet id="fill-table-customer_orders" author="Gleb">
+		<insert tableName="customer_orders">
+			<column name="client_id" value="1"/>
+			<column name="car_id" value="1"/>
+			<column name="order_date" value="2023-03-25"/>
+		</insert>
+		<insert tableName="customer_orders">
+			<column name="client_id" value="2"/>
+			<column name="car_id" value="2"/>
+			<column name="order_date" value="2023-05-09"/>
+		</insert>
+		<insert tableName="customer_orders">
+			<column name="client_id" value="3"/>
+			<column name="car_id" value="3"/>
+			<column name="order_date" value="2023-06-11"/>
+		</insert>
+		<insert tableName="customer_orders">
+			<column name="client_id" value="4"/>
+			<column name="car_id" value="4"/>
+			<column name="order_date" value="2023-08-16"/>
+		</insert>
+    </changeSet>
+	
+</databaseChangeLog>
