@@ -6,6 +6,7 @@ import java.sql.*;
 
 public class CustomerOrdersRepository implements Repository {
 
+    @Override
     public PreparedStatement createStatement(Object entity, boolean isUpdate,
                                              Connection connection) throws SQLException {
         CustomerOrder customerOrder = (CustomerOrder) entity;

@@ -6,6 +6,7 @@ import java.sql.*;
 
 public class CarsRepository implements Repository {
 
+    @Override
     public PreparedStatement createStatement(Object entity, boolean isUpdate, Connection connection) throws SQLException {
         Car car = (Car) entity;
         PreparedStatement statement;

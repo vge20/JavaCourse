@@ -6,6 +6,7 @@ import java.sql.*;
 
 public class ClientsRepository implements Repository {
 
+    @Override
     public PreparedStatement createStatement(Object entity, boolean isUpdate,
                                              Connection connection) throws SQLException {
         Client client = (Client) entity;
