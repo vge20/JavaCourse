@@ -7,7 +7,8 @@ import java.sql.*;
 public class CarsRepository implements Repository {
 
     @Override
-    public PreparedStatement createStatement(Object entity, boolean isUpdate, Connection connection) throws SQLException {
+    public PreparedStatement createStatement(Object entity, boolean isUpdate,
+                                             Connection connection) throws SQLException {
         Car car = (Car) entity;
         PreparedStatement statement;
         if (isUpdate) {
@@ -31,7 +32,7 @@ public class CarsRepository implements Repository {
     }
 
     @Override
-    public Object getById(int id) throws Exception {
+    public Object getById(int id) throws SQLException {
         Car car = new Car();
         PreparedStatement statement = null;
         ResultSet queryRes = this.getEntityById("cars", id, statement);

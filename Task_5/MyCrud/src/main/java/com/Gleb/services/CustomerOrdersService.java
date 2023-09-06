@@ -1,9 +1,10 @@
 package com.Gleb.services;
 
 import com.Gleb.entities.CustomerOrder;
-import com.Gleb.exceptions.WorkingWithDBException;
 import com.Gleb.repositories.Repository;
 import lombok.AllArgsConstructor;
+
+import java.sql.SQLException;
 
 @AllArgsConstructor
 public class CustomerOrdersService implements Service {
@@ -11,42 +12,22 @@ public class CustomerOrdersService implements Service {
     private Repository<CustomerOrder> customerOrdersRepository;
 
     @Override
-    public Object get(int id) throws WorkingWithDBException {
-        try {
-            return customerOrdersRepository.getById(id);
-        }
-        catch (Exception e) {
-            throw new WorkingWithDBException();
-        }
+    public Object executeGet(int id) throws SQLException {
+        return this.customerOrdersRepository.getById(id);
     }
 
     @Override
-    public void add(Object entity) throws WorkingWithDBException {
-        try {
-            customerOrdersRepository.add((CustomerOrder) entity);
-        }
-        catch (Exception e) {
-            throw new WorkingWithDBException();
-        }
+    public void executeAdd(Object entity) throws SQLException {
+        this.customerOrdersRepository.add((CustomerOrder) entity);
     }
 
     @Override
-    public void update(Object entity) throws WorkingWithDBException {
-        try {
-            customerOrdersRepository.update((CustomerOrder) entity);
-        }
-        catch (Exception e) {
-            throw new WorkingWithDBException();
-        }
+    public void executeUpdate(Object entity) throws SQLException {
+        this.customerOrdersRepository.update((CustomerOrder) entity);
     }
 
     @Override
-    public void delete(int id) throws WorkingWithDBException {
-        try {
-            customerOrdersRepository.delete(id);
-        }
-        catch (Exception e) {
-            throw new WorkingWithDBException();
-        }
+    public void executeDelete(int id) throws SQLException {
+        this.customerOrdersRepository.delete(id);
     }
 }

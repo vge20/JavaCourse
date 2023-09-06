@@ -28,7 +28,7 @@ public class CustomerOrdersRepository implements Repository {
     }
 
     @Override
-    public Object getById(int id) throws Exception {
+    public Object getById(int id) throws SQLException {
         CustomerOrder customerOrder = new CustomerOrder();
         PreparedStatement statement = null;
         ResultSet queryRes = this.getEntityById("customer_orders", id, statement);

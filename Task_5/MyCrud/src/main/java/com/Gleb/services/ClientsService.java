@@ -1,9 +1,10 @@
 package com.Gleb.services;
 
 import com.Gleb.entities.Client;
-import com.Gleb.exceptions.WorkingWithDBException;
 import com.Gleb.repositories.Repository;
 import lombok.AllArgsConstructor;
+
+import java.sql.SQLException;
 
 @AllArgsConstructor
 public class ClientsService implements Service {
@@ -11,42 +12,22 @@ public class ClientsService implements Service {
     private Repository<Client> clientsRepository;
 
     @Override
-    public Object get(int id) throws WorkingWithDBException {
-        try {
-            return clientsRepository.getById(id);
-        }
-        catch (Exception e) {
-            throw new WorkingWithDBException();
-        }
+    public Object executeGet(int id) throws SQLException {
+        return this.clientsRepository.getById(id);
     }
 
     @Override
-    public void add(Object entity) throws WorkingWithDBException {
-        try {
-            clientsRepository.add((Client) entity);
-        }
-        catch (Exception e) {
-            throw new WorkingWithDBException();
-        }
+    public void executeAdd(Object entity) throws SQLException {
+        this.clientsRepository.add((Client) entity);
     }
 
     @Override
-    public void update(Object entity) throws WorkingWithDBException {
-        try {
-            clientsRepository.update((Client) entity);
-        }
-        catch (Exception e) {
-            throw new WorkingWithDBException();
-        }
+    public void executeUpdate(Object entity) throws SQLException {
+        this.clientsRepository.update((Client) entity);
     }
 
     @Override
-    public void delete(int id) throws WorkingWithDBException {
-        try {
-            clientsRepository.delete(id);
-        }
-        catch (Exception e) {
-            throw new WorkingWithDBException();
-        }
+    public void executeDelete(int id) throws SQLException {
+        this.clientsRepository.delete(id);
     }
 }

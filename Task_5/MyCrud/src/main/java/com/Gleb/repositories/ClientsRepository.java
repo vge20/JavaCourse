@@ -28,7 +28,7 @@ public class ClientsRepository implements Repository {
     }
 
     @Override
-    public Object getById(int id) throws Exception {
+    public Object getById(int id) throws SQLException {
         Client client = new Client();
         PreparedStatement statement = null;
         ResultSet queryRes = this.getEntityById("clients", id, statement);

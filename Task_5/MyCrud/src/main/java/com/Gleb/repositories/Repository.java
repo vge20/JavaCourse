@@ -45,7 +45,7 @@ public interface Repository<T> {
 
     PreparedStatement createStatement(Object entity, boolean isUpdate, Connection connection) throws SQLException;
 
-    T getById(int id) throws Exception;
+    T getById(int id) throws SQLException;
 
     default void add(T entity) throws SQLException {
         this.executeUpdateTransaction(entity, false);
