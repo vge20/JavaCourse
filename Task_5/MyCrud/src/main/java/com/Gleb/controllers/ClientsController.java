@@ -15,7 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/clients")
+@WebServlet("/clients/*")
 public class ClientsController extends Controller {
 
     private ContextContainer<Client> contextContainer;

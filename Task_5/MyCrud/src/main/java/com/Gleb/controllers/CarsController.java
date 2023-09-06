@@ -14,7 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/cars")
+@WebServlet("/cars/*")
 public class CarsController extends Controller {
 
     private ContextContainer<Car> contextContainer;

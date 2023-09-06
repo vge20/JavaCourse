@@ -11,7 +11,7 @@ public class RequestParser {
     public Integer getId(HttpServletRequest req) throws ParsingException {
         int id;
         try {
-            id = Integer.parseInt(req.getParameter("id"));
+            id = Integer.parseInt(req.getPathInfo().substring(1));
         }
         catch (Exception e) {
             throw new ParsingException();
