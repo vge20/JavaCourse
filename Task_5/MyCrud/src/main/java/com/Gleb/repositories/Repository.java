@@ -1,6 +1,7 @@
 package com.Gleb.repositories;
 
 import com.Gleb.DataSource;
+import com.Gleb.TypeOfUpdate;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,25 +35,30 @@ public interface Repository<T> {
         connection.commit();
     }
 
-    default void executeUpdateTransaction(Object entity, boolean isUpdate) throws SQLException {
+    default void executeUpdateTransaction(Object entity, TypeOfUpdate typeOfUpdate) throws SQLException {
         Connection connection = DataSource.getConnection();
         connection.setAutoCommit(false);
-        PreparedStatement statement = this.createStatement(entity, isUpdate, connection);
+        PreparedStatement statement = this.createStatement(entity, typeOfUpdate, connection);
         statement.executeUpdate();
         connection.commit();
         if (statement != null) { statement.close(); }
     }
 
-    PreparedStatement createStatement(Object entity, boolean isUpdate, Connection connection) throws SQLException;
+    PreparedStatement createStatement(Object entity, TypeOfUpdate typeOfUpdate,
+                                      Connection connection) throws SQLException;
 
     T getById(int id) throws SQLException;
 
     default void add(T entity) throws SQLException {
-        this.executeUpdateTransaction(entity, false);
+        this.executeUpdateTransaction(entity, TypeOfUpdate.ADD);
     }
 
     default void update(T entity) throws SQLException {
-        this.executeUpdateTransaction(entity, true);
+        this.executeUpdateTransaction(entity, TypeOfUpdate.UPDATE);
+    }
+
+    default void addWithId(T entity) throws SQLException {
+        this.executeUpdateTransaction(entity, TypeOfUpdate.ADD_WITH_ID);
     }
 
     void delete(int id) throws SQLException;

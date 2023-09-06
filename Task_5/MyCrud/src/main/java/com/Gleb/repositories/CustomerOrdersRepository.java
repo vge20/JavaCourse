@@ -1,5 +1,6 @@
 package com.Gleb.repositories;
 
+import com.Gleb.TypeOfUpdate;
 import com.Gleb.entities.CustomerOrder;
 
 import java.sql.*;
@@ -7,22 +8,32 @@ import java.sql.*;
 public class CustomerOrdersRepository implements Repository {
 
     @Override
-    public PreparedStatement createStatement(Object entity, boolean isUpdate,
+    public PreparedStatement createStatement(Object entity, TypeOfUpdate typeOfUpdate,
                                              Connection connection) throws SQLException {
         CustomerOrder customerOrder = (CustomerOrder) entity;
         PreparedStatement statement;
-        if (isUpdate) {
-            statement = connection.prepareStatement(
-                    "update customer_orders set client_id = ?, car_id = ?, order_date = ? where id = ?");
-            statement.setInt(4, customerOrder.getId());
+
+        if (typeOfUpdate != TypeOfUpdate.ADD_WITH_ID) {
+            if (typeOfUpdate == TypeOfUpdate.UPDATE) {
+                statement = connection.prepareStatement(
+                        "update customer_orders set client_id = ?, car_id = ?, order_date = ? where id = ?");
+                statement.setInt(4, customerOrder.getId());
+            } else {
+                statement = connection.prepareStatement(
+                        "insert into customer_orders (client_id, car_id, order_date) values (?, ?, ?)");
+            }
+            statement.setInt(1, customerOrder.getClientId());
+            statement.setInt(2, customerOrder.getCarId());
+            statement.setDate(3, Date.valueOf(customerOrder.getOrderDate()));
         }
         else {
             statement = connection.prepareStatement(
-                    "insert into customer_orders (client_id, car_id, order_date) values (?, ?, ?)");
+                    "insert into customer_orders (id, client_id, car_id, order_date) values (?, ?, ?, ?)");
+            statement.setInt(1, customerOrder.getId());
+            statement.setInt(2, customerOrder.getClientId());
+            statement.setInt(3, customerOrder.getCarId());
+            statement.setDate(4, Date.valueOf(customerOrder.getOrderDate()));
         }
-        statement.setInt(1, customerOrder.getClientId());
-        statement.setInt(2, customerOrder.getCarId());
-        statement.setDate(3, Date.valueOf(customerOrder.getOrderDate()));
 
         return statement;
     }

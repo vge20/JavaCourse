@@ -25,7 +25,7 @@ public class ClientsService implements Service {
     public void executeUpdate(Object entity) throws SQLException {
         Client client = (Client) entity;
         if (this.clientsRepository.getById(client.getId()) == null) {
-            this.clientsRepository.add(client);
+            this.clientsRepository.addWithId(client);
         }
         else {
             this.clientsRepository.update(client);

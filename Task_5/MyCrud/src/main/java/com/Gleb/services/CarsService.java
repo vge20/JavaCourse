@@ -25,7 +25,7 @@ public class CarsService implements Service {
     public void executeUpdate(Object entity) throws SQLException {
         Car car = (Car) entity;
         if (this.carsRepository.getById(car.getId()) == null) {
-            this.carsRepository.add(car);
+            this.carsRepository.addWithId(car);
         }
         else {
             this.carsRepository.update(car);

@@ -25,7 +25,7 @@ public class CustomerOrdersService implements Service {
     public void executeUpdate(Object entity) throws SQLException {
         CustomerOrder customerOrder = (CustomerOrder) entity;
         if (this.customerOrdersRepository.getById(customerOrder.getId()) == null) {
-            this.customerOrdersRepository.add(customerOrder);
+            this.customerOrdersRepository.addWithId(customerOrder);
         }
         else {
             this.customerOrdersRepository.update(customerOrder);
