@@ -4,4 +4,66 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
+    <changeSet id="create-hotels-table" author="Gleb">
+        <createTable tableName="hotels">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="location" type="varchar(35)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-users-table" author="Gleb">
+        <createTable tableName="users">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="is_admin" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="varchar(35)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passw" type="varchar(35)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-rooms-table" author="Gleb">
+        <createTable tableName="rooms">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="hotel_id" type="int">
+                <constraints foreignKeyName="hotel_id" references="hotels(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="create-reservations-table" author="Gleb">
+        <createTable tableName="reservations">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="hotel_id" type="int">
+                <constraints foreignKeyName="hotel_id" references="hotels(id)"/>
+            </column>
+            <column name="room_id" type="int">
+                <constraints foreignKeyName="room_id" references="rooms(id)"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints foreignKeyName="user_id" references="users(id)"/>
+            </column>
+            <column name="start_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
