@@ -48,9 +48,6 @@
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="hotel_id" type="int">
-                <constraints foreignKeyName="hotel_id" references="hotels(id)"/>
-            </column>
             <column name="room_id" type="int">
                 <constraints foreignKeyName="room_id" references="rooms(id)"/>
             </column>
@@ -64,6 +61,74 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+    </changeSet>
+    
+    <changeSet id="fill-hotels-table" author="Gleb">
+        <insert tableName="hotels">
+            <column name="id" value="1"/>
+            <column name="location" value="Moscow"/>
+        </insert>
+        <insert tableName="hotels">
+            <column name="id" value="2"/>
+            <column name="location" value="Saint-Petersburg"/>
+        </insert>
+    </changeSet>
+    
+    <changeSet id="fill-users-table" author="Gleb">
+        <insert tableName="users">
+            <column name="id" value="1"/>
+            <column name="is_admin" value="false"/>
+            <column name="login" value="qwerty"/>
+            <column name="passw" value="ytrewq"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" value="2"/>
+            <column name="is_admin" value="false"/>
+            <column name="login" value="asdfgh"/>
+            <column name="passw" value="hgfdsa"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" value="3"/>
+            <column name="is_admin" value="true"/>
+            <column name="login" value="zxcvbn"/>
+            <column name="passw" value="nbvcxz"/>
+        </insert>
+    </changeSet>
+    
+    <changeSet id="fill-rooms-table" author="Gleb">
+        <insert tableName="rooms">
+            <column name="id" value="1"/>
+            <column name="hotel_id" value="1"/>
+        </insert>
+        <insert tableName="rooms">
+            <column name="id" value="2"/>
+            <column name="hotel_id" value="1"/>
+        </insert>
+        <insert tableName="rooms">
+            <column name="id" value="3"/>
+            <column name="hotel_id" value="2"/>
+        </insert>
+        <insert tableName="rooms">
+            <column name="id" value="4"/>
+            <column name="hotel_id" value="2"/>
+        </insert>
+    </changeSet>
+    
+    <changeSet id="fill-reservations-table" author="Gleb">
+        <insert tableName="reservations">
+            <column name="id" value="1"/>
+            <column name="room_id" value="1"/>
+            <column name="user_id" value="1"/>
+            <column name="start_date" value="2023-10-01"/>
+            <column name="end_date" value="2023-10-03"/>
+        </insert>
+        <insert tableName="reservations">
+            <column name="id" value="2"/>
+            <column name="room_id" value="2"/>
+            <column name="user_id" value="2"/>
+            <column name="start_date" value="2023-10-02"/>
+            <column name="end_date" value="2023-10-05"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

@@ -26,14 +26,17 @@ alter table rooms add foreign key(hotel_id) references hotels(id);
 
 create table if not exists reservations (
 	id serial,
-	hotel_id int,
 	room_id int,
 	user_id int,
 	start_date date not null,
 	end_date date not null
 );
 alter table reservations add primary key(id);
-alter table reservations add foreign key(hotel_id) references hotels(id);
 alter table reservations add foreign key(room_id) references rooms(id);
 alter table reservations add foreign key(user_id) references users(id);
+
+select * from reservations;
+select * from users;
+select * from rooms;
+select * from hotels;
 
