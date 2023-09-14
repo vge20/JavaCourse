@@ -1,18 +1,18 @@
 package com.Gleb.hotelroomreservations.controllers;
 
-import com.Gleb.hotelroomreservations.services.HotelsService;
+import com.Gleb.hotelroomreservations.services.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HotelsController {
+public class HotelController {
 
     @Autowired
-    private HotelsService hotelsService;
+    private HotelService hotelService;
 
-    @GetMapping("/hotels")
+    @GetMapping("/hotel")
     protected Object doGet() {
-        return hotelsService.getHotelById(1);
+        return hotelService.getHotelById(1);
     }
 }

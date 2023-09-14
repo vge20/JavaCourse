@@ -1,17 +1,17 @@
 package com.Gleb.hotelroomreservations.services;
 
 import com.Gleb.hotelroomreservations.models.Hotel;
-import com.Gleb.hotelroomreservations.repositories.HotelsRepository;
+import com.Gleb.hotelroomreservations.repositories.HotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HotelsService {
+public class HotelService {
 
     @Autowired
-    private HotelsRepository hotelsRepository;
+    private HotelRepository hotelRepository;
 
     public Hotel getHotelById(Integer id) {
-        return this.hotelsRepository.findHotelById(id);
+        return this.hotelRepository.findHotelById(id);
     }
 }

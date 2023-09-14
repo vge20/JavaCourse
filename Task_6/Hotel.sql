@@ -1,42 +1,42 @@
-drop table if exists reservations;
-drop table if exists users;
-drop table if exists rooms;
-drop table if exists hotels;
+drop table if exists reservation;
+drop table if exists user;
+drop table if exists room;
+drop table if exists hotel;
 
-create table if not exists hotels (
+create table if not exists hotel (
 	id serial,
 	location varchar(35) not null
 );
-alter table hotels add primary key(id);
+alter table hotel add primary key(id);
 
-create table if not exists users (
+create table if not exists user (
 	id serial,
 	is_admin boolean not null,
 	login varchar(35) not null,
 	passw varchar(35) not null 
 );
-alter table users add primary key(id);
+alter table user add primary key(id);
 
-create table if not exists rooms (
+create table if not exists room (
 	id serial,
 	hotel_id int
 );
-alter table rooms add primary key(id);
-alter table rooms add foreign key(hotel_id) references hotels(id);
+alter table room add primary key(id);
+alter table room add foreign key(hotel_id) references hotel(id);
 
-create table if not exists reservations (
+create table if not exists reservation (
 	id serial,
 	room_id int,
 	user_id int,
 	start_date date not null,
 	end_date date not null
 );
-alter table reservations add primary key(id);
-alter table reservations add foreign key(room_id) references rooms(id);
-alter table reservations add foreign key(user_id) references users(id);
+alter table reservation add primary key(id);
+alter table reservation add foreign key(room_id) references room(id);
+alter table reservation add foreign key(user_id) references user(id);
 
-select * from reservations;
-select * from users;
-select * from rooms;
-select * from hotels;
+select * from reservation;
+select * from user;
+select * from room;
+select * from hotel;
 

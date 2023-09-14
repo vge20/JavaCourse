@@ -4,8 +4,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <changeSet id="create-hotels-table" author="Gleb">
-        <createTable tableName="hotels">
+    <changeSet id="create-hotel-table" author="Gleb">
+        <createTable tableName="hotel">
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -15,8 +15,8 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-users-table" author="Gleb">
-        <createTable tableName="users">
+    <changeSet id="create-user-table" author="Gleb">
+        <createTable tableName="user">
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -32,27 +32,27 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-rooms-table" author="Gleb">
-        <createTable tableName="rooms">
+    <changeSet id="create-room-table" author="Gleb">
+        <createTable tableName="room">
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="hotel_id" type="int">
-                <constraints foreignKeyName="hotel_id" references="hotels(id)"/>
+                <constraints foreignKeyName="hotel_id" references="hotel(id)"/>
             </column>
         </createTable>
     </changeSet>
     
-    <changeSet id="create-reservations-table" author="Gleb">
-        <createTable tableName="reservations">
+    <changeSet id="create-reservation-table" author="Gleb">
+        <createTable tableName="reservation">
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="room_id" type="int">
-                <constraints foreignKeyName="room_id" references="rooms(id)"/>
+                <constraints foreignKeyName="room_id" references="room(id)"/>
             </column>
             <column name="user_id" type="int">
-                <constraints foreignKeyName="user_id" references="users(id)"/>
+                <constraints foreignKeyName="user_id" references="user(id)"/>
             </column>
             <column name="start_date" type="date">
                 <constraints nullable="false"/>
@@ -63,31 +63,31 @@
         </createTable>
     </changeSet>
     
-    <changeSet id="fill-hotels-table" author="Gleb">
-        <insert tableName="hotels">
+    <changeSet id="fill-hotel-table" author="Gleb">
+        <insert tableName="hotel">
             <column name="id" value="1"/>
             <column name="location" value="Moscow"/>
         </insert>
-        <insert tableName="hotels">
+        <insert tableName="hotel">
             <column name="id" value="2"/>
             <column name="location" value="Saint-Petersburg"/>
         </insert>
     </changeSet>
     
-    <changeSet id="fill-users-table" author="Gleb">
-        <insert tableName="users">
+    <changeSet id="fill-user-table" author="Gleb">
+        <insert tableName="user">
             <column name="id" value="1"/>
             <column name="is_admin" value="false"/>
             <column name="login" value="qwerty"/>
             <column name="passw" value="ytrewq"/>
         </insert>
-        <insert tableName="users">
+        <insert tableName="user">
             <column name="id" value="2"/>
             <column name="is_admin" value="false"/>
             <column name="login" value="asdfgh"/>
             <column name="passw" value="hgfdsa"/>
         </insert>
-        <insert tableName="users">
+        <insert tableName="user">
             <column name="id" value="3"/>
             <column name="is_admin" value="true"/>
             <column name="login" value="zxcvbn"/>
@@ -95,34 +95,34 @@
         </insert>
     </changeSet>
     
-    <changeSet id="fill-rooms-table" author="Gleb">
-        <insert tableName="rooms">
+    <changeSet id="fill-room-table" author="Gleb">
+        <insert tableName="room">
             <column name="id" value="1"/>
             <column name="hotel_id" value="1"/>
         </insert>
-        <insert tableName="rooms">
+        <insert tableName="room">
             <column name="id" value="2"/>
             <column name="hotel_id" value="1"/>
         </insert>
-        <insert tableName="rooms">
+        <insert tableName="room">
             <column name="id" value="3"/>
             <column name="hotel_id" value="2"/>
         </insert>
-        <insert tableName="rooms">
+        <insert tableName="room">
             <column name="id" value="4"/>
             <column name="hotel_id" value="2"/>
         </insert>
     </changeSet>
     
-    <changeSet id="fill-reservations-table" author="Gleb">
-        <insert tableName="reservations">
+    <changeSet id="fill-reservation-table" author="Gleb">
+        <insert tableName="reservation">
             <column name="id" value="1"/>
             <column name="room_id" value="1"/>
             <column name="user_id" value="1"/>
             <column name="start_date" value="2023-10-01"/>
             <column name="end_date" value="2023-10-03"/>
         </insert>
-        <insert tableName="reservations">
+        <insert tableName="reservation">
             <column name="id" value="2"/>
             <column name="room_id" value="2"/>
             <column name="user_id" value="2"/>
