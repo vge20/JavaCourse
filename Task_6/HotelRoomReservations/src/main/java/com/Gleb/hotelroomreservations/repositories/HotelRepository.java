@@ -9,9 +9,5 @@ import java.util.List;
 @Repository
 public interface HotelRepository extends CrudRepository<Hotel, Integer> {
 
-    Hotel findHotelById(int id);
-
-    Hotel updateHotelById(Hotel hotel);
-
     List<Hotel> findHotelsByLocation(String location);
 }
