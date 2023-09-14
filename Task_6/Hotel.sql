@@ -1,5 +1,5 @@
 drop table if exists reservation;
-drop table if exists user;
+drop table if exists public.user;
 drop table if exists room;
 drop table if exists hotel;
 
@@ -34,9 +34,10 @@ create table if not exists reservation (
 alter table reservation add primary key(id);
 alter table reservation add foreign key(room_id) references room(id);
 alter table reservation add foreign key(user_id) references user(id);
+alter table reservation add constraint date_order check (start_date <= end_date);
 
 select * from reservation;
-select * from user;
+select * from public.user;
 select * from room;
 select * from hotel;
 

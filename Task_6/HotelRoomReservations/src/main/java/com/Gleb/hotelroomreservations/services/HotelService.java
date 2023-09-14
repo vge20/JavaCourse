@@ -12,7 +12,7 @@ public class HotelService extends BaseService<Hotel> {
     @Autowired
     private HotelRepository hotelRepository;
 
-    public Hotel getHotelById(Integer id) throws WorkingWithDBException {
+    public Hotel getHotelById(int id) throws WorkingWithDBException {
         return this.getObject(hotelRepository, id);
     }
 

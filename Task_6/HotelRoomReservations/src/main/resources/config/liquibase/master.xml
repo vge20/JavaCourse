@@ -61,6 +61,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <sql>
+            alter table reservation add constraint date_order check (start_date between '0001-01-01' and end_date)
+        </sql>
     </changeSet>
     
     <changeSet id="fill-hotel-table" author="Gleb">
