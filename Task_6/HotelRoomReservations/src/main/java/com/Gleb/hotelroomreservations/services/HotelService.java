@@ -12,6 +12,6 @@ public class HotelsService {
     private HotelsRepository hotelsRepository;
 
     public Hotel getHotelById(Integer id) {
-        return hotelsRepository.findHotelById(id);
+        return this.hotelsRepository.findHotelById(id);
     }
 }
