@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends CrudRepository<Reservation, Integer> {
 
+    Reservation getById(int id);
+
     @Query("select r.room_id from reservation as r where r.start_date < :end_date and r.end_date > :start_date")
     List<Integer> findTakenRoomsId(@Param("start_date") Date startDate, @Param("end_date") Date endDate);
 }

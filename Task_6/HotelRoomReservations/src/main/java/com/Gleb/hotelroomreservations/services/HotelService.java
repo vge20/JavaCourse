@@ -15,7 +15,7 @@ public class HotelService extends BaseService<Hotel> {
     private HotelRepository hotelRepository;
 
     public Hotel getHotelById(int id) throws WorkingWithDBException {
-        return this.getObject(hotelRepository, id).get();
+        return this.getObject(hotelRepository, id);
     }
 
     public void addHotel(Hotel hotel) {

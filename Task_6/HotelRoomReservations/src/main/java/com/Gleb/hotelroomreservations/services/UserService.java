@@ -15,6 +15,6 @@ public class UserService extends BaseService<User> {
     private UserRepository userRepository;
 
     public User getUserById(int id) throws WorkingWithDBException {
-        return this.getObject(userRepository, id).get();
+        return this.userRepository.findUserById(id);
     }
 }
