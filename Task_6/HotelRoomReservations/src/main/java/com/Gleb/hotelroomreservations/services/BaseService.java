@@ -3,11 +3,13 @@ package com.Gleb.hotelroomreservations.services;
 import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 public class BaseService<T> {
 
-    protected T getObject(CrudRepository<T, Integer> repository, int id) throws WorkingWithDBException {
+    protected Optional<T> getObject(CrudRepository<Optional<T>, Integer> repository, int id) throws WorkingWithDBException {
 
-        T object = (T) repository.findById(id);
+        Optional<T> object = (Optional<T>) repository.findById(id);
         if (object == null) {
             throw new WorkingWithDBException();
         }

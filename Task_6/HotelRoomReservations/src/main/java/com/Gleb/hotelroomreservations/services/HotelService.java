@@ -6,6 +6,8 @@ import com.Gleb.hotelroomreservations.repositories.HotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class HotelService extends BaseService<Hotel> {
 
@@ -13,7 +15,7 @@ public class HotelService extends BaseService<Hotel> {
     private HotelRepository hotelRepository;
 
     public Hotel getHotelById(int id) throws WorkingWithDBException {
-        return this.getObject(hotelRepository, id);
+        return this.getObject(hotelRepository, id).get();
     }
 
     public void addHotel(Hotel hotel) {

@@ -4,8 +4,7 @@ import com.Gleb.hotelroomreservations.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+import java.util.Optional;
 
-    User updateUserById(User user);
-}
+@Repository
+public interface UserRepository extends CrudRepository<Optional<User>, Integer> {}

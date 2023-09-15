@@ -5,9 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoomRepository extends CrudRepository<Room, Integer> {
-
-    Room findRoomById(int id);
-
-    Room updateRoomById(Room room);
-}
+public interface RoomRepository extends CrudRepository<Room, Integer> {}
