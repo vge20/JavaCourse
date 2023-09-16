@@ -6,19 +6,19 @@ import com.Gleb.hotelroomreservations.repositories.HotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-public class HotelService extends BaseService<Hotel> {
+public class HotelService implements BaseService<Hotel> {
 
     @Autowired
     private HotelRepository hotelRepository;
 
-    public Hotel getHotelById(int id) throws WorkingWithDBException {
-        return this.getObject(hotelRepository, id);
+    public Hotel getById(int id) throws WorkingWithDBException {
+        Hotel hotel;
+        if ((hotel = this.hotelRepository.findHotelById(id)) == null) { throw new WorkingWithDBException(); }
+        return hotel;
     }
 
-    public void addHotel(Hotel hotel) {
-
+    public void deleteById(int id) throws WorkingWithDBException {
+        if (!this.hotelRepository.deleteHotelById(id)) { throw new WorkingWithDBException(); }
     }
 }

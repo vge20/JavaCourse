@@ -7,5 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomRepository extends CrudRepository<Room, Integer> {
 
-    Room getById(int id);
+    Room findRoomById(int id);
+
+    Boolean deleteRoomById(int id);
+
+    //Boolean updateRoom(Room room);
 }

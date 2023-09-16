@@ -2,14 +2,14 @@ package com.Gleb.hotelroomreservations.exceptions;
 
 public class WorkingWithDBException extends BaseException {
 
-    private String message;
+    private String jsonMessage;
 
     public WorkingWithDBException() {
-        message = "Ошибка при работе с БД!";
+        jsonMessage = "{\"message\":\"Ошибка при работе с БД!\"}";
     }
 
-    @Override
-    public String getMessage() {
-        return message;
+
+    public String getJsonMessage() {
+        return jsonMessage;
     }
 }

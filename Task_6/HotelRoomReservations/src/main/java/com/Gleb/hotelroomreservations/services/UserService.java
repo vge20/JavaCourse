@@ -6,15 +6,19 @@ import com.Gleb.hotelroomreservations.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-public class UserService extends BaseService<User> {
+public class UserService implements BaseService<User> {
 
     @Autowired
     private UserRepository userRepository;
 
-    public User getUserById(int id) throws WorkingWithDBException {
-        return this.userRepository.findUserById(id);
+    public User getById(int id) throws WorkingWithDBException {
+        User user;
+        if ((user = this.userRepository.findUserById(id)) == null) { throw new WorkingWithDBException(); }
+        return user;
+    }
+
+    public void deleteById(int id) throws WorkingWithDBException {
+        if (!this.userRepository.deleteUserById(id)) { throw new WorkingWithDBException(); }
     }
 }
