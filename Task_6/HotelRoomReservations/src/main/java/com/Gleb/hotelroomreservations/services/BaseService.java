@@ -4,7 +4,17 @@ import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 
 public interface BaseService<T> {
 
-    T getById(int id) throws WorkingWithDBException;
+    T getByIdImpl(int id);
 
-    void deleteById(int id) throws WorkingWithDBException;
+    default T getById(int id) throws WorkingWithDBException {
+        Object object;
+        if ((object = this.getByIdImpl(id)) == null) { throw new WorkingWithDBException(); }
+        return (T) object;
+    }
+
+    boolean deleteByIdImpl(int id);
+
+    default void deleteById(int id) throws WorkingWithDBException {
+        if (!this.deleteByIdImpl(id)) { throw new WorkingWithDBException(); }
+    }
 }

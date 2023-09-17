@@ -16,7 +16,6 @@ public class BaseController<T> {
     }
 
     protected Object deleteObjectById(BaseService<T> service, int id) {
-        Object object;
         try {
             service.deleteById(id);
         } catch (WorkingWithDBException e) {

@@ -1,6 +1,5 @@
 package com.Gleb.hotelroomreservations.services;
 
-import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import com.Gleb.hotelroomreservations.models.Hotel;
 import com.Gleb.hotelroomreservations.repositories.HotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +11,11 @@ public class HotelService implements BaseService<Hotel> {
     @Autowired
     private HotelRepository hotelRepository;
 
-    public Hotel getById(int id) throws WorkingWithDBException {
-        Hotel hotel;
-        if ((hotel = this.hotelRepository.findHotelById(id)) == null) { throw new WorkingWithDBException(); }
-        return hotel;
+    public Hotel getByIdImpl(int id) {
+        return this.hotelRepository.findHotelById(id);
     }
 
-    public void deleteById(int id) throws WorkingWithDBException {
-        if (!this.hotelRepository.deleteHotelById(id)) { throw new WorkingWithDBException(); }
+    public boolean deleteByIdImpl(int id) {
+        return this.hotelRepository.deleteHotelById(id);
     }
 }
