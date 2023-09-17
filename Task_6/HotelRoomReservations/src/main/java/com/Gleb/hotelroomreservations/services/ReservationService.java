@@ -4,6 +4,7 @@ import com.Gleb.hotelroomreservations.models.Reservation;
 import com.Gleb.hotelroomreservations.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReservationService implements BaseService<Reservation> {
@@ -17,11 +18,13 @@ public class ReservationService implements BaseService<Reservation> {
     }
 
     @Override
+    @Transactional
     public boolean deleteByIdImpl(int id) {
         return this.reservationRepository.deleteReservationById(id);
     }
 
     @Override
+    @Transactional
     public Reservation saveObjectImpl(Object object) {
         return this.reservationRepository.save((Reservation) object);
     }
