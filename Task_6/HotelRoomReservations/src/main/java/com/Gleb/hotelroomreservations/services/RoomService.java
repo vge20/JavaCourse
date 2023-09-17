@@ -20,4 +20,9 @@ public class RoomService implements BaseService<Room> {
     public boolean deleteByIdImpl(int id) {
         return this.roomRepository.deleteRoomById(id);
     }
+
+    @Override
+    public Room saveObjectImpl(Object object) {
+        return this.roomRepository.save((Room) object);
+    }
 }

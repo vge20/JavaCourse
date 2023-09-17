@@ -3,10 +3,8 @@ package com.Gleb.hotelroomreservations.controllers;
 import com.Gleb.hotelroomreservations.models.Reservation;
 import com.Gleb.hotelroomreservations.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ReservationController extends BaseController<Reservation> {
@@ -22,5 +20,15 @@ public class ReservationController extends BaseController<Reservation> {
     @DeleteMapping("/reservation/{id}")
     protected Object doDelete(@PathVariable int id) {
         return this.deleteObjectById(reservationService, id);
+    }
+
+    @PostMapping("/reservation")
+    protected ResponseEntity<Object> doPost(@RequestBody Reservation reservation) {
+        return this.saveObject(reservationService, reservation);
+    }
+
+    @PutMapping("/reservation")
+    protected ResponseEntity<Object> doPut(@RequestBody Reservation reservation) {
+        return this.saveObject(reservationService, reservation);
     }
 }

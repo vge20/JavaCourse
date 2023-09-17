@@ -20,4 +20,9 @@ public class ReservationService implements BaseService<Reservation> {
     public boolean deleteByIdImpl(int id) {
         return this.reservationRepository.deleteReservationById(id);
     }
+
+    @Override
+    public Reservation saveObjectImpl(Object object) {
+        return this.reservationRepository.save((Reservation) object);
+    }
 }

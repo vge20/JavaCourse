@@ -11,11 +11,18 @@ public class HotelService implements BaseService<Hotel> {
     @Autowired
     private HotelRepository hotelRepository;
 
+    @Override
     public Hotel getByIdImpl(int id) {
         return this.hotelRepository.findHotelById(id);
     }
 
+    @Override
     public boolean deleteByIdImpl(int id) {
         return this.hotelRepository.deleteHotelById(id);
+    }
+
+    @Override
+    public Hotel saveObjectImpl(Object object) {
+        return this.hotelRepository.save((Hotel) object);
     }
 }

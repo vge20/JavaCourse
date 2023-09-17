@@ -11,11 +11,18 @@ public class UserService implements BaseService<User> {
     @Autowired
     private UserRepository userRepository;
 
+    @Override
     public User getByIdImpl(int id) {
         return this.userRepository.findUserById(id);
     }
 
+    @Override
     public boolean deleteByIdImpl(int id) {
         return this.userRepository.deleteUserById(id);
+    }
+
+    @Override
+    public User saveObjectImpl(Object object) {
+        return userRepository.save((User) object);
     }
 }
