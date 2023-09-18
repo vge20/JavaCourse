@@ -1,7 +1,6 @@
 package com.Gleb.hotelroomreservations.services;
 
 import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
-import com.Gleb.hotelroomreservations.models.Room;
 
 public interface BaseService<T> {
 
@@ -9,7 +8,12 @@ public interface BaseService<T> {
 
     default T getById(int id) throws WorkingWithDBException {
         T object;
-        if ((object = this.getByIdImpl(id)) == null) { throw new WorkingWithDBException(); }
+        try {
+            if ((object = this.getByIdImpl(id)) == null) { throw new WorkingWithDBException(); }
+        } catch (Exception e) {
+            throw new WorkingWithDBException();
+        }
+
         return object;
     }
 
@@ -26,6 +30,10 @@ public interface BaseService<T> {
     T saveObjectImpl(Object object);
 
     default void saveObject(T object) throws WorkingWithDBException {
-        if (this.saveObjectImpl(object) == null) { throw new WorkingWithDBException(); }
+        try {
+            if (this.saveObjectImpl(object) == null) { throw new WorkingWithDBException(); }
+        } catch (Exception e) {
+            throw new WorkingWithDBException();
+        }
     }
 }
