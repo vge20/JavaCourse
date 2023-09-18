@@ -1,6 +1,5 @@
 package com.Gleb.hotelroomreservations;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import liquibase.integration.spring.SpringLiquibase;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
@@ -38,10 +37,5 @@ public class AppConfig {
         liquibase.setDataSource(dataSource);
 
         return liquibase;
-    }
-
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
     }
 }

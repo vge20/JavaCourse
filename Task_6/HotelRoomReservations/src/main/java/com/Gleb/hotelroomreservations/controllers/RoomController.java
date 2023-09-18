@@ -22,7 +22,7 @@ public class RoomController extends BaseController<Room> {
         return this.deleteObjectById(roomService, id);
     }
 
-    @PostMapping("/room")
+    @PostMapping(value = "/room")
     protected ResponseEntity<Object> doPost(@RequestBody Room room) {
         return this.saveObject(roomService, room);
     }
