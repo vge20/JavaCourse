@@ -13,12 +13,12 @@ public class UserController extends BaseController<User> {
     private UserService userService;
 
     @GetMapping("/user/{id}")
-    protected Object doGet(@PathVariable int id) {
+    protected ResponseEntity<Object> doGet(@PathVariable int id) {
         return this.getObjectById(userService, id);
     }
 
     @DeleteMapping("/user/{id}")
-    protected Object doDelete(@PathVariable int id) {
+    protected ResponseEntity<Object> doDelete(@PathVariable int id) {
         return this.deleteObjectById(userService, id);
     }
 

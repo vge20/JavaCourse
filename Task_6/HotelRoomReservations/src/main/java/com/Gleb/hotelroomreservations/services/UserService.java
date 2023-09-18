@@ -19,8 +19,8 @@ public class UserService implements BaseService<User> {
 
     @Override
     @Transactional
-    public boolean deleteByIdImpl(int id) {
-        return this.userRepository.deleteUserById(id);
+    public void deleteByIdImpl(int id) {
+        this.userRepository.deleteById(id);
     }
 
     @Override

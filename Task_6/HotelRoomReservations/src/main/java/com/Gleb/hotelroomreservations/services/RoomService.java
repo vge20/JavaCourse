@@ -19,8 +19,8 @@ public class RoomService implements BaseService<Room> {
 
     @Override
     @Transactional
-    public boolean deleteByIdImpl(int id) {
-        return this.roomRepository.deleteRoomById(id);
+    public void deleteByIdImpl(int id) {
+        this.roomRepository.deleteById(id);
     }
 
     @Override

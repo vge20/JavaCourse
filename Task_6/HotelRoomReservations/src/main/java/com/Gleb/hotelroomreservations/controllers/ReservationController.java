@@ -13,12 +13,12 @@ public class ReservationController extends BaseController<Reservation> {
     private ReservationService reservationService;
 
     @GetMapping("/reservation/{id}")
-    protected Object doGet(@PathVariable int id) {
+    protected ResponseEntity<Object> doGet(@PathVariable int id) {
         return this.getObjectById(reservationService, id);
     }
 
     @DeleteMapping("/reservation/{id}")
-    protected Object doDelete(@PathVariable int id) {
+    protected ResponseEntity<Object> doDelete(@PathVariable int id) {
         return this.deleteObjectById(reservationService, id);
     }
 

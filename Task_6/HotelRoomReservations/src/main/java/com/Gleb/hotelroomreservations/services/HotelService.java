@@ -19,8 +19,8 @@ public class HotelService implements BaseService<Hotel> {
 
     @Override
     @Transactional
-    public boolean deleteByIdImpl(int id) {
-        return this.hotelRepository.deleteHotelById(id);
+    public void deleteByIdImpl(int id) {
+        this.hotelRepository.deleteById(id);
     }
 
     @Override

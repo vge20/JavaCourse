@@ -9,7 +9,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     User findUserById(int id);
 
-    Boolean deleteUserById(int id);
-
-    //Boolean updateUser(User user);
+    User deleteUserById(int id);
 }

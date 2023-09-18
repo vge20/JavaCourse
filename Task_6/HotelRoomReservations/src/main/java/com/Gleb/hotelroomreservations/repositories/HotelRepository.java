@@ -11,7 +11,7 @@ public interface HotelRepository extends CrudRepository<Hotel, Integer> {
 
     Hotel findHotelById(int id);
 
-    Boolean deleteHotelById(int id);
+    Hotel deleteHotelById(int id);
 
     List<Hotel> findHotelsByLocation(String location);
 }

@@ -28,7 +28,7 @@ public class BaseController<T> {
 
     protected ResponseEntity<Object> saveObject(BaseService<T> service, Object object) {
         try {
-            service.addObject((T) object);
+            service.saveObject((T) object);
         } catch (WorkingWithDBException e) {
             return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
         }

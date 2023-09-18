@@ -9,7 +9,5 @@ public interface RoomRepository extends CrudRepository<Room, Integer> {
 
     Room findRoomById(int id);
 
-    Boolean deleteRoomById(int id);
-
-    //Boolean updateRoom(Room room);
+    Room deleteRoomById(int id);
 }

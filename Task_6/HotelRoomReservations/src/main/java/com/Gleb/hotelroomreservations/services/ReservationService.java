@@ -19,8 +19,8 @@ public class ReservationService implements BaseService<Reservation> {
 
     @Override
     @Transactional
-    public boolean deleteByIdImpl(int id) {
-        return this.reservationRepository.deleteReservationById(id);
+    public void deleteByIdImpl(int id) {
+        this.reservationRepository.deleteById(id);
     }
 
     @Override
