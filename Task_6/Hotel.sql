@@ -41,8 +41,8 @@ select * from public.user;
 select * from room;
 select * from hotel;
 
--- id отелей со свободными комнатами в наличии на определённый промежуток и в нужной локации
-select h.id
+-- id отелей и кол-во свободных номеров в наличии на определённый промежуток дат и в нужной локации
+select h.id as hotel_id, count(r.id) as count_rooms
 from hotel as h join room as r on h.id = r.hotel_id
 where h."location" = 'Moscow' and r.id not in 
 (select room_id
