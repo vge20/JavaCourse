@@ -44,10 +44,10 @@ select * from hotel;
 -- id отелей и кол-во свободных номеров в наличии на определённый промежуток дат и в нужной локации
 select h.id as hotel_id, count(r.id) as count_rooms
 from hotel as h join room as r on h.id = r.hotel_id
-where h."location" = 'Moscow' and r.id not in 
+where h."location" = 'Moscow' and r.id in 
 (select room_id
 from reservations
-where not (end_date < '2023-10-01' or start_date > '2023-10-05')
+where end_date < '2023-10-01' or start_date > '2023-10-05'
 group by hotel_id;)
 group by h.id;
 

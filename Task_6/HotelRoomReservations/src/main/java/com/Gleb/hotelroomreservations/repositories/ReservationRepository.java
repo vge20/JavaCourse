@@ -14,8 +14,9 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
 
     Reservation findReservationById(int id);
 
-    Reservation deleteReservationById(int id);
-
-    @Query("select r.room_id from reservation as r where r.start_date < :end_date and r.end_date > :start_date")
-    List<Integer> findTakenRoomsId(@Param("start_date") Date startDate, @Param("end_date") Date endDate);
+    @Query("select room_id " +
+            "from reservations " +
+            "where end_date < :start_date or start_date > :end_date " +
+            "group by hotel_id")
+    List<Integer> findVacantRoomsId(@Param("start_date") Date startDate, @Param("end_date") Date endDate);
 }
