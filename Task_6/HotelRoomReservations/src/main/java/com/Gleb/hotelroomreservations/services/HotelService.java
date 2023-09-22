@@ -1,9 +1,7 @@
 package com.Gleb.hotelroomreservations.services;
 
 import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
-import com.Gleb.hotelroomreservations.models.ConditionsForReserve;
-import com.Gleb.hotelroomreservations.models.Hotel;
-import com.Gleb.hotelroomreservations.models.OptionsForReserve;
+import com.Gleb.hotelroomreservations.models.*;
 import com.Gleb.hotelroomreservations.repositories.HotelRepository;
 import com.Gleb.hotelroomreservations.repositories.ReservationRepository;
 import com.Gleb.hotelroomreservations.repositories.RoomRepository;
@@ -45,6 +43,10 @@ public class HotelService implements BaseService<Hotel> {
     @Transactional
     public List<OptionsForReserve> getDataForReserve(ConditionsForReserve conditionsForReserve)
             throws WorkingWithDBException {
-        
+        List<Hotel> hotels = hotelRepository.findHotelsByLocation(conditionsForReserve.getLocation());
+        List<Integer> reservations = reservationRepository.findVacantRoomsId(conditionsForReserve.getStartDate(),
+                conditionsForReserve.getEndDate());
+        List<Room> rooms = roomRepository.getAllRooms();
+        // соединить по условиям БЛ и получить список объектов OptionsForReserve
     }
 }
