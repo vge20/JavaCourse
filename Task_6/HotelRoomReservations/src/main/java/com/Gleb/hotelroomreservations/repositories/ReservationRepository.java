@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
-import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public interface ReservationRepository extends CrudRepository<Reservation, Integer> {
@@ -18,5 +18,5 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
             "from reservations " +
             "where end_date < :start_date or start_date > :end_date " +
             "group by hotel_id")
-    List<Integer> findVacantRoomsId(@Param("start_date") Date startDate, @Param("end_date") Date endDate);
+    ArrayList<Integer> findVacantRoomsId(@Param("start_date") Date startDate, @Param("end_date") Date endDate);
 }

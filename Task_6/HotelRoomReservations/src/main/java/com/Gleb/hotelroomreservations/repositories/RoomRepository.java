@@ -5,7 +5,7 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public interface RoomRepository extends CrudRepository<Room, Integer> {
@@ -13,5 +13,5 @@ public interface RoomRepository extends CrudRepository<Room, Integer> {
     Room findRoomById(int id);
 
     @Query("select * from room")
-    List<Room> getAllRooms();
+    ArrayList<Room> getAllRooms();
 }

@@ -3,7 +3,7 @@ package com.Gleb.hotelroomreservations.controllers;
 import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import com.Gleb.hotelroomreservations.models.ConditionsForReserve;
 import com.Gleb.hotelroomreservations.models.Hotel;
-import com.Gleb.hotelroomreservations.models.OptionsForReserve;
+import com.Gleb.hotelroomreservations.models.OptionForReserve;
 import com.Gleb.hotelroomreservations.services.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +38,7 @@ public class HotelController extends BaseController<Hotel> {
 
     @GetMapping("/hotel/reserveRoom")
     protected ResponseEntity<Object> doGet(@RequestBody ConditionsForReserve conditionsForReserve) {
-        List<OptionsForReserve> optionsForReserves;
+        List<OptionForReserve> optionsForReserves;
         try {
             optionsForReserves = this.hotelService.getDataForReserve(conditionsForReserve);
         } catch (WorkingWithDBException e) {

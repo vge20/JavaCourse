@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OptionsForReserve {
+public class OptionForReserve {
 
     int hotelId;
 

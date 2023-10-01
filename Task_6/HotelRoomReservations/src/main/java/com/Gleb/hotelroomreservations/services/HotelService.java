@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -41,12 +42,23 @@ public class HotelService implements BaseService<Hotel> {
     }
 
     @Transactional
-    public List<OptionsForReserve> getDataForReserve(ConditionsForReserve conditionsForReserve)
+    public List<OptionForReserve> getDataForReserve(ConditionsForReserve conditionsForReserve)
             throws WorkingWithDBException {
         List<Hotel> hotels = hotelRepository.findHotelsByLocation(conditionsForReserve.getLocation());
-        List<Integer> reservations = reservationRepository.findVacantRoomsId(conditionsForReserve.getStartDate(),
+        List<Integer> vacantRoomsId = reservationRepository.findVacantRoomsId(conditionsForReserve.getStartDate(),
                 conditionsForReserve.getEndDate());
         List<Room> rooms = roomRepository.getAllRooms();
-        // соединить по условиям БЛ и получить список объектов OptionsForReserve
+        List<OptionForReserve> optionsForReserves = new LinkedList<>();
+
+        for (int i = 0; i < hotels.size(); i++) {
+            for (int j = 0; j < rooms.size(); j++) {
+                if (hotels.get(i).getId() == rooms.get(i).getHotelId()
+                        && rooms.get(i).getId() == vacantRoomsId.get(i)) {
+                    optionsForReserves.add(new OptionForReserve(hotels.get(i).getId(), rooms.get(i).getId()));
+                }
+            }
+        }
+
+        return optionsForReserves;
     }
 }

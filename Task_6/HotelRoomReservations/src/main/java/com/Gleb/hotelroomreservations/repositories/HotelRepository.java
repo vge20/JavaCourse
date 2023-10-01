@@ -4,12 +4,12 @@ import com.Gleb.hotelroomreservations.models.Hotel;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public interface HotelRepository extends CrudRepository<Hotel, Integer> {
 
     Hotel findHotelById(int id);
 
-    List<Hotel> findHotelsByLocation(String location);
+    ArrayList<Hotel> findHotelsByLocation(String location);
 }
