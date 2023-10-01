@@ -11,7 +11,5 @@ public class OptionsForReserve {
 
     int hotelId;
 
-    int NumberOfAvailableRoomsInHotel;
-
     int roomId;
 }
