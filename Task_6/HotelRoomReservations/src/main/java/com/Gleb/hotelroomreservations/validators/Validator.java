@@ -1,6 +1,7 @@
 package com.Gleb.hotelroomreservations.validators;
 
 import com.Gleb.hotelroomreservations.exceptions.ValidationException;
+import com.Gleb.hotelroomreservations.models.ConditionsForReserve;
 
 public interface Validator {
 
@@ -8,6 +9,13 @@ public interface Validator {
         if (id < 0) {
             throw new ValidationException();
         }
+    }
+
+    default void validateConditionsForReserve(ConditionsForReserve conditionsForReserve)
+            throws ValidationException {
+        if (conditionsForReserve.getLocation() == null) throw new ValidationException();
+        if (conditionsForReserve.getStartDate() == null) throw new ValidationException();
+        if (conditionsForReserve.getEndDate() == null) throw new ValidationException();
     }
 
     default void validateForAdd(Object entity) throws ValidationException {
