@@ -8,7 +8,7 @@ public class ValidationException extends BaseException {
         jsonMessage = "{\"message\":\"Ошибка валидации!\"}";
     }
 
-
+    @Override
     public String getJsonMessage() {
         return jsonMessage;
     }

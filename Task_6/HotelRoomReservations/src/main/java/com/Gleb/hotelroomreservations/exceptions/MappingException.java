@@ -1,10 +1,10 @@
 package com.Gleb.hotelroomreservations.exceptions;
 
-public class AuthenticationException extends BaseException {
+public class MappingException extends BaseException {
 
     private String jsonMessage;
 
-    public AuthenticationException() {
+    public MappingException() {
         jsonMessage = "{\"message\":\"Ошибка отображения данных!\"}";
     }
 

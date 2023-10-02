@@ -1,5 +1,7 @@
 package com.Gleb.hotelroomreservations.services;
 
+import com.Gleb.hotelroomreservations.exceptions.AuthenticationException;
+import com.Gleb.hotelroomreservations.models.AuthenticateParameters;
 import com.Gleb.hotelroomreservations.models.User;
 import com.Gleb.hotelroomreservations.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +29,12 @@ public class UserService implements BaseService<User> {
     @Transactional
     public User saveObjectImpl(Object object) {
         return userRepository.save((User) object);
+    }
+
+    public void authentication(AuthenticateParameters authenticateParameters) throws AuthenticationException {
+        User user = null;
+        user = userRepository.findUserByLoginAndPassw(authenticateParameters.getLogin(),
+                    authenticateParameters.getPassword());
+        if (user == null) throw new AuthenticationException();
     }
 }

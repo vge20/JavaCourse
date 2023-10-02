@@ -44,10 +44,17 @@ public class HotelService implements BaseService<Hotel> {
     @Transactional
     public List<OptionForReserve> getDataForReserve(ConditionsForReserve conditionsForReserve)
             throws WorkingWithDBException {
-        List<Hotel> hotels = hotelRepository.findHotelsByLocation(conditionsForReserve.getLocation());
-        List<Integer> vacantRoomsId = reservationRepository.findVacantRoomsId(conditionsForReserve.getStartDate(),
-                conditionsForReserve.getEndDate());
-        List<Room> rooms = roomRepository.getAllRooms();
+        List<Hotel> hotels;
+        List<Integer> vacantRoomsId;
+        List<Room> rooms;
+        try {
+            hotels = hotelRepository.findHotelsByLocation(conditionsForReserve.getLocation());
+            vacantRoomsId = reservationRepository.findVacantRoomsId(conditionsForReserve.getStartDate(),
+                    conditionsForReserve.getEndDate());
+            rooms = roomRepository.getAllRooms();
+        } catch (Exception e) {
+            throw new WorkingWithDBException();
+        }
         List<OptionForReserve> optionsForReserves = new LinkedList<>();
 
         for (int i = 0; i < hotels.size(); i++) {
