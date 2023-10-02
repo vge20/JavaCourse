@@ -12,11 +12,12 @@ import com.Gleb.hotelroomreservations.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 
-@RestController
+@Controller
 public class UserController extends BaseController<User> {
 
     @Autowired
@@ -57,9 +58,9 @@ public class UserController extends BaseController<User> {
         return this.saveObject(userValidator, userService, user, false);
     }
 
-    @PostMapping("/user/authentication")
-    protected ResponseEntity<Object> doPost(@RequestHeader("Authenticate") String header) {
-        try {
+    @PostMapping("/user/authenticate")
+    protected ResponseEntity<Object> doPost(@RequestParam String login, @RequestParam String password) { // вроде верно
+        /*try {
             AuthenticateParameters authenticateParameters =
                     this.authenticationMapper.mapAuthenticationParameters(header);
             userValidator.validateAuthenticateParameters(authenticateParameters);
@@ -72,7 +73,12 @@ public class UserController extends BaseController<User> {
             return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.UNAUTHORIZED);
         } catch (BaseException e) {
             return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
-        }
+        }*/
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    protected String doGet() {
+        return "login";
     }
 }
