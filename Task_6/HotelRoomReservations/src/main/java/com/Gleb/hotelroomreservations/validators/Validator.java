@@ -18,22 +18,22 @@ public interface Validator {
         if (conditionsForReserve.getEndDate() == null) throw new ValidationException();
     }
 
-    default void validateForAdd(Object entity) throws ValidationException {
+    default void validateForAdd(Object object) throws ValidationException {
         try {
-            this.validateAddParam(entity);
+            this.validateAddParam(object);
         } catch ( Exception e) {
             throw new ValidationException();
         }
     }
 
-    default void validateForUpdate(Object entity) throws ValidationException {
+    default void validateForUpdate(Object object) throws ValidationException {
         try {
-            this.validateUpdateParam(entity);
+            this.validateUpdateParam(object);
         } catch ( Exception e) {
             throw new ValidationException();
         }
     }
-    void validateAddParam(Object entity) throws Exception;
+    void validateAddParam(Object object) throws Exception;
 
-    void validateUpdateParam(Object entity) throws Exception;
+    void validateUpdateParam(Object object) throws Exception;
 }
