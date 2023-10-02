@@ -1,7 +1,9 @@
 package com.Gleb.hotelroomreservations.controllers;
 
 import com.Gleb.hotelroomreservations.AuthenticationMapper;
+import com.Gleb.hotelroomreservations.exceptions.AuthenticationException;
 import com.Gleb.hotelroomreservations.exceptions.BaseException;
+import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import com.Gleb.hotelroomreservations.models.AuthenticateParameters;
 import com.Gleb.hotelroomreservations.models.User;
 import com.Gleb.hotelroomreservations.services.UserService;
@@ -49,8 +51,14 @@ public class UserController extends BaseController<User> {
             AuthenticateParameters authenticateParameters =
                     this.authenticationMapper.mapAuthenticationParameters(header);
             userValidator.validateAuthenticateParameters(authenticateParameters);
+            userService.authentication(authenticateParameters);
+        } catch (WorkingWithDBException e) {
+            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.NOT_FOUND);
+        } catch (AuthenticationException e) {
+            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.UNAUTHORIZED);
         } catch (BaseException e) {
             return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
