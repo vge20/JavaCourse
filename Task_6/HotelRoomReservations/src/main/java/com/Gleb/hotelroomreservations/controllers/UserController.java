@@ -3,6 +3,7 @@ package com.Gleb.hotelroomreservations.controllers;
 import com.Gleb.hotelroomreservations.AuthenticationMapper;
 import com.Gleb.hotelroomreservations.exceptions.AuthenticationException;
 import com.Gleb.hotelroomreservations.exceptions.BaseException;
+import com.Gleb.hotelroomreservations.exceptions.ValidationException;
 import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import com.Gleb.hotelroomreservations.models.AuthenticateParameters;
 import com.Gleb.hotelroomreservations.models.User;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Base64;
 
 @RestController
 public class UserController extends BaseController<User> {
@@ -37,7 +40,16 @@ public class UserController extends BaseController<User> {
 
     @PostMapping("/user")
     protected ResponseEntity<Object> doPost(@RequestBody User user) {
-        return this.saveObject(userValidator, userService, user, true);
+        try {
+            userValidator.validateForAdd(user);
+            user.setPassw(Base64.getEncoder().encodeToString(user.getPassw().getBytes()));
+            userService.saveObject(user);
+        } catch (WorkingWithDBException e) {
+            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PutMapping("/user")
@@ -51,6 +63,8 @@ public class UserController extends BaseController<User> {
             AuthenticateParameters authenticateParameters =
                     this.authenticationMapper.mapAuthenticationParameters(header);
             userValidator.validateAuthenticateParameters(authenticateParameters);
+            authenticateParameters.setPassword(Base64.getEncoder().encodeToString
+                    (authenticateParameters.getPassword().getBytes()));
             userService.authentication(authenticateParameters);
         } catch (WorkingWithDBException e) {
             return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.NOT_FOUND);
