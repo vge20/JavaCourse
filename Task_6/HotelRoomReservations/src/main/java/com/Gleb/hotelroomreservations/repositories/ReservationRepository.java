@@ -1,5 +1,6 @@
 package com.Gleb.hotelroomreservations.repositories;
 
+import com.Gleb.hotelroomreservations.models.OptionForReserve;
 import com.Gleb.hotelroomreservations.models.Reservation;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -14,6 +15,6 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
 
     Reservation findReservationById(int id);
 
-    @Query("select distinct room_id from reservation where end_date < :start_date or start_date > :end_date")
-    ArrayList<Integer> findVacantRoomsId(@Param("start_date") Date startDate, @Param("end_date") Date endDate);
+    @Query("select distinct hotel_id, room_id from reservation where end_date < :start_date or start_date > :end_date")
+    ArrayList<OptionForReserve> findVacantRoomsId(@Param("start_date") Date startDate, @Param("end_date") Date endDate);
 }

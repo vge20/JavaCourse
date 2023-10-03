@@ -9,13 +9,13 @@ create table if not exists hotel (
 );
 alter table hotel add primary key(id);
 
-create table if not exists user (
+create table if not exists public.user (
 	id serial,
 	is_admin boolean not null,
 	login varchar(35) not null,
 	passw varchar(35) not null 
 );
-alter table user add primary key(id);
+alter table public.user add primary key(id);
 
 create table if not exists room (
 	id serial,
@@ -26,6 +26,7 @@ alter table room add foreign key(hotel_id) references hotel(id);
 
 create table if not exists reservation (
 	id serial,
+	hotel_id int,
 	room_id int,
 	user_id int,
 	start_date date not null,
@@ -33,7 +34,7 @@ create table if not exists reservation (
 );
 alter table reservation add primary key(id);
 alter table reservation add foreign key(room_id) references room(id);
-alter table reservation add foreign key(user_id) references user(id);
+alter table reservation add foreign key(user_id) references public.user(id);
 alter table reservation add constraint date_order check (start_date <= end_date);
 
 select * from reservation;

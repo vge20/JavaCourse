@@ -48,6 +48,9 @@
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
+            <column name="hotel_id" type="int">
+                <constraints foreignKeyName="hotel_id" references="hotel(id)"/>
+            </column>
             <column name="room_id" type="int">
                 <constraints foreignKeyName="room_id" references="room(id)"/>
             </column>
@@ -120,6 +123,7 @@
     <changeSet id="fill-reservation-table" author="Gleb">
         <insert tableName="reservation">
             <column name="id" value="1"/>
+            <column name="hotel_id" value="1"/>
             <column name="room_id" value="1"/>
             <column name="user_id" value="1"/>
             <column name="start_date" value="2023-10-01"/>
@@ -127,6 +131,7 @@
         </insert>
         <insert tableName="reservation">
             <column name="id" value="2"/>
+            <column name="hotel_id" value="2"/>
             <column name="room_id" value="2"/>
             <column name="user_id" value="2"/>
             <column name="start_date" value="2023-10-02"/>

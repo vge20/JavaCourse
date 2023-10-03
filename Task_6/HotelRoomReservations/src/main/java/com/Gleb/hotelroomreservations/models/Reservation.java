@@ -15,6 +15,8 @@ public class Reservation {
     @Id
     int id;
 
+    int hotelId;
+
     int roomId;
 
     int userId;

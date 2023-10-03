@@ -4,7 +4,6 @@ import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import com.Gleb.hotelroomreservations.models.*;
 import com.Gleb.hotelroomreservations.repositories.HotelRepository;
 import com.Gleb.hotelroomreservations.repositories.ReservationRepository;
-import com.Gleb.hotelroomreservations.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +18,6 @@ public class HotelService implements BaseService<Hotel> {
 
     @Autowired
     private ReservationRepository reservationRepository;
-
-    @Autowired
-    private RoomRepository roomRepository;
 
     @Override
     public Hotel getByIdImpl(int id) {
@@ -43,34 +39,22 @@ public class HotelService implements BaseService<Hotel> {
     @Transactional
     public List<OptionForReserve> getDataForReserve(ConditionsForReserve conditionsForReserve)
             throws WorkingWithDBException {
-        List<Hotel> hotels;
-        List<Integer> vacantRoomsId;
-        List<Room> rooms;
+        List<Integer> hotelsId;
+        List<OptionForReserve> optionsForReserves;
         try {
-            hotels = hotelRepository.findHotelsByLocation(conditionsForReserve.getLocation());
-            vacantRoomsId = reservationRepository.findVacantRoomsId(conditionsForReserve.getStartDate(),
+            hotelsId = hotelRepository.findHotelsIdByLocation(conditionsForReserve.getLocation());
+            optionsForReserves = reservationRepository.findVacantRoomsId(conditionsForReserve.getStartDate(),
                     conditionsForReserve.getEndDate());
-            rooms = roomRepository.getAllRooms();
         } catch (Exception e) {
             throw new WorkingWithDBException();
         }
-        if (hotels == null || vacantRoomsId == null || rooms == null) throw new WorkingWithDBException();
+        if (hotelsId == null || optionsForReserves == null) throw new WorkingWithDBException();
 
-        List<OptionForReserve> optionsForReserves = new ArrayList<>();
-        OptionForReserve option;
-        for (int i = 0; i < hotels.size(); i++) {
-            for (int j = 0; j < rooms.size(); j++) {
-                for (int k = 0; k < vacantRoomsId.size(); k++) {
-                    if (hotels.get(i).getId() == rooms.get(j).getHotelId()
-                            && rooms.get(j).getId() == vacantRoomsId.get(k)) {
-                        option = new OptionForReserve(hotels.get(i).getId(), rooms.get(j).getId());
-                        if (!optionsForReserves.contains(option))
-                            optionsForReserves.add(option);
-                    }
-                }
-            }
+        for (int i = 0; i < optionsForReserves.size(); i++) {
+            if (!hotelsId.contains(optionsForReserves.get(i).getHotelId()))
+                optionsForReserves.remove(i);
         }
-        System.out.println(optionsForReserves.size());
-        return new LinkedList<>(optionsForReserves);
+
+        return optionsForReserves;
     }
 }
