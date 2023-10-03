@@ -55,8 +55,9 @@ public class HotelService implements BaseService<Hotel> {
         } catch (Exception e) {
             throw new WorkingWithDBException();
         }
-        List<OptionForReserve> optionsForReserves = new LinkedList<>();
+        if (hotels == null || vacantRoomsId == null || rooms == null) throw new WorkingWithDBException();
 
+        List<OptionForReserve> optionsForReserves = new LinkedList<>();
         for (int i = 0; i < hotels.size(); i++) {
             for (int j = 0; j < rooms.size(); j++) {
                 if (hotels.get(i).getId() == rooms.get(i).getHotelId()

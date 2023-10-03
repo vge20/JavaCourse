@@ -1,6 +1,5 @@
 package com.Gleb.hotelroomreservations.controllers;
 
-import com.Gleb.hotelroomreservations.AuthenticationMapper;
 import com.Gleb.hotelroomreservations.exceptions.AuthenticationException;
 import com.Gleb.hotelroomreservations.exceptions.BaseException;
 import com.Gleb.hotelroomreservations.exceptions.ValidationException;
@@ -26,9 +25,6 @@ public class UserController extends BaseController<User> {
     @Autowired
     private UserValidator userValidator;
 
-    @Autowired
-    private AuthenticationMapper authenticationMapper;
-
     @GetMapping("/user/{id}")
     protected ResponseEntity<Object> doGet(@PathVariable int id) {
         return this.getObjectById(userValidator, userService, id);
@@ -43,7 +39,7 @@ public class UserController extends BaseController<User> {
     protected ResponseEntity<Object> doPost(@RequestBody User user) {
         try {
             userValidator.validateForAdd(user);
-            user.setPassw(Base64.getEncoder().encodeToString(user.getPassw().getBytes()));
+            //user.setPassw(Base64.getEncoder().encodeToString(user.getPassw().getBytes()));
             userService.saveObject(user);
         } catch (WorkingWithDBException e) {
             return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
@@ -59,22 +55,26 @@ public class UserController extends BaseController<User> {
     }
 
     @PostMapping("/user/authenticate")
-    protected ResponseEntity<Object> doPost(@RequestParam String login, @RequestParam String password) { // вроде верно
-        /*try {
-            AuthenticateParameters authenticateParameters =
-                    this.authenticationMapper.mapAuthenticationParameters(header);
+    protected String doPost(@RequestParam String login, @RequestParam String password) {
+        User user;
+        try {
+            AuthenticateParameters authenticateParameters = new AuthenticateParameters(login, password);
             userValidator.validateAuthenticateParameters(authenticateParameters);
-            authenticateParameters.setPassword(Base64.getEncoder().encodeToString
-                    (authenticateParameters.getPassword().getBytes()));
-            userService.authentication(authenticateParameters);
+            //authenticateParameters.setPassword(Base64.getEncoder().encodeToString
+            //        (authenticateParameters.getPassword().getBytes()));
+            user = userService.authentication(authenticateParameters);
         } catch (WorkingWithDBException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.NOT_FOUND);
+            return e.getJsonMessage();
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.UNAUTHORIZED);
+            return e.getJsonMessage();
         } catch (BaseException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
-        }*/
-        return new ResponseEntity<>(HttpStatus.OK);
+            return e.getJsonMessage();
+        }
+
+        if (user.isAdmin())
+            return "adminMenu";
+        else
+            return "inputConditionsForReserve";
     }
 
     @GetMapping("/")

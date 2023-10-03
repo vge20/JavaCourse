@@ -32,7 +32,7 @@ public class UserService implements BaseService<User> {
         return userRepository.save((User) object);
     }
 
-    public void authentication(AuthenticateParameters authenticateParameters)
+    public User authentication(AuthenticateParameters authenticateParameters)
             throws AuthenticationException, WorkingWithDBException {
         User user = null;
         try {
@@ -42,5 +42,7 @@ public class UserService implements BaseService<User> {
             throw new WorkingWithDBException();
         }
         if (user == null) throw new AuthenticationException();
+
+        return user;
     }
 }

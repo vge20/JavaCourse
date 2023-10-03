@@ -5,20 +5,17 @@
     <title>Вход</title>
 </head>
 <body>
-<div style="text-align: center">
+<div>
     <h2>Вход</h2>
 </div>
-<form th:action="@{/user/authenticate}" method="post" style="text-align: center">
-    <div>
-        <h4>Неверные данные</h4>
-    </div>
-    <h4><label for="login">Login:
+<form th:action="@{/user/authenticate}" method="post">
+    <h4><label for="login">Логин:
         <input id="login" type="text" name="login">
     </label></h4>
-    <h4><label for="password">Password:
+    <h4><label for="password">Пароль:
         <input id="password" type="password" name="password">
     </label></h4>
-    <button type="submit">Login</button>
+    <button type="submit">Войти</button>
 </form>
 </body>
 </html>

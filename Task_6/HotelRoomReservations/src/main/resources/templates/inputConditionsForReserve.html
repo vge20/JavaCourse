@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Ввод парметров брони</title>
 </head>
 <body>
-$END$
+<div>
+    <h2>Ввод парметров брони</h2>
+</div>
+<form th:action="@{/hotel/reserveRoom}" method="get">
+    <h4><label for="startDate">Дата начала:
+        <input id="startDate" type="date" name="startDate">
+    </label></h4>
+    <h4><label for="endDate">Дата окончания:
+        <input id="endDate" type="date" name="endDate">
+    </label></h4>
+    <h4><label for="location">Местоположение:
+        <input id="location" type="text" name="location">
+    </label></h4>
+    <button type="submit">Ввести</button>
+</form>
 </body>
 </html>

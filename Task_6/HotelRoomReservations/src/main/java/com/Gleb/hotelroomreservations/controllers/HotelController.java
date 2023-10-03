@@ -8,10 +8,11 @@ import com.Gleb.hotelroomreservations.models.OptionForReserve;
 import com.Gleb.hotelroomreservations.services.HotelService;
 import com.Gleb.hotelroomreservations.validators.HotelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -44,16 +45,19 @@ public class HotelController extends BaseController<Hotel> {
     }
 
     @GetMapping("/hotel/reserveRoom")
-    protected ResponseEntity<Object> doGet(@RequestBody ConditionsForReserve conditionsForReserve) {
-        List<OptionForReserve> optionsForReserves;
+    protected String doGet(Model model, @RequestParam Date startDate,
+                           @RequestParam Date endDate, @RequestParam String location) {
+        List<OptionForReserve> optionsForReserve;
+        ConditionsForReserve conditionsForReserve = new ConditionsForReserve(location, startDate, endDate);
         try {
             hotelValidator.validateConditionsForReserve(conditionsForReserve);
-            optionsForReserves = this.hotelService.getDataForReserve(conditionsForReserve);
+            optionsForReserve = this.hotelService.getDataForReserve(conditionsForReserve);
         } catch (WorkingWithDBException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return e.getJsonMessage();
         } catch (ValidationException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
+            return e.getJsonMessage();
         }
-        return new ResponseEntity<>(optionsForReserves, HttpStatus.OK);
+        model.addAttribute("optionsForReserve", optionsForReserve);
+        return "optionsForReserve";
     }
 }
