@@ -2,6 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bookings</title>
+    <title>Бронирования</title>
 </head>
+<body>
+<div>
+    <h2>Бронирования</h2>
+</div>
+<div th:if="${optionsForReserve.iterator().hasNext() != false}">
+    <table>
+        <thead>
+        <tr>
+            <th>Id отеля</th>
+            <th>Id комнаты</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="optionForReserve: ${optionsForReserve}">
+            <tr>
+                <td>
+                    <p th:text="${optionForReserve.getHotelId()}">Id отеля</p>
+                </td>
+                <td>
+                    <p th:text="${optionForReserve.getHotelId()}">Id комнаты</p>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>
+<div>
+    <h4><span th:text="${optionsForReserve.iterator().hasNext() == false} ? 'Список бронирований пуст'">
+        Text
+    </span>
+    </h4>
+    <br><br>
+</div>
+</body>
 </html>

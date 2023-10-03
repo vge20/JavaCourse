@@ -60,9 +60,11 @@ public class HotelService implements BaseService<Hotel> {
         List<OptionForReserve> optionsForReserves = new LinkedList<>();
         for (int i = 0; i < hotels.size(); i++) {
             for (int j = 0; j < rooms.size(); j++) {
-                if (hotels.get(i).getId() == rooms.get(i).getHotelId()
-                        && rooms.get(i).getId() == vacantRoomsId.get(i)) {
-                    optionsForReserves.add(new OptionForReserve(hotels.get(i).getId(), rooms.get(i).getId()));
+                for (int k = 0; k < vacantRoomsId.size(); k++) {
+                    if (hotels.get(i).getId() == rooms.get(j).getHotelId()
+                            && rooms.get(j).getId() == vacantRoomsId.get(k)) {
+                        optionsForReserves.add(new OptionForReserve(hotels.get(i).getId(), rooms.get(j).getId()));
+                    }
                 }
             }
         }
