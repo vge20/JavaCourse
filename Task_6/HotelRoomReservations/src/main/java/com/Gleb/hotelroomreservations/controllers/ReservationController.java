@@ -1,12 +1,11 @@
 package com.Gleb.hotelroomreservations.controllers;
 
 import com.Gleb.hotelroomreservations.exceptions.ValidationException;
-import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
+import com.Gleb.hotelroomreservations.exceptions.NotFoundException;
 import com.Gleb.hotelroomreservations.models.Reservation;
 import com.Gleb.hotelroomreservations.services.ReservationService;
 import com.Gleb.hotelroomreservations.validators.ReservationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,13 +35,13 @@ public class ReservationController extends BaseController<Reservation> {
         try {
             reservationValidator.validateForUpdate(reservation);
             reservationService.deleteReservation(reservation);
-        } catch (WorkingWithDBException e) {
-            return e.getJsonMessage();
+        } catch (NotFoundException e) {
+            return e.getMessage();
         } catch (ValidationException e) {
-            return e.getJsonMessage();
+            return e.getMessage();
         }
         model.addAttribute("userId", userId);
-        return "inputConditionsForReserve";
+        return "userMenu";
     }
 
     @PostMapping("/reservation/{userId}")
@@ -53,12 +52,12 @@ public class ReservationController extends BaseController<Reservation> {
         try {
             reservationValidator.validateForAdd(reservation);
             reservationService.saveObject(reservation);
-        } catch (WorkingWithDBException e) {
-            return e.getJsonMessage();
+        } catch (NotFoundException e) {
+            return e.getMessage();
         } catch (ValidationException e) {
-            return e.getJsonMessage();
+            return e.getMessage();
         }
-        return "login";
+        return "userMenu";
     }
 
     @PutMapping("/reservation")

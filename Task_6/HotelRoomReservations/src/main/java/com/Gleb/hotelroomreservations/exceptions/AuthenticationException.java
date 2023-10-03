@@ -2,14 +2,14 @@ package com.Gleb.hotelroomreservations.exceptions;
 
 public class AuthenticationException extends BaseException {
 
-    private String jsonMessage;
+    private String message;
 
     public AuthenticationException() {
-        jsonMessage = "{\"message\":\"Ошибка аутентификации!\"}";
+        message = "message:Ошибка аутентификации!";
     }
 
     @Override
-    public String getJsonMessage() {
-        return jsonMessage;
+    public String getMessage() {
+        return message;
     }
 }

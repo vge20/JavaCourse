@@ -1,7 +1,7 @@
 package com.Gleb.hotelroomreservations.services;
 
 import com.Gleb.hotelroomreservations.exceptions.AuthenticationException;
-import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
+import com.Gleb.hotelroomreservations.exceptions.NotFoundException;
 import com.Gleb.hotelroomreservations.models.AuthenticateParameters;
 import com.Gleb.hotelroomreservations.models.User;
 import com.Gleb.hotelroomreservations.repositories.UserRepository;
@@ -33,13 +33,13 @@ public class UserService implements BaseService<User> {
     }
 
     public User authentication(AuthenticateParameters authenticateParameters)
-            throws AuthenticationException, WorkingWithDBException {
+            throws AuthenticationException, NotFoundException {
         User user = null;
         try {
             user = userRepository.findUserByLoginAndPassw(authenticateParameters.getLogin(),
                     authenticateParameters.getPassword());
         } catch (Exception e) {
-            throw new WorkingWithDBException();
+            throw new NotFoundException();
         }
         if (user == null) throw new AuthenticationException();
 

@@ -2,14 +2,14 @@ package com.Gleb.hotelroomreservations.exceptions;
 
 public class ValidationException extends BaseException {
 
-    private String jsonMessage;
+    private String message;
 
     public ValidationException() {
-        jsonMessage = "{\"message\":\"Ошибка валидации!\"}";
+        message = "message:Ошибка валидации!";
     }
 
     @Override
-    public String getJsonMessage() {
-        return jsonMessage;
+    public String getMessage() {
+        return message;
     }
 }

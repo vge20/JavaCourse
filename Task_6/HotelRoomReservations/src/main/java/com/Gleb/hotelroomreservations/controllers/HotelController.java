@@ -1,7 +1,7 @@
 package com.Gleb.hotelroomreservations.controllers;
 
 import com.Gleb.hotelroomreservations.exceptions.ValidationException;
-import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
+import com.Gleb.hotelroomreservations.exceptions.NotFoundException;
 import com.Gleb.hotelroomreservations.models.ConditionsForReserve;
 import com.Gleb.hotelroomreservations.models.Hotel;
 import com.Gleb.hotelroomreservations.models.OptionForReserve;
@@ -53,10 +53,10 @@ public class HotelController extends BaseController<Hotel> {
         try {
             hotelValidator.validateConditionsForReserve(conditionsForReserve);
             optionsForReserve = this.hotelService.getDataForReserve(conditionsForReserve);
-        } catch (WorkingWithDBException e) {
-            return e.getJsonMessage();
+        } catch (NotFoundException e) {
+            return e.getMessage();
         } catch (ValidationException e) {
-            return e.getJsonMessage();
+            return e.getMessage();
         }
         model.addAttribute("optionsForReserve", optionsForReserve);
         model.addAttribute("userId", userId);

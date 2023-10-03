@@ -1,10 +1,10 @@
 package com.Gleb.hotelroomreservations.exceptions;
 
-public class WorkingWithDBException extends BaseException {
+public class NotFoundException extends BaseException {
 
     private String message;
 
-    public WorkingWithDBException() {
+    public NotFoundException() {
         message = "message:Ошибка при работе с БД!";
     }
 

@@ -3,7 +3,7 @@ package com.Gleb.hotelroomreservations.controllers;
 import com.Gleb.hotelroomreservations.exceptions.AuthenticationException;
 import com.Gleb.hotelroomreservations.exceptions.BaseException;
 import com.Gleb.hotelroomreservations.exceptions.ValidationException;
-import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
+import com.Gleb.hotelroomreservations.exceptions.NotFoundException;
 import com.Gleb.hotelroomreservations.models.AuthenticateParameters;
 import com.Gleb.hotelroomreservations.models.User;
 import com.Gleb.hotelroomreservations.services.UserService;
@@ -14,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Base64;
 
 @Controller
 public class UserController extends BaseController<User> {
@@ -42,10 +40,10 @@ public class UserController extends BaseController<User> {
             userValidator.validateForAdd(user);
             //user.setPassw(Base64.getEncoder().encodeToString(user.getPassw().getBytes()));
             userService.saveObject(user);
-        } catch (WorkingWithDBException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ValidationException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
@@ -64,12 +62,12 @@ public class UserController extends BaseController<User> {
             //authenticateParameters.setPassword(Base64.getEncoder().encodeToString
             //        (authenticateParameters.getPassword().getBytes()));
             user = userService.authentication(authenticateParameters);
-        } catch (WorkingWithDBException e) {
-            return e.getJsonMessage();
+        } catch (NotFoundException e) {
+            return e.getMessage();
         } catch (AuthenticationException e) {
-            return e.getJsonMessage();
+            return e.getMessage();
         } catch (BaseException e) {
-            return e.getJsonMessage();
+            return e.getMessage();
         }
 
         model.addAttribute("userId", user.getId());
@@ -77,7 +75,7 @@ public class UserController extends BaseController<User> {
         if (user.isAdmin())
             return "adminMenu";
         else
-            return "inputConditionsForReserve";
+            return "userMenu";
     }
 
     @GetMapping("/")

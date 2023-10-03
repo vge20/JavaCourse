@@ -1,7 +1,7 @@
 package com.Gleb.hotelroomreservations.controllers;
 
 import com.Gleb.hotelroomreservations.exceptions.ValidationException;
-import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
+import com.Gleb.hotelroomreservations.exceptions.NotFoundException;
 import com.Gleb.hotelroomreservations.services.BaseService;
 import com.Gleb.hotelroomreservations.validators.Validator;
 import org.springframework.http.HttpStatus;
@@ -14,10 +14,10 @@ public class BaseController<T> {
         try {
             validator.validateId(id);
             object = service.getById(id);
-        } catch (WorkingWithDBException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.NOT_FOUND);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (ValidationException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(object, HttpStatus.OK);
     }
@@ -26,10 +26,10 @@ public class BaseController<T> {
         try {
             validator.validateId(id);
             service.deleteById(id);
-        } catch (WorkingWithDBException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.NOT_FOUND);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (ValidationException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
@@ -40,10 +40,10 @@ public class BaseController<T> {
             if (isAdd) validator.validateForAdd(object);
             else validator.validateForUpdate(object);
             service.saveObject((T) object);
-        } catch (WorkingWithDBException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ValidationException e) {
-            return new ResponseEntity<>(e.getJsonMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

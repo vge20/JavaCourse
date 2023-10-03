@@ -1,17 +1,17 @@
 package com.Gleb.hotelroomreservations.services;
 
-import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
+import com.Gleb.hotelroomreservations.exceptions.NotFoundException;
 
 public interface BaseService<T> {
 
     T getByIdImpl(int id);
 
-    default T getById(int id) throws WorkingWithDBException {
+    default T getById(int id) throws NotFoundException {
         T object;
         try {
-            if ((object = this.getByIdImpl(id)) == null) { throw new WorkingWithDBException(); }
+            if ((object = this.getByIdImpl(id)) == null) { throw new NotFoundException(); }
         } catch (Exception e) {
-            throw new WorkingWithDBException();
+            throw new NotFoundException();
         }
 
         return object;
@@ -19,21 +19,21 @@ public interface BaseService<T> {
 
     void deleteByIdImpl(int id);
 
-    default void deleteById(int id) throws WorkingWithDBException {
+    default void deleteById(int id) throws NotFoundException {
         try {
             this.deleteByIdImpl(id);
         } catch (Exception e) {
-            throw new WorkingWithDBException();
+            throw new NotFoundException();
         }
     }
 
     T saveObjectImpl(Object object);
 
-    default void saveObject(T object) throws WorkingWithDBException {
+    default void saveObject(T object) throws NotFoundException {
         try {
-            if (this.saveObjectImpl(object) == null) { throw new WorkingWithDBException(); }
+            if (this.saveObjectImpl(object) == null) { throw new NotFoundException(); }
         } catch (Exception e) {
-            throw new WorkingWithDBException();
+            throw new NotFoundException();
         }
     }
 }
