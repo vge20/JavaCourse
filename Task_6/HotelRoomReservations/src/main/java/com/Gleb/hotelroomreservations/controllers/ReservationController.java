@@ -33,7 +33,8 @@ public class ReservationController extends BaseController<Reservation> {
                                             @RequestParam int hotelId, @RequestParam int roomId,
                                             @PathVariable int userId) {
         Reservation reservation = new Reservation(hotelId, roomId, userId, startDate, endDate);
-        return this.saveObject(reservationValidator, reservationService, reservation, true);
+        return this.saveObject(reservationValidator, reservationService, reservation, true); // успешно,
+        // поменять возврат на String, @Controller итд
     }
 
     @PutMapping("/reservation")
