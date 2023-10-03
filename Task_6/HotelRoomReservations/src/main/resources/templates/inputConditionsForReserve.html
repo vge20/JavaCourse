@@ -6,9 +6,9 @@
 </head>
 <body>
 <div>
-    <h2>Ввод парметров брони</h2>
+    <h2>Введите интересующие параметры брони</h2>
 </div>
-<form th:action="@{/hotel/reserveRoom}" method="get">
+<form th:action="@{/hotel/reserveRoom/{userId}(userId=${userId})}" method="get">
     <h4><label for="startDate">Дата начала:
         <input id="startDate" type="date" name="startDate">
     </label></h4>

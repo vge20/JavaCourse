@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
@@ -55,7 +56,7 @@ public class UserController extends BaseController<User> {
     }
 
     @PostMapping("/user/authenticate")
-    protected String doPost(@RequestParam String login, @RequestParam String password) {
+    protected String doPost(@RequestParam String login, @RequestParam String password, Model model) {
         User user;
         try {
             AuthenticateParameters authenticateParameters = new AuthenticateParameters(login, password);
@@ -70,6 +71,8 @@ public class UserController extends BaseController<User> {
         } catch (BaseException e) {
             return e.getJsonMessage();
         }
+
+        model.addAttribute("userId", user.getId());
 
         if (user.isAdmin())
             return "adminMenu";

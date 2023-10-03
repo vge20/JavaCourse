@@ -6,6 +6,24 @@
 </head>
 <body>
 <div>
+    <h2>Введите все данные для бронирования</h2>
+</div>
+<form th:action="@{/reservation/{userId}(userId=${userId})}" method="post">
+    <h4><label for="startDate">Дата начала:
+        <input id="startDate" type="date" name="startDate">
+    </label></h4>
+    <h4><label for="endDate">Дата окончания:
+        <input id="endDate" type="date" name="endDate">
+    </label></h4>
+    <h4><label for="hotelId">Id отеля:
+        <input id="hotelId" type="int" name="hotelId">
+    </label></h4>
+    <h4><label for="roomId">Id комнаты:
+        <input id="roomId" type="int" name="roomId">
+    </label></h4>
+    <button type="submit">Ввести</button>
+</form>
+<div>
     <h2>Для выбранных парметров доступны комнаты</h2>
 </div>
 <div th:if="${optionsForReserve.iterator().hasNext() != false}">

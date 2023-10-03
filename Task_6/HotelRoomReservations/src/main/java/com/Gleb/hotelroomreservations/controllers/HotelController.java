@@ -45,8 +45,8 @@ public class HotelController extends BaseController<Hotel> {
         return this.saveObject(hotelValidator, hotelService, hotel, false);
     }
 
-    @GetMapping("/hotel/reserveRoom")
-    protected String doGet(Model model, @RequestParam Date startDate,
+    @GetMapping("/hotel/reserveRoom/{userId}")
+    protected String doGet(Model model, @RequestParam Date startDate, @PathVariable int userId,
                            @RequestParam Date endDate, @RequestParam String location) {
         List<OptionForReserve> optionsForReserve;
         ConditionsForReserve conditionsForReserve = new ConditionsForReserve(location, startDate, endDate);
@@ -59,6 +59,7 @@ public class HotelController extends BaseController<Hotel> {
             return e.getJsonMessage();
         }
         model.addAttribute("optionsForReserve", optionsForReserve);
+        model.addAttribute("userId", userId);
         return "optionsForReserve";
     }
 }

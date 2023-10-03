@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+
 @RestController
 public class ReservationController extends BaseController<Reservation> {
 
@@ -26,8 +28,11 @@ public class ReservationController extends BaseController<Reservation> {
         return this.deleteObjectById(reservationValidator, reservationService, id);
     }
 
-    @PostMapping("/reservation")
-    protected ResponseEntity<Object> doPost(@RequestBody Reservation reservation) {
+    @PostMapping("/reservation/{userId}")
+    protected ResponseEntity<Object> doPost(@RequestParam Date startDate, @RequestParam Date endDate,
+                                            @RequestParam int hotelId, @RequestParam int roomId,
+                                            @PathVariable int userId) {
+        Reservation reservation = new Reservation(hotelId, roomId, userId, startDate, endDate);
         return this.saveObject(reservationValidator, reservationService, reservation, true);
     }
 
