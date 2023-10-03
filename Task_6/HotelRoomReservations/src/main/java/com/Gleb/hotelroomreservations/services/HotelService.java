@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class HotelService implements BaseService<Hotel> {
@@ -57,18 +56,21 @@ public class HotelService implements BaseService<Hotel> {
         }
         if (hotels == null || vacantRoomsId == null || rooms == null) throw new WorkingWithDBException();
 
-        List<OptionForReserve> optionsForReserves = new LinkedList<>();
+        List<OptionForReserve> optionsForReserves = new ArrayList<>();
+        OptionForReserve option;
         for (int i = 0; i < hotels.size(); i++) {
             for (int j = 0; j < rooms.size(); j++) {
                 for (int k = 0; k < vacantRoomsId.size(); k++) {
                     if (hotels.get(i).getId() == rooms.get(j).getHotelId()
                             && rooms.get(j).getId() == vacantRoomsId.get(k)) {
-                        optionsForReserves.add(new OptionForReserve(hotels.get(i).getId(), rooms.get(j).getId()));
+                        option = new OptionForReserve(hotels.get(i).getId(), rooms.get(j).getId());
+                        if (!optionsForReserves.contains(option))
+                            optionsForReserves.add(option);
                     }
                 }
             }
         }
-
-        return optionsForReserves;
+        System.out.println(optionsForReserves.size());
+        return new LinkedList<>(optionsForReserves);
     }
 }
