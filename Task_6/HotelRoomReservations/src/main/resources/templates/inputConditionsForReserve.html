@@ -20,5 +20,23 @@
     </label></h4>
     <button type="submit">Ввести</button>
 </form>
+<div>
+    <h2>Введите параметры для удаления брони</h2>
+</div>
+<form th:action="@{/reservation/{userId}(userId=${userId})}" method="delete">
+    <h4><label for="hotelId">Id отеля:
+        <input id="hotelId" type="int" name="hotelId">
+    </label></h4>
+    <h4><label for="roomId">Id комнаты:
+        <input id="roomId" type="int" name="roomId">
+    </label></h4>
+    <h4><label for="startDateForDel">Дата начала:
+        <input id="startDateForDel" type="date" name="startDateForDel">
+    </label></h4>
+    <h4><label for="endDateForDel">Дата окончания:
+        <input id="endDateForDel" type="date" name="endDateForDel">
+    </label></h4>
+    <button type="submit">Удалить</button>
+</form>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.Gleb.hotelroomreservations.services;
 
+import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import com.Gleb.hotelroomreservations.models.Reservation;
 import com.Gleb.hotelroomreservations.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,15 @@ public class ReservationService implements BaseService<Reservation> {
     @Transactional
     public void deleteByIdImpl(int id) {
         this.reservationRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteReservation(Reservation reservation) throws WorkingWithDBException {
+        try {
+            this.reservationRepository.delete(reservation);
+        } catch (Exception e) {
+            throw new WorkingWithDBException();
+        }
     }
 
     @Override
