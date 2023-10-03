@@ -9,13 +9,14 @@ import com.Gleb.hotelroomreservations.services.HotelService;
 import com.Gleb.hotelroomreservations.validators.HotelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.List;
 
-@RestController
+@Controller
 public class HotelController extends BaseController<Hotel> {
 
     @Autowired
