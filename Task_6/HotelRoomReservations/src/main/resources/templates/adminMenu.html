@@ -6,13 +6,22 @@
 </head>
 <body>
 <div>
-    <h2>Ввод местоположения добавляемого отеля</h2>
+    <h2>Добавление отеля</h2>
 </div>
 <form th:action="@{/hotel}" method="post">
     <h4><label for="location">Местоположение:
         <input id="location" type="text" name="location">
     </label></h4>
-    <button type="submit">Ввести</button>
+    <button type="submit">Добавить</button>
+</form>
+<div>
+    <h2>Добавление комнаты</h2>
+</div>
+<form th:action="@{/room}" method="post">
+    <h4><label for="hotelId">Местоположение:
+        <input id="hotelId" type="int" name="hotelId">
+    </label></h4>
+    <button type="submit">Добавить</button>
 </form>
 <div>
     <h2>Список отелей</h2>

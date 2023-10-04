@@ -10,6 +10,10 @@ import org.springframework.data.annotation.Id;
 @AllArgsConstructor
 public class Room {
 
+    public Room(int hotelId) {
+        this.hotelId = hotelId;
+    }
+
     @Id
     int id;
 
