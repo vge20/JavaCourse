@@ -4,7 +4,6 @@ import com.Gleb.hotelroomreservations.exceptions.BaseException;
 import com.Gleb.hotelroomreservations.models.ConditionsForReserve;
 import com.Gleb.hotelroomreservations.models.Hotel;
 import com.Gleb.hotelroomreservations.models.OptionForReserve;
-import com.Gleb.hotelroomreservations.models.Room;
 import com.Gleb.hotelroomreservations.services.HotelService;
 import com.Gleb.hotelroomreservations.validators.HotelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
