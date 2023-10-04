@@ -5,7 +5,7 @@ public class WorkingWithDBException extends BaseException {
     private String template;
 
     public WorkingWithDBException() {
-        template = "workingWithDBException";
+        template = "exceptions/workingWithDBException";
     }
 
     @Override

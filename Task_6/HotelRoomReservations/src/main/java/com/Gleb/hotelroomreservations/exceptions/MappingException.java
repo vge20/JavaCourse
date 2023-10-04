@@ -5,7 +5,7 @@ public class MappingException extends BaseException {
     private String template;
 
     public MappingException() {
-        template = "mappingException";
+        template = "exceptions/mappingException";
     }
 
     @Override

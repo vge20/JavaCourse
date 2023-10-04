@@ -5,7 +5,7 @@ public class ValidationException extends BaseException {
     private String template;
 
     public ValidationException() {
-        template = "validationException";
+        template = "exceptions/validationException";
     }
 
     @Override

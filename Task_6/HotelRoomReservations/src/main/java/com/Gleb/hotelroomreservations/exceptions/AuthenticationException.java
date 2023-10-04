@@ -5,7 +5,7 @@ public class AuthenticationException extends BaseException {
     private String template;
 
     public AuthenticationException() {
-        template = "message:Ошибка аутентификации!";
+        template = "exceptions/authenticationException";
     }
 
     @Override
