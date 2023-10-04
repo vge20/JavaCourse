@@ -1,8 +1,6 @@
 package com.Gleb.hotelroomreservations.controllers;
 
-import com.Gleb.hotelroomreservations.exceptions.BaseException;
-import com.Gleb.hotelroomreservations.exceptions.ValidationException;
-import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
+import com.Gleb.hotelroomreservations.exceptions.*;
 import com.Gleb.hotelroomreservations.models.AuthenticateParameters;
 import com.Gleb.hotelroomreservations.models.User;
 import com.Gleb.hotelroomreservations.services.UserService;
@@ -40,9 +38,9 @@ public class UserController extends BaseController<User> {
             //user.setPassw(Base64.getEncoder().encodeToString(user.getPassw().getBytes()));
             userService.saveObject(user);
         } catch (WorkingWithDBException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getTemplate(), HttpStatus.BAD_REQUEST);
         } catch (ValidationException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getTemplate(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
@@ -62,7 +60,7 @@ public class UserController extends BaseController<User> {
             //        (authenticateParameters.getPassword().getBytes()));
             user = userService.authentication(authenticateParameters);
         } catch (BaseException e) {
-            return e.getMessage();
+            return e.getTemplate();
         }
 
         model.addAttribute("userId", user.getId());
