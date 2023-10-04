@@ -2,14 +2,14 @@ package com.Gleb.hotelroomreservations.exceptions;
 
 public class AuthenticationException extends BaseException {
 
-    private String message;
+    private String template;
 
     public AuthenticationException() {
-        message = "message:Ошибка аутентификации!";
+        template = "message:Ошибка аутентификации!";
     }
 
     @Override
-    public String getMessage() {
-        return message;
+    public String getTemplate() {
+        return template;
     }
 }

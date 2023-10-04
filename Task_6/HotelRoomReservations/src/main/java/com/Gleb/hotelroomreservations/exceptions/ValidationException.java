@@ -2,14 +2,14 @@ package com.Gleb.hotelroomreservations.exceptions;
 
 public class ValidationException extends BaseException {
 
-    private String message;
+    private String template;
 
     public ValidationException() {
-        message = "message:Ошибка валидации!";
+        template = "validationException";
     }
 
     @Override
-    public String getMessage() {
-        return message;
+    public String getTemplate() {
+        return template;
     }
 }

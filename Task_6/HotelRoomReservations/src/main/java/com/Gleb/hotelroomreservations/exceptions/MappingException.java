@@ -2,14 +2,14 @@ package com.Gleb.hotelroomreservations.exceptions;
 
 public class MappingException extends BaseException {
 
-    private String message;
+    private String template;
 
     public MappingException() {
-        message = "message:Ошибка отображения данных!";
+        template = "mappingException";
     }
 
     @Override
-    public String getMessage() {
-        return message;
+    public String getTemplate() {
+        return template;
     }
 }

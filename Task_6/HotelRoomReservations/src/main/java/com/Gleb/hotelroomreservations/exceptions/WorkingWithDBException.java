@@ -2,14 +2,14 @@ package com.Gleb.hotelroomreservations.exceptions;
 
 public class WorkingWithDBException extends BaseException {
 
-    private String message;
+    private String template;
 
     public WorkingWithDBException() {
-        message = "message:Ошибка при работе c БД!";
+        template = "workingWithDBException";
     }
 
     @Override
-    public String getMessage() {
-        return message;
+    public String getTemplate() {
+        return template;
     }
 }
