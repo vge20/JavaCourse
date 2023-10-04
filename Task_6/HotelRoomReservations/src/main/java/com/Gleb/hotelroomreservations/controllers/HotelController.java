@@ -7,7 +7,6 @@ import com.Gleb.hotelroomreservations.models.OptionForReserve;
 import com.Gleb.hotelroomreservations.services.HotelService;
 import com.Gleb.hotelroomreservations.validators.HotelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,11 +35,6 @@ public class HotelController extends BaseController<Hotel> {
         return "adminMenu";
     }
 
-    @DeleteMapping("/hotel/{id}")
-    protected ResponseEntity<Object> doDelete(@PathVariable int id) {
-        return this.deleteObjectById(hotelValidator, hotelService, id);
-    }
-
     @PostMapping("/hotel")
     protected String doPost(@RequestParam String location) {
         Hotel hotel = new Hotel(location);
@@ -51,11 +45,6 @@ public class HotelController extends BaseController<Hotel> {
             return e.getTemplate();
         }
         return "redirect:/hotel";
-    }
-
-    @PutMapping("/hotel")
-    protected ResponseEntity<Object> doPut(@RequestBody Hotel hotel) {
-        return this.saveObject(hotelValidator, hotelService, hotel, false);
     }
 
     @GetMapping("/hotel/reserveRoom/{userId}")
