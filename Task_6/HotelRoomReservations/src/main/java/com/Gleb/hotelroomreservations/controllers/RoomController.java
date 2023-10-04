@@ -1,6 +1,5 @@
 package com.Gleb.hotelroomreservations.controllers;
 
-import com.Gleb.hotelroomreservations.exceptions.BaseException;
 import com.Gleb.hotelroomreservations.models.Room;
 import com.Gleb.hotelroomreservations.services.RoomService;
 import com.Gleb.hotelroomreservations.validators.RoomValidator;
@@ -19,13 +18,6 @@ public class RoomController extends BaseController<Room> {
 
     @PostMapping(value = "/room")
     protected String doPost(@RequestParam int hotelId) {
-        Room room = new Room(hotelId);
-        try {
-            roomValidator.validateForAdd(room);
-            roomService.saveObject(room);
-        } catch (BaseException e) {
-            return e.getTemplate();
-        }
-        return "redirect:/hotel";
+        return this.addObject(roomValidator, roomService, new Room(hotelId), "redirect:/hotel");
     }
 }

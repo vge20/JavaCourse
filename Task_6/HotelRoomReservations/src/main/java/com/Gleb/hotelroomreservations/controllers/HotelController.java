@@ -4,6 +4,7 @@ import com.Gleb.hotelroomreservations.exceptions.BaseException;
 import com.Gleb.hotelroomreservations.models.ConditionsForReserve;
 import com.Gleb.hotelroomreservations.models.Hotel;
 import com.Gleb.hotelroomreservations.models.OptionForReserve;
+import com.Gleb.hotelroomreservations.models.Room;
 import com.Gleb.hotelroomreservations.services.HotelService;
 import com.Gleb.hotelroomreservations.validators.HotelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +38,7 @@ public class HotelController extends BaseController<Hotel> {
 
     @PostMapping("/hotel")
     protected String doPost(@RequestParam String location) {
-        Hotel hotel = new Hotel(location);
-        try {
-            hotelValidator.validateForAdd(hotel);
-            hotelService.saveObject(hotel);
-        } catch (BaseException e) {
-            return e.getTemplate();
-        }
-        return "redirect:/hotel";
+        return this.addObject(hotelValidator, hotelService, new Hotel(location), "redirect:/hotel");
     }
 
     @GetMapping("/hotel/reserveRoom/{userId}")
