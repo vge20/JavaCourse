@@ -66,7 +66,7 @@ public class UserController extends BaseController<User> {
         model.addAttribute("userId", user.getId());
 
         if (user.isAdmin())
-            return "adminMenu";
+            return "redirect:/hotel";
         else
             return "userMenu";
     }

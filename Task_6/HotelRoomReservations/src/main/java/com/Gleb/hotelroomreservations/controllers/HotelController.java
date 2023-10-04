@@ -24,9 +24,16 @@ public class HotelController extends BaseController<Hotel> {
     @Autowired
     private HotelValidator hotelValidator;
 
-    @GetMapping("/hotel/{id}")
-    protected ResponseEntity<Object> doGet(@PathVariable int id) {
-        return this.getObjectById(hotelValidator, hotelService, id);
+    @GetMapping("/hotel")
+    protected String doGet(Model model) {
+        List<Hotel> hotels;
+        try {
+            hotels = hotelService.getHotelsList();
+        } catch (BaseException e) {
+            return e.getTemplate();
+        }
+        model.addAttribute("hotels", hotels);
+        return "adminMenu";
     }
 
     @DeleteMapping("/hotel/{id}")
@@ -35,8 +42,15 @@ public class HotelController extends BaseController<Hotel> {
     }
 
     @PostMapping("/hotel")
-    protected ResponseEntity<Object> doPost(@RequestBody Hotel hotel) {
-        return this.saveObject(hotelValidator, hotelService, hotel, true);
+    protected String doPost(@RequestParam String location) {
+        Hotel hotel = new Hotel(location);
+        try {
+            hotelValidator.validateForAdd(hotel);
+            hotelService.saveObject(hotel);
+        } catch (BaseException e) {
+            return e.getTemplate();
+        }
+        return "redirect:/hotel";
     }
 
     @PutMapping("/hotel")
@@ -57,6 +71,6 @@ public class HotelController extends BaseController<Hotel> {
         }
         model.addAttribute("optionsForReserve", optionsForReserve);
         model.addAttribute("userId", userId);
-        return "optionsForReserve";
+        return "reservation";
     }
 }

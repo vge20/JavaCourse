@@ -24,6 +24,16 @@ public class HotelService implements BaseService<Hotel> {
         return this.hotelRepository.findHotelById(id);
     }
 
+    public List<Hotel> getHotelsList() throws WorkingWithDBException {
+        List<Hotel> hotels;
+        try {
+            hotels = hotelRepository.getHotelsList();
+        } catch (Exception e) {
+            throw new WorkingWithDBException();
+        }
+        return hotels;
+    }
+
     @Override
     @Transactional
     public void deleteByIdImpl(int id) {

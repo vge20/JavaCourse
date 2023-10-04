@@ -11,6 +11,10 @@ import org.springframework.data.annotation.Id;
 @AllArgsConstructor
 public class Hotel {
 
+    public Hotel(String location) {
+        this.location = location;
+    }
+
     @Id
     int id;
 

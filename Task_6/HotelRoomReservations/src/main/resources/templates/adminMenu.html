@@ -1,10 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+<div>
+    <h2>Ввод местоположения добавляемого отеля</h2>
+</div>
+<form th:action="@{/hotel}" method="get">
+    <h4><label for="location">Местоположение:
+        <input id="location" type="text" name="location">
+    </label></h4>
+    <button type="submit">Ввести</button>
+</form>
+<div>
+    <h2>Список отелей</h2>
+</div>
+<div th:if="${hotels.iterator().hasNext() != false}">
+    <table>
+        <thead>
+        <tr>
+            <th>Id отеля</th>
+            <th>Местоположение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="hotel: ${hotels}">
+            <tr>
+                <td>
+                    <p th:text="${hotel.getId()}">Id отеля</p>
+                </td>
+                <td>
+                    <p th:text="${hotel.getLocation()}">Местоположение</p>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>
+<div>
+    <h4><span th:text="${hotels.iterator().hasNext() == false} ? 'Список отелей пуст'">
+        Text
+    </span>
+    </h4>
+    <br><br>
+</div>
 </body>
 </html>
