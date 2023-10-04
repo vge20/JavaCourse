@@ -1,7 +1,6 @@
 package com.Gleb.hotelroomreservations.controllers;
 
-import com.Gleb.hotelroomreservations.exceptions.ValidationException;
-import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
+import com.Gleb.hotelroomreservations.exceptions.BaseException;
 import com.Gleb.hotelroomreservations.models.Reservation;
 import com.Gleb.hotelroomreservations.services.ReservationService;
 import com.Gleb.hotelroomreservations.validators.ReservationValidator;
@@ -40,10 +39,8 @@ public class ReservationController extends BaseController<Reservation> {
         try {
             reservationValidator.validateForAdd(reservation);
             reservationService.saveObject(reservation);
-        } catch (WorkingWithDBException e) {
-            return e.getMessage();
-        } catch (ValidationException e) {
-            return e.getMessage();
+        } catch (BaseException e) {
+            return e.getTemplate();
         }
         model.addAttribute("userId", userId);
         return "userMenu";
@@ -62,10 +59,8 @@ public class ReservationController extends BaseController<Reservation> {
         try {
             reservationValidator.validateForUpdate(reservation);
             reservationService.deleteReservation(reservation);
-        } catch (WorkingWithDBException e) {
-            return e.getMessage();
-        } catch (ValidationException e) {
-            return e.getMessage();
+        } catch (BaseException e) {
+            return e.getTemplate();
         }
         model.addAttribute("userId", userId);
         return "userMenu";

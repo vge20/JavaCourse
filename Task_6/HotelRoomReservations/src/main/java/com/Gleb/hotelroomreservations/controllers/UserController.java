@@ -1,6 +1,5 @@
 package com.Gleb.hotelroomreservations.controllers;
 
-import com.Gleb.hotelroomreservations.exceptions.AuthenticationException;
 import com.Gleb.hotelroomreservations.exceptions.BaseException;
 import com.Gleb.hotelroomreservations.exceptions.ValidationException;
 import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
@@ -62,10 +61,6 @@ public class UserController extends BaseController<User> {
             //authenticateParameters.setPassword(Base64.getEncoder().encodeToString
             //        (authenticateParameters.getPassword().getBytes()));
             user = userService.authentication(authenticateParameters);
-        } catch (WorkingWithDBException e) {
-            return e.getMessage();
-        } catch (AuthenticationException e) {
-            return e.getMessage();
         } catch (BaseException e) {
             return e.getMessage();
         }
