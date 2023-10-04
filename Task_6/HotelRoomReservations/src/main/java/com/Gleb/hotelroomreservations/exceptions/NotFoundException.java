@@ -5,7 +5,7 @@ public class NotFoundException extends BaseException {
     private String message;
 
     public NotFoundException() {
-        message = "message:Ошибка при работе с БД!";
+        message = "message:Не найдено такой записи в БД!";
     }
 
     @Override

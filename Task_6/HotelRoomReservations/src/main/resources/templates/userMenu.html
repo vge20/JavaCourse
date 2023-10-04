@@ -23,7 +23,7 @@
 <div>
     <h2>Введите параметры для удаления брони</h2>
 </div>
-<form th:action="@{/reservation/{userId}(userId=${userId})}" method="delete">
+<form th:action="@{/reservation/delete/{userId}(userId=${userId})}" method="post">
     <h4><label for="hotelId">Id отеля:
         <input id="hotelId" type="int" name="hotelId">
     </label></h4>

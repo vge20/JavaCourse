@@ -27,7 +27,9 @@ public class ReservationService implements BaseService<Reservation> {
     @Transactional
     public void deleteReservation(Reservation reservation) throws NotFoundException {
         try {
-            this.reservationRepository.delete(reservation);
+            
+            this.reservationRepository.deleteReservation(reservation.getHotelId(), reservation.getRoomId(),
+                    reservation.getUserId(), reservation.getStartDate(), reservation.getEndDate());
         } catch (Exception e) {
             throw new NotFoundException();
         }

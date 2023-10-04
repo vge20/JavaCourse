@@ -20,6 +20,6 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
 
     @Query("delete from reservation where hotel_id = :hotel_id and room_id = :room_id and user_id = :room_id " +
             "and start_date = :start_date and end_date = :end_date")
-    void delete(@Param("hotel_id") int hotelId, @Param("room_id") int roomId, @Param("user_id") int userId,
+    void deleteReservation(@Param("hotel_id") int hotelId, @Param("room_id") int roomId, @Param("user_id") int userId,
                 @Param("start_date") Date startDate, @Param("end_date") Date endDate);
 }
