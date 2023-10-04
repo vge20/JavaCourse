@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
+
 @Controller
 public class UserController extends BaseController<User> {
 
@@ -35,7 +37,7 @@ public class UserController extends BaseController<User> {
     protected ResponseEntity<Object> doPost(@RequestBody User user) {
         try {
             userValidator.validateForAdd(user);
-            //user.setPassw(Base64.getEncoder().encodeToString(user.getPassw().getBytes()));
+            user.setPassw(Base64.getEncoder().encodeToString(user.getPassw().getBytes()));
             userService.saveObject(user);
         } catch (WorkingWithDBException e) {
             return new ResponseEntity<>(e.getTemplate(), HttpStatus.BAD_REQUEST);
@@ -56,8 +58,8 @@ public class UserController extends BaseController<User> {
         try {
             AuthenticateParameters authenticateParameters = new AuthenticateParameters(login, password);
             userValidator.validateAuthenticateParameters(authenticateParameters);
-            //authenticateParameters.setPassword(Base64.getEncoder().encodeToString
-            //        (authenticateParameters.getPassword().getBytes()));
+            authenticateParameters.setPassword(Base64.getEncoder().encodeToString
+                    (authenticateParameters.getPassword().getBytes()));
             user = userService.authentication(authenticateParameters);
         } catch (BaseException e) {
             return e.getTemplate();
