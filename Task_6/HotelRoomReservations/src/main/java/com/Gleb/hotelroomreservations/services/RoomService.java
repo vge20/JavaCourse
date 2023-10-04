@@ -26,7 +26,6 @@ public class RoomService implements BaseService<Room> {
     @Override
     @Transactional
     public Room saveObjectImpl(Object object) {
-        System.out.println("AAA");
         return this.roomRepository.save((Room) object);
     }
 }
