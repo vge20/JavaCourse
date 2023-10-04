@@ -1,6 +1,6 @@
 package com.Gleb.hotelroomreservations.services;
 
-import com.Gleb.hotelroomreservations.exceptions.NotFoundException;
+import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import com.Gleb.hotelroomreservations.models.Reservation;
 import com.Gleb.hotelroomreservations.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,15 @@ public class ReservationService implements BaseService<Reservation> {
     }
 
     @Transactional
-    public void deleteReservation(Reservation reservation) throws NotFoundException {
+    public void deleteReservation(Reservation reservation) throws WorkingWithDBException {
         try {
-            
-            this.reservationRepository.deleteReservation(reservation.getHotelId(), reservation.getRoomId(),
-                    reservation.getUserId(), reservation.getStartDate(), reservation.getEndDate());
+            reservation = this.reservationRepository.findReservationByParameters(
+                    reservation.getHotelId(), reservation.getRoomId(), reservation.getUserId(),
+                    reservation.getStartDate(), reservation.getEndDate());
+            if (reservation != null)
+                this.reservationRepository.delete(reservation);
         } catch (Exception e) {
-            throw new NotFoundException();
+            throw new WorkingWithDBException();
         }
     }
 

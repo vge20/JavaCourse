@@ -1,6 +1,6 @@
 package com.Gleb.hotelroomreservations.services;
 
-import com.Gleb.hotelroomreservations.exceptions.NotFoundException;
+import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import com.Gleb.hotelroomreservations.models.*;
 import com.Gleb.hotelroomreservations.repositories.HotelRepository;
 import com.Gleb.hotelroomreservations.repositories.ReservationRepository;
@@ -38,7 +38,7 @@ public class HotelService implements BaseService<Hotel> {
 
     @Transactional
     public List<OptionForReserve> getDataForReserve(ConditionsForReserve conditionsForReserve)
-            throws NotFoundException {
+            throws WorkingWithDBException {
         List<Integer> hotelsId;
         List<OptionForReserve> optionsForReserves;
         try {
@@ -46,9 +46,9 @@ public class HotelService implements BaseService<Hotel> {
             optionsForReserves = reservationRepository.findVacantRoomsId(conditionsForReserve.getStartDate(),
                     conditionsForReserve.getEndDate());
         } catch (Exception e) {
-            throw new NotFoundException();
+            throw new WorkingWithDBException();
         }
-        if (hotelsId == null || optionsForReserves == null) throw new NotFoundException();
+        if (hotelsId == null || optionsForReserves == null) throw new WorkingWithDBException();
 
         for (int i = 0; i < optionsForReserves.size(); i++) {
             if (!hotelsId.contains(optionsForReserves.get(i).getHotelId()))

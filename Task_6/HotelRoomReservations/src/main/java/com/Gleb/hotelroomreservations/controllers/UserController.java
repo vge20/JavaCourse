@@ -3,7 +3,7 @@ package com.Gleb.hotelroomreservations.controllers;
 import com.Gleb.hotelroomreservations.exceptions.AuthenticationException;
 import com.Gleb.hotelroomreservations.exceptions.BaseException;
 import com.Gleb.hotelroomreservations.exceptions.ValidationException;
-import com.Gleb.hotelroomreservations.exceptions.NotFoundException;
+import com.Gleb.hotelroomreservations.exceptions.WorkingWithDBException;
 import com.Gleb.hotelroomreservations.models.AuthenticateParameters;
 import com.Gleb.hotelroomreservations.models.User;
 import com.Gleb.hotelroomreservations.services.UserService;
@@ -40,7 +40,7 @@ public class UserController extends BaseController<User> {
             userValidator.validateForAdd(user);
             //user.setPassw(Base64.getEncoder().encodeToString(user.getPassw().getBytes()));
             userService.saveObject(user);
-        } catch (NotFoundException e) {
+        } catch (WorkingWithDBException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -62,7 +62,7 @@ public class UserController extends BaseController<User> {
             //authenticateParameters.setPassword(Base64.getEncoder().encodeToString
             //        (authenticateParameters.getPassword().getBytes()));
             user = userService.authentication(authenticateParameters);
-        } catch (NotFoundException e) {
+        } catch (WorkingWithDBException e) {
             return e.getMessage();
         } catch (AuthenticationException e) {
             return e.getMessage();

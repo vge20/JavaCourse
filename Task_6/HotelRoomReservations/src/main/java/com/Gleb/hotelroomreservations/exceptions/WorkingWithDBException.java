@@ -1,11 +1,11 @@
 package com.Gleb.hotelroomreservations.exceptions;
 
-public class NotFoundException extends BaseException {
+public class WorkingWithDBException extends BaseException {
 
     private String message;
 
-    public NotFoundException() {
-        message = "message:Не найдено такой записи в БД!";
+    public WorkingWithDBException() {
+        message = "message:Ошибка при работе c БД!";
     }
 
     @Override
