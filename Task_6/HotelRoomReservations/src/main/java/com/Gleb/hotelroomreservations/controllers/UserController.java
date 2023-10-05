@@ -22,10 +22,10 @@ public class UserController extends BaseController<User> {
     private UserValidator userValidator;
 
     @PostMapping("/user/authenticate")
-    protected String doPost(@RequestParam String login, @RequestParam String password, Model model) {
+    protected String doPost(@RequestParam String username, @RequestParam String password, Model model) {
         User user;
         try {
-            AuthenticateParameters authenticateParameters = new AuthenticateParameters(login, password);
+            AuthenticateParameters authenticateParameters = new AuthenticateParameters(username, password);
             userValidator.validateAuthenticateParameters(authenticateParameters);
             authenticateParameters.setPassword(Base64.getEncoder().encodeToString
                     (authenticateParameters.getPassword().getBytes()));
@@ -42,7 +42,7 @@ public class UserController extends BaseController<User> {
             return "userMenu";
     }
 
-    @GetMapping("/")
+    @GetMapping("/login")
     protected String doGet() {
         return "login";
     }

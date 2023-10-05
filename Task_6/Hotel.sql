@@ -58,3 +58,19 @@ from reservations
 where not (end_date < '2023-10-01' or start_date > '2023-10-05')
 group by hotel_id;
 
+
+
+create table users(
+	username varchar(50) not null primary key,
+	password varchar(500) not null,
+	enabled boolean not null
+);
+
+create table authorities (
+	username varchar(50) not null,
+	authority varchar(50) not null,
+	constraint fk_authorities_users foreign key(username) references users(username)
+);
+create unique index ix_auth_username on authorities (username,authority);
+
+insert into users(username, password, enabled) values ('qwerty', 'eXRyZXdx', true);

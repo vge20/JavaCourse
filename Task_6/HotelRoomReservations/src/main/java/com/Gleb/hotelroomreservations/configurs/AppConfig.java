@@ -1,4 +1,4 @@
-package com.Gleb.hotelroomreservations;
+package com.Gleb.hotelroomreservations.configurs;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.apache.commons.dbcp2.BasicDataSource;
