@@ -4,6 +4,7 @@ import com.Gleb.hotelroomreservations.exceptions.BaseException;
 import com.Gleb.hotelroomreservations.models.ConditionsForReserve;
 import com.Gleb.hotelroomreservations.models.Hotel;
 import com.Gleb.hotelroomreservations.models.OptionForReserve;
+import com.Gleb.hotelroomreservations.models.Room;
 import com.Gleb.hotelroomreservations.services.HotelService;
 import com.Gleb.hotelroomreservations.validators.HotelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class HotelController extends BaseController<Hotel> {
     @GetMapping("/hotel/reserveRoom/{userId}")
     protected String doGet(Model model, @RequestParam Date startDate, @PathVariable int userId,
                            @RequestParam Date endDate, @RequestParam String location) {
-        List<OptionForReserve> optionsForReserve;
+        List<Room> optionsForReserve;
         ConditionsForReserve conditionsForReserve = new ConditionsForReserve(location, startDate, endDate);
         try {
             hotelValidator.validateConditionsForReserve(conditionsForReserve);
