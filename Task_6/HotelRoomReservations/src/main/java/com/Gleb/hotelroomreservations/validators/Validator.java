@@ -1,8 +1,6 @@
 package com.Gleb.hotelroomreservations.validators;
 
-import com.Gleb.hotelroomreservations.exceptions.MappingException;
 import com.Gleb.hotelroomreservations.exceptions.ValidationException;
-import com.Gleb.hotelroomreservations.models.AuthenticateParameters;
 import com.Gleb.hotelroomreservations.models.ConditionsForReserve;
 
 public interface Validator {
@@ -18,12 +16,6 @@ public interface Validator {
         if (conditionsForReserve.getLocation() == null) throw new ValidationException();
         if (conditionsForReserve.getStartDate() == null) throw new ValidationException();
         if (conditionsForReserve.getEndDate() == null) throw new ValidationException();
-    }
-
-    default void validateAuthenticateParameters(AuthenticateParameters authenticateParameters)
-        throws MappingException {
-        if (authenticateParameters.getLogin() == null) throw new MappingException();
-        if (authenticateParameters.getPassword() == null) throw new MappingException();
     }
 
     default void validateForAdd(Object object) throws ValidationException {
