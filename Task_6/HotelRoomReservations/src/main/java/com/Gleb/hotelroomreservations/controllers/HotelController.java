@@ -7,6 +7,7 @@ import com.Gleb.hotelroomreservations.models.OptionForReserve;
 import com.Gleb.hotelroomreservations.services.HotelService;
 import com.Gleb.hotelroomreservations.validators.HotelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class HotelController extends BaseController<Hotel> {
     @Autowired
     private HotelValidator hotelValidator;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/hotel")
     protected String doGet(Model model) {
         List<Hotel> hotels;
@@ -35,11 +37,13 @@ public class HotelController extends BaseController<Hotel> {
         return "adminMenu";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/hotel")
     protected String doPost(@RequestParam String location) {
         return this.addObject(hotelValidator, hotelService, new Hotel(location), "redirect:/hotel");
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/hotel/reserveRoom/{userId}")
     protected String doGet(Model model, @RequestParam Date startDate, @PathVariable int userId,
                            @RequestParam Date endDate, @RequestParam String location) {

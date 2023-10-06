@@ -5,6 +5,7 @@ import com.Gleb.hotelroomreservations.models.Reservation;
 import com.Gleb.hotelroomreservations.services.ReservationService;
 import com.Gleb.hotelroomreservations.validators.ReservationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class ReservationController extends BaseController<Reservation> {
     @Autowired
     private ReservationValidator reservationValidator;
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/reservation/{userId}")
     protected String doPost(@RequestParam Date startDate, @RequestParam Date endDate,
                             @RequestParam int hotelId, @RequestParam int roomId,
@@ -35,6 +37,7 @@ public class ReservationController extends BaseController<Reservation> {
         return "userMenu";
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/reservation/delete/{userId}")
     protected String doPost(@RequestParam int hotelId, @RequestParam int roomId,
                             @RequestParam Date startDateForDel, @RequestParam Date endDateForDel,
