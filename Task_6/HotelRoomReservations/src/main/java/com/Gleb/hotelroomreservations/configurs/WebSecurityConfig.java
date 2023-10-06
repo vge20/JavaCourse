@@ -1,5 +1,7 @@
 package com.Gleb.hotelroomreservations.configurs;
 
+import com.Gleb.hotelroomreservations.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -11,11 +13,15 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,12 +42,23 @@ public class WebSecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
 
-        List<UserDetails> users = new ArrayList<>();
-        users.add(User.withDefaultPasswordEncoder().username("user").password("password").roles("USER").build());
-        users.add(User.withDefaultPasswordEncoder().username("admin").password("password")
-                .roles("ADMIN", "USER").build());
+        List<com.Gleb.hotelroomreservations.models.User> usersList = userRepository.getUsersList();
+        List<UserDetails> usersDetails = new ArrayList<>();
 
-        return new InMemoryUserDetailsManager(users);
+        for (int i = 0; i < usersList.size(); i++) {
+            if (usersList.get(i).isAdmin()) {
+                usersDetails.add(User.withDefaultPasswordEncoder().username(usersList.get(i).getLogin())
+                                .password(new String(Base64.getDecoder().decode(usersList.get(i).getPassw())))
+                                .roles("ADMIN", "USER").build());
+            }
+            else {
+                usersDetails.add(User.withDefaultPasswordEncoder().username(usersList.get(i).getLogin())
+                        .password(new String(Base64.getDecoder().decode(usersList.get(i).getPassw())))
+                        .roles("USER").build());
+            }
+        }
+
+        return new InMemoryUserDetailsManager(usersDetails);
     }
 
 }

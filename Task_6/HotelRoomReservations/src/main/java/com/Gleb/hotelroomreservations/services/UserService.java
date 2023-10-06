@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Base64;
+
 @Service
 public class UserService implements BaseService<User> {
 
@@ -28,7 +30,9 @@ public class UserService implements BaseService<User> {
     @Override
     @Transactional
     public User saveObjectImpl(Object object) {
-        return userRepository.save((User) object);
+        User user = (User) object;
+        user.setPassw(Base64.getEncoder().encodeToString(user.getPassw().getBytes()));
+        return userRepository.save(user);
     }
 
     public User getUserByLogin(String login) throws AuthenticationException, WorkingWithDBException {
